@@ -28,8 +28,17 @@ public class SavingAccount extends AbstractAccount {
 
     @Override
     public void printReport() {
-        System.out.print("Saving account");
-        System.out.println("Balance: " + getBalance());
+        System.out.print("Saving account { ");
+        System.out.println("Balance: " + getBalance()+ " }");
+    }
+
+
+    @Override
+    public String toString() {
+        return "Saving Account{ " +
+                " minoverdraft = " + minoverdraft +
+                " Saving account Balance " + getBalance() +
+                '}';
     }
 
     @Override

@@ -47,10 +47,15 @@ public class CheckingAccount extends AbstractAccount {
 
     @Override
     public void printReport() {
-        System.out.print("Checking account");
-        System.out.println("Balance: " + getBalance());
+        System.out.print("Checking account { ");
+        System.out.println("Balance: " + getBalance()+ "} ");
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Checking Account{ " +
+                "overdraft = " + overdraft +
+                " Checking account Balance " + getBalance() +
+                '}';
+    }
 }

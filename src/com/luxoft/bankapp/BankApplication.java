@@ -33,13 +33,15 @@ public class BankApplication {
         System.out.println("////////////////////////////////////");
         System.out.println("Print Bank Report:");
         bankApplication.printBankReport();
+        System.out.println("////////////////////////////////////");
+
 
 
     }
     public  void initialize() {
         // first client
         Account account1ForClient1 = new SavingAccount(10,100);
-        Account account2ForClient1 = new SavingAccount(2, 50);
+        Account account2ForClient1 = new CheckingAccount(2, 50);
         Client client1 = new Client();
         client1.setName("Peter");
         client1.setGender(Gender.MALE);
@@ -47,10 +49,10 @@ public class BankApplication {
 
         // second client
         Account account1ForClient2 = new SavingAccount(3, 20);
-        Account account2ForClient2 = new SavingAccount(4, 35);
+        Account account2ForClient2 = new CheckingAccount(4, 35);
         Client client2 = new Client();
-        client2.setName("Vasia");
-        client2.setGender(Gender.MALE);
+        client2.setName("Ludmila");
+        client2.setGender(Gender.FEMALE);
         client2.setActiveAccount(account1ForClient2);
 
 
@@ -89,6 +91,10 @@ public class BankApplication {
         } catch (ClientExistsException e) {
             e.printStackTrace();
         }
+        System.out.println("///////////////Client1 toString////////////");
+        System.out.println(client1.toString());
+        System.out.println("///////////////Client2 toString////////////");
+        System.out.println(client2.toString());
     }
 
 

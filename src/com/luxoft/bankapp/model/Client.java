@@ -14,12 +14,12 @@ public class Client implements Account, Report {
     @Override
     public void printReport() {  //Вывести информацию о клиентах и всех его считать
         System.out.println("Client " +
-                "name='" + this.gender.getGenderPrefix() +" " +this.name  +
+                "name='" + this.gender.getGenderPrefix() +this.name  +
                 " , accounts = ");
         for(Report account : accounts){
             account.printReport();
         };
-        System.out.println( ",total balance =" + getBalance() +", Active Account balance=" + activeAccount.getBalance());
+        System.out.println( "Total balance =" + getBalance() +", Active Account balance=" + activeAccount.getBalance());
 
 
     }
@@ -171,13 +171,13 @@ public class Client implements Account, Report {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Client name: ");
         stringBuilder.append(getGender().getGenderPrefix());
-        stringBuilder.append(" ");
         stringBuilder.append(getName());
-        stringBuilder.append(" ");
-        stringBuilder.append("Accounts ");
+        stringBuilder.append(" Total balance: ");
+        stringBuilder.append(getBalance());
+        stringBuilder.append(" Accounts: ");
                 for (Account ac: accounts){
-                    stringBuilder.append("Balance: ");
-                    stringBuilder.append(ac.getBalance());
+                    stringBuilder.append(ac.toString());
+                    stringBuilder.append("\n");
         }
        return stringBuilder.toString();
     }

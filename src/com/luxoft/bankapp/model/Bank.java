@@ -45,6 +45,7 @@ public class Bank {
     public void printReport() {
         System.out.println("Report: ");
         for (Client c: getClients()){
+            System.out.println();
             c.printReport();
         }
     }
