@@ -35,5 +35,25 @@ public class BankImpl implements BankService {
     public void setActiveAccount(Client client, Account account) {
         client.setActiveAccount(account);
     }
+
+    @Override
+    public Client findClient(Bank bank, String name)  {
+        Client findClient = null;
+
+
+        for (Client c: bank.getClients()){
+
+           if (c.getName().equals(name)) {
+              findClient = c;
+               return findClient;
+           }
+        }
+
+        if(findClient == null)
+        {
+            System.out.println("Person with that name is not a client of Bank" + bank.getBankNumber()); }
+
+        return null;
+    }
 }
 

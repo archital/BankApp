@@ -13,4 +13,5 @@ public interface BankService {
     public void removeClient(Bank bank,Client client);
     public void addAccount(Client client, Account account) throws ClientExistsException;
     public void setActiveAccount(Client client, Account account);
+    public Client findClient (Bank bank, String name);
 }

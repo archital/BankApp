@@ -30,7 +30,7 @@ public abstract class AbstractAccount implements Account {
     @Override
     public void withdraw(float x) throws NotEnoughFundsException {  // уменьшает баланс на x
         if (x > balance) {
-            throw new NotEnoughFundsException("amount more then could have client", 100);
+            throw new NotEnoughFundsException("amount is more then clients balance ", getBalance());
         } else {
             Float b = getBalance() - x;
             setBalance(b);

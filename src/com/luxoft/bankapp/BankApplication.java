@@ -39,27 +39,32 @@ public class BankApplication {
 
     }
     public  void initialize() {
-        // first client
+        // create first client
         Account account1ForClient1 = new SavingAccount(10,100);
         Account account2ForClient1 = new CheckingAccount(2, 50);
         Client client1 = new Client();
         client1.setName("Peter");
         client1.setGender(Gender.MALE);
         client1.setActiveAccount(account1ForClient1);
+        client1.setEmail("qqqq@gmail.com");
+        client1.setTelephoneNumber("+380955422433");
 
-        // second client
+        // create second client
         Account account1ForClient2 = new SavingAccount(3, 20);
         Account account2ForClient2 = new CheckingAccount(4, 35);
         Client client2 = new Client();
         client2.setName("Ludmila");
         client2.setGender(Gender.FEMALE);
         client2.setActiveAccount(account1ForClient2);
+        client2.setEmail("qwef@gmail.com");
+        client2.setTelephoneNumber("+3809523422436");
 
 
         List<ClientRegistrationListener> listeners = new ArrayList();
 
         bank = new Bank();
         bank = new Bank(listeners);
+        bank.setBankNumber(1);
         BankService bankService = new BankImpl();
         try {
             bankService.addClient(bank, client1);

@@ -14,7 +14,8 @@ public class Client implements Account, Report {
     @Override
     public void printReport() {  //Вывести информацию о клиентах и всех его считать
         System.out.println("Client " +
-                "name='" + this.gender.getGenderPrefix() +this.name  +
+                "name='" + this.gender.getGenderPrefix() +this.name  + " email address : "+ this.getEmail()+" telephone: "+
+                this.getTelephoneNumber() +
                 " , accounts = ");
         for(Report account : accounts){
             account.printReport();
@@ -25,12 +26,30 @@ public class Client implements Account, Report {
     }
     private Gender gender;
     private String name = "";
+    private String telephoneNumber = "";
+    private String email = "";
     private List<Account> accounts = new ArrayList<Account>();
     private float initialOverdraft;
     private Account activeAccount;
 
 
     public Client() {
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void addAccount (Account account){
@@ -103,6 +122,7 @@ public class Client implements Account, Report {
 
     }
 
+
     @Override
     public float decimalValue() { //Возвращает округленное значение баланса
        float f = getBalance();
@@ -111,15 +131,42 @@ public class Client implements Account, Report {
     }
 
     public Client(String name, float initialOverdraft, Gender gender) {
+        super();
         this.name = name;
         this.initialOverdraft = initialOverdraft;
         this.gender = gender;
     }
 
+    public void setInitialOverdraft(float initialOverdraft) {
+        this.initialOverdraft = initialOverdraft;
+    }
+
+    public void createCheckingAccount(float overdraft, float balance){
+        CheckingAccount checkingAccount1 = null;
+        if (overdraft >= 0) {
+            checkingAccount1 = new CheckingAccount(overdraft, balance);
+            addAccount(checkingAccount1);
+        }  else {
+            throw new  IllegalArgumentException("Overdraft must be more or equals 0");
+
+        }
+    }
+
+    public void createSavingAccount(float minoverdraft, float balance){
+       SavingAccount savingAccount1 = null;
+        if (minoverdraft >=0) {
+            savingAccount1 = new SavingAccount(minoverdraft, balance);
+            addAccount(savingAccount1);
+    }  else {
+            throw new  IllegalArgumentException("Minimum overdraft must be more or equals 0");
+
+        }
+    }
 
     public void createAccount(String accountType, float minoverdraft, float overdraft, float balance) throws IllegalArgumentException{
-        if (accountType.equals("c")) { if (overdraft >= 0) {
-            CheckingAccount checkingAccount1 = new CheckingAccount(overdraft, balance);
+        CheckingAccount checkingAccount1 = null;
+        if (accountType.equals(checkingAccount1.getAccountType())) { if (overdraft >= 0) {
+                 checkingAccount1 = new CheckingAccount(overdraft, balance);
             addAccount(checkingAccount1);
         }
         else {
@@ -127,8 +174,9 @@ public class Client implements Account, Report {
 
         }
         }
-        if (accountType.equals("s")&&minoverdraft >=0) {
-            SavingAccount savingAccount1 = new SavingAccount(minoverdraft, balance);
+        SavingAccount savingAccount1 = null;
+        if (accountType.equals(savingAccount1.getAccountType())&&minoverdraft >=0) {
+            savingAccount1 = new SavingAccount(minoverdraft, balance);
             addAccount(savingAccount1);
         }
         else {
@@ -172,6 +220,10 @@ public class Client implements Account, Report {
         stringBuilder.append("Client name: ");
         stringBuilder.append(getGender().getGenderPrefix());
         stringBuilder.append(getName());
+        stringBuilder.append(" email address :");
+        stringBuilder.append(getEmail());
+        stringBuilder.append(" telephone : ");
+        stringBuilder.append(getTelephoneNumber());
         stringBuilder.append(" Total balance: ");
         stringBuilder.append(getBalance());
         stringBuilder.append(" Accounts: ");

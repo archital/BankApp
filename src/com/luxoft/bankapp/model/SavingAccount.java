@@ -8,6 +8,23 @@ import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 public class SavingAccount extends AbstractAccount {
 
     public float minoverdraft = 0;
+    private  String accountType = "Saving account";
+
+    public float getMinoverdraft() {
+        return minoverdraft;
+    }
+
+    public void setMinoverdraft(float minoverdraft) {
+        this.minoverdraft = minoverdraft;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
     public SavingAccount() {
     }
@@ -28,7 +45,7 @@ public class SavingAccount extends AbstractAccount {
 
     @Override
     public void printReport() {
-        System.out.print("Saving account { ");
+        System.out.print(getAccountType());
         System.out.println("Balance: " + getBalance()+ " }");
     }
 

@@ -22,6 +22,8 @@ public class Bank {
         return clients;
     }
 
+    private long bankNumber;
+
     public void addClient( Client client) throws ClientExistsException {
        for (Client c: getClients()){
            if ( c.getName().equals(client.getName())){
@@ -43,19 +45,31 @@ public class Bank {
     };
 
     public void printReport() {
-        System.out.println("Report: ");
+        System.out.println("Bank number " + getBankNumber() +" report: ");
         for (Client c: getClients()){
             System.out.println();
             c.printReport();
         }
     }
+    public Bank(int bankNumber){
+        super();
+        this.bankNumber = bankNumber;
+    }
+
+    public long getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(long bankNumber) {
+        this.bankNumber = bankNumber;
+    }
 
     public Bank() {
-        listeners.add(new ClientRegistrationListener() {
+        this.listeners.add(new ClientRegistrationListener() {
 
             @Override
             public void onClientAdded(Client client) {
-                System.out.println("New client added, " + client.getName()  + " " + new Date());
+                System.out.println("New client added, " + client.getName()  + " " + new Date()+" to Bank number №"+ getBankNumber());
             }
         });
     }

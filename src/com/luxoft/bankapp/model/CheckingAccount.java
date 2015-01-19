@@ -9,6 +9,15 @@ public class CheckingAccount extends AbstractAccount {
 
 
     private float overdraft = 0; // maximum size of acc
+    private  String accountType = "Checking Account";
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
     public CheckingAccount(float overdraft, float balance) {
         this.overdraft = overdraft;
@@ -26,7 +35,7 @@ public class CheckingAccount extends AbstractAccount {
     @Override
     public void withdraw(float x) throws OverDraftLimitExceededException{
         if (x > getBalance()) {
-            throw new OverDraftLimitExceededException("OverDraftLimitExceededException", 100);
+            throw new OverDraftLimitExceededException("OverDraftLimitExceededException", getOverdraft());
         } else {
         if(getBalance()> x){ // необходимое количество денег вычитается из значения overdraft.
             float NeedSum = getBalance() - x;
@@ -47,7 +56,7 @@ public class CheckingAccount extends AbstractAccount {
 
     @Override
     public void printReport() {
-        System.out.print("Checking account { ");
+        System.out.print(getAccountType());
         System.out.println("Balance: " + getBalance()+ "} ");
     }
 
