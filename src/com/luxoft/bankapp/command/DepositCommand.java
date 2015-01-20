@@ -1,6 +1,5 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Client;
 
 import java.util.Scanner;

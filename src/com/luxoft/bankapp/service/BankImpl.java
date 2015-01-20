@@ -8,12 +8,16 @@ import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
+import java.io.*;
+import java.util.Iterator;
+import java.util.Map;
+
 public class BankImpl implements BankService {
     @Override
     public void addClient(Bank bank, Client client) throws ClientExistsException {
 
-        for (Client c: bank.getClients()){
-            if ( c.getName().equals(client.getName())){
+        for (Client c : bank.getClients()) {
+            if (c.getName().equals(client.getName())) {
                 throw new ClientExistsException("Client with that name already exists");
             }
         }
@@ -27,7 +31,7 @@ public class BankImpl implements BankService {
     }
 
     @Override
-    public void addAccount(Client client, Account account) throws ClientExistsException{
+    public void addAccount(Client client, Account account) throws ClientExistsException {
         client.addAccount(account);
     }
 
@@ -37,23 +41,59 @@ public class BankImpl implements BankService {
     }
 
     @Override
-    public Client findClient(Bank bank, String name)  {
+    public Client findClient(Bank bank, String name) {
         Client findClient = null;
 
 
-        for (Client c: bank.getClients()){
+        for (Client c : bank.getClients()) {
 
-           if (c.getName().equals(name)) {
-              findClient = c;
-               return findClient;
-           }
+            if (c.getName().equals(name)) {
+                findClient = c;
+                return findClient;
+            }
         }
 
-        if(findClient == null)
-        {
-            System.out.println("Person with that name is not a client of Bank" + bank.getBankNumber()); }
+        if (findClient == null) {
+            System.out.println("Person with that name is not a client of Bank" + bank.getBankNumber());
+        }
 
         return null;
     }
-}
 
+    @Override
+    public void saveClient(Client client) throws IOException { //for Write Client information to File
+
+        String FilePath = "C:\\Users\\acer\\IdeaProjects\\Feed\\ObjectFile";
+        File file5 = new File(FilePath);
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file5)); //serialization
+
+
+        oos.writeObject(client);
+        oos.close();
+    }
+
+    @Override
+    public void loadClient(Client client) throws IOException, ClassNotFoundException { //for Read Client information to File
+        String FilePath = "C:\\Users\\acer\\IdeaProjects\\Feed\\ObjectFile";
+        File fileObj = new File(FilePath);
+
+        ObjectInputStream ois = new ObjectInputStream (new FileInputStream(fileObj));  //deserialization
+        Client  obj = (Client)ois.readObject();
+        System.out.println("Client = "+ obj.toString());
+        ois.close();
+    }
+
+    public Client getClient(Bank bank, String clientName) throws ClientExistsException {
+
+        Iterator iterator = bank.getClientMap().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Client> printMap = (Map.Entry<String, Client>) iterator.next();
+
+            if (printMap.getKey().equals(clientName)) {
+                return printMap.getValue();
+            }
+        }
+        throw new ClientExistsException("Client wih such name was not found");
+    }
+
+}

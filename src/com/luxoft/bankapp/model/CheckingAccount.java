@@ -2,26 +2,28 @@ package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
 
+import java.io.Serializable;
+import java.util.Map;
+
 /**
  * Created by SCJP on 14.01.2015.
  */
-public class CheckingAccount extends AbstractAccount {
+public class CheckingAccount extends AbstractAccount implements Serializable {
 
 
     private float overdraft = 0; // maximum size of acc
-    private  String accountType = "Checking Account";
 
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
 
     public CheckingAccount(float overdraft, float balance) {
         this.overdraft = overdraft;
         setBalance(balance);
+    }
+
+    public void parseFeed(Map<String, String> feed) {
+        float overdraft = Float.parseFloat(feed.get("overdraft"));
+        float balance = Float.parseFloat(feed.get("balance"));
+        CheckingAccount checkingAccount = new CheckingAccount(overdraft, balance);
+
     }
 
     public void setOverdraft(float overdraft) {
@@ -30,6 +32,10 @@ public class CheckingAccount extends AbstractAccount {
 
     public float getOverdraft() {
         return overdraft;
+    }
+
+
+    public CheckingAccount() {
     }
 
     @Override
@@ -56,7 +62,7 @@ public class CheckingAccount extends AbstractAccount {
 
     @Override
     public void printReport() {
-        System.out.print(getAccountType());
+        System.out.print( "Checking Account" );
         System.out.println("Balance: " + getBalance()+ "} ");
     }
 

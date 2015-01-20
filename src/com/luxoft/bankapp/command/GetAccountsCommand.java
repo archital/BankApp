@@ -1,13 +1,9 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.model.Report;
-import com.luxoft.bankapp.service.Gender;
 
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by acer on 15.01.2015.

@@ -1,6 +1,9 @@
 package com.luxoft.bankapp.command;
 
+import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.BankReport;
 
 import java.util.Scanner;
 
@@ -23,8 +26,13 @@ public class FindClientCommand implements Command {
         name.append(scanner.nextLine().trim());
     }
     Client client = null;
-    client = BankCommander.service.findClient(BankCommander.currentBank, name.toString());
-    if (client == null) {
+  BankImpl bankImp = new BankImpl();
+        try {
+            client = bankImp.getClient(BankCommander.currentBank, name.toString());
+        } catch (ClientExistsException e) {
+            e.printStackTrace();
+        }
+        if (client == null) {
         System.out.println("Error!!! Client with such name was not found.");
         return;
     }

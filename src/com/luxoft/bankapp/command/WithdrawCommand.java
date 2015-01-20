@@ -1,10 +1,7 @@
 package com.luxoft.bankapp.command;
 
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
-import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
-import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.model.Report;
 
 import java.util.Scanner;
 

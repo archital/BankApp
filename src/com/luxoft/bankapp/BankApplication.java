@@ -6,10 +6,10 @@ import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.luxoft.bankapp.model.Bank.*;
+import java.util.Set;
 
 /**
  * Created by SCJP on 14.01.2015.
@@ -21,26 +21,42 @@ public class BankApplication {
      */
     private Bank bank;
     public static void main(String[] args) {
-        BankApplication bankApplication = new BankApplication();
-        bankApplication.initialize();
 
 
-        System.out.println("Print Bank Report:");
-        bankApplication.printBankReport();
-        System.out.println("////////////////////////////////////");
-        System.out.println("modify!");
-        bankApplication.modifyBank();
-        System.out.println("////////////////////////////////////");
-        System.out.println("Print Bank Report:");
-        bankApplication.printBankReport();
-        System.out.println("////////////////////////////////////");
+
+        if (args[0].equals("report")) {
+            BankApplication bankApplication1 = new BankApplication();
+            bankApplication1.initialize();
 
 
+            System.out.println("Print Bank Report -report:");
+            bankApplication1.printBankReportSecondChange();
+
+
+        } else {
+
+
+            BankApplication bankApplication = new BankApplication();
+            bankApplication.initialize();
+
+
+            System.out.println("Print Bank Report:");
+            bankApplication.printBankReport();
+            System.out.println("////////////////////////////////////");
+            System.out.println("modify!");
+            bankApplication.modifyBank();
+            System.out.println("////////////////////////////////////");
+            System.out.println("Print Bank Report:");
+            bankApplication.printBankReport();
+            System.out.println("////////////////////////////////////");
+
+
+        }
 
     }
     public  void initialize() {
         // create first client
-        Account account1ForClient1 = new SavingAccount(10,100);
+        Account account1ForClient1 = new SavingAccount(100);
         Account account2ForClient1 = new CheckingAccount(2, 50);
         Client client1 = new Client();
         client1.setName("Peter");
@@ -48,9 +64,10 @@ public class BankApplication {
         client1.setActiveAccount(account1ForClient1);
         client1.setEmail("qqqq@gmail.com");
         client1.setTelephoneNumber("+380955422433");
+        client1.setCity("New York");
 
         // create second client
-        Account account1ForClient2 = new SavingAccount(3, 20);
+        Account account1ForClient2 = new SavingAccount(20);
         Account account2ForClient2 = new CheckingAccount(4, 35);
         Client client2 = new Client();
         client2.setName("Ludmila");
@@ -58,6 +75,7 @@ public class BankApplication {
         client2.setActiveAccount(account1ForClient2);
         client2.setEmail("qwef@gmail.com");
         client2.setTelephoneNumber("+3809523422436");
+        client2.setCity("Dnepr");
 
 
         List<ClientRegistrationListener> listeners = new ArrayList();
@@ -98,15 +116,32 @@ public class BankApplication {
         }
         System.out.println("///////////////Client1 toString////////////");
         System.out.println(client1.toString());
+        try {
+            System.out.println("///////////////Save Client1 to File////////////");
+            bankService.saveClient(client1);
+            try {
+                System.out.println("///////////////Read Client1 to File////////////");
+                System.out.println();
+                bankService.loadClient(client1);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("///////////////Client2 toString////////////");
         System.out.println(client2.toString());
     }
 
+    public Bank getBank() {
+        return bank;
+    }
 
     public  void modifyBank(){
-        List<Client> clients = bank.getClients();
+        Set<Client> clients = bank.getClients();
         for(Client client : clients){
-            List<Account> accounts = client.getAccounts();
+            Set<Account> accounts = client.getAccounts();
             for(Account account : accounts){
                 account.deposit(150);
 
@@ -128,6 +163,22 @@ public class BankApplication {
          bank.printReport();
 
     };
+
+    public void printBankReportSecondChange() {
+
+        BankReport bankReport = new BankReport();
+        System.out.println("Get number of Clients");
+        bankReport.getNumberOfClients(bank);
+        System.out.println("Get accounts number");
+       bankReport.getAccountsNumber(bank);
+        System.out.println("Get Clients by City: ");
+        bankReport.getClientsByCity(bank);
+        System.out.println("Get bank credit SUM");
+        bankReport.getBankCreditSum(bank);
+        System.out.println("Get Client sorted ASC by total balance: ");
+        bankReport.getClientsSorted(bank);
+    };
+
 
 
 }

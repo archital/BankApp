@@ -1,16 +1,22 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.expeption.FeedException;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.service.Gender;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
  * Created by SCJP on 14.01.2015.
  */
-public class Client implements Account, Report {
+public class Client implements  Report, Serializable {
+
+
     @Override
     public void printReport() {  //Вывести информацию о клиентах и всех его считать
         System.out.println("Client " +
@@ -24,14 +30,87 @@ public class Client implements Account, Report {
 
 
     }
+    private static final long serialVersionUID = 1L;
+
     private Gender gender;
     private String name = "";
     private String telephoneNumber = "";
     private String email = "";
-    private List<Account> accounts = new ArrayList<Account>();
+    private Set<Account> accounts = new HashSet<Account>();
     private float initialOverdraft;
     private Account activeAccount;
+    private String city = "";
 
+    public Client(String name) {
+        this.name = name;
+    }
+
+    public void parseFeed(Map<String, String> feed) throws FeedException {
+        String accountType = feed.get("accounttype");
+        Account acc = findAccountByItsType(accountType);
+        setActiveAccount(acc);
+
+        if ("m".equals(feed.get("gender"))){ //CHECK GENDER
+            setGender(Gender.MALE);
+        }
+        if ("F".equals(feed.get("gender"))){
+            setGender(Gender.FEMALE);
+        }
+
+        /**
+         * This method should read all account info from the feed.
+         * There will be different implementations for
+         * CheckingAccount and SavingAccount.
+         */
+        acc.parseFeed(feed);
+
+
+    }
+
+
+    /**
+     * This method finds account by its type or create a new one
+     */
+    private Account findAccountByItsType(String accountType) throws FeedException {
+        for (Account acc : accounts) {
+
+            if (acc.getClass().equals(CheckingAccount.class) && ("c".equals(accountType))) {
+                return acc;
+            }
+            if (acc.getClass().equals(SavingAccount.class) && ("s".equals(accountType))) {
+                return acc;
+            }
+
+        }
+
+            return createAccountWithOnlyType(accountType);
+        }
+
+
+
+    /**
+     * This method creates account by its type
+     */
+    private Account createAccountWithOnlyType(String accountType) throws FeedException {
+        Account acc;
+        if ("s".equals(accountType)) {
+            acc = new SavingAccount();
+        } else if ("c".equals(accountType)) {
+            acc = new CheckingAccount();
+        } else {
+            throw new FeedException("Account type not found "+accountType);
+        }
+        accounts.add(acc);
+        return acc;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public Client() {
     }
@@ -82,7 +161,7 @@ public class Client implements Account, Report {
         return initialOverdraft;
     }
 
-    public List<Account> getAccounts() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
@@ -100,35 +179,7 @@ public class Client implements Account, Report {
         return activeAccount;
     }
 
-    @Override
-    public void deposit(float x) {
-        float wd = x;
-        activeAccount.deposit(wd);
 
-    }
-
-    @Override
-    public void withdraw(float x) {
-        float wd = x;
-        try {
-            activeAccount.withdraw(wd);
-        } catch (NotEnoughFundsException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void setBalance(float balance) {
-
-    }
-
-
-    @Override
-    public float decimalValue() { //Возвращает округленное значение баланса
-       float f = getBalance();
-        return  (Math.round(f));
-
-    }
 
     public Client(String name, float initialOverdraft, Gender gender) {
         super();
@@ -152,20 +203,16 @@ public class Client implements Account, Report {
         }
     }
 
-    public void createSavingAccount(float minoverdraft, float balance){
-       SavingAccount savingAccount1 = null;
-        if (minoverdraft >=0) {
-            savingAccount1 = new SavingAccount(minoverdraft, balance);
+    public void createSavingAccount(float balance){
+       SavingAccount savingAccount1 = new SavingAccount(balance);
             addAccount(savingAccount1);
-    }  else {
-            throw new  IllegalArgumentException("Minimum overdraft must be more or equals 0");
-
-        }
     }
 
-    public void createAccount(String accountType, float minoverdraft, float overdraft, float balance) throws IllegalArgumentException{
+
+
+    public void createAccount(String accountType,float overdraft, float balance) throws IllegalArgumentException{
         CheckingAccount checkingAccount1 = null;
-        if (accountType.equals(checkingAccount1.getAccountType())) { if (overdraft >= 0) {
+        if (accountType.equals("c")) { if (overdraft >= 0) {
                  checkingAccount1 = new CheckingAccount(overdraft, balance);
             addAccount(checkingAccount1);
         }
@@ -175,15 +222,10 @@ public class Client implements Account, Report {
         }
         }
         SavingAccount savingAccount1 = null;
-        if (accountType.equals(savingAccount1.getAccountType())&&minoverdraft >=0) {
-            savingAccount1 = new SavingAccount(minoverdraft, balance);
+        if (accountType.equals("s")) {
+            savingAccount1 = new SavingAccount(balance);
             addAccount(savingAccount1);
         }
-        else {
-            throw new  IllegalArgumentException("minoverdraft must be more or equals 0");
-
-        }
-
     }
 
 
@@ -233,4 +275,7 @@ public class Client implements Account, Report {
         }
        return stringBuilder.toString();
     }
+
+
+
 }

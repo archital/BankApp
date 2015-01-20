@@ -2,12 +2,10 @@ package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
 import com.luxoft.bankapp.expeption.ClientExistsException;
-import sun.misc.Version;
+import com.luxoft.bankapp.expeption.FeedException;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by SCJP on 14.01.2015.
@@ -16,13 +14,34 @@ public class Bank {
 
     public List<ClientRegistrationListener> listeners = new ArrayList();
 
-    private List<Client> clients = new ArrayList<Client>();
+    private Set<Client> clients = new HashSet<Client>();
 
-    public List<Client> getClients() {
+    private Map<String, Client> clientMap = new HashMap<String, Client>();
+
+    public Set<Client> getClients() {
         return clients;
     }
 
     private long bankNumber;
+
+
+
+
+
+    public void parseFeed(Map<String, String> feedMap) throws IllegalArgumentException, FeedException {
+
+        String name = feedMap.get("name"); // client name
+        // try to find client by his name
+        Client client = clientMap.get(name);
+        if (client == null) { // if no client then create it
+            client = new Client(name);
+            clients.add(client);
+            clientMap.put(name, client);
+        }
+        client.parseFeed(feedMap);
+    }
+
+
 
     public void addClient( Client client) throws ClientExistsException {
        for (Client c: getClients()){
@@ -35,6 +54,7 @@ public class Bank {
             listener.onClientAdded(client);
         }
     }
+
 
     public void removeClient( Client client) {
         clients.remove(client);
@@ -52,7 +72,6 @@ public class Bank {
         }
     }
     public Bank(int bankNumber){
-        super();
         this.bankNumber = bankNumber;
     }
 
@@ -70,6 +89,8 @@ public class Bank {
             @Override
             public void onClientAdded(Client client) {
                 System.out.println("New client added, " + client.getName()  + " " + new Date()+" to Bank number №"+ getBankNumber());
+               clientMap.put(client.getName(),client);
+
             }
         });
     }
@@ -96,5 +117,7 @@ public class Bank {
         }
     }
 
-
+    public Map<String, Client> getClientMap() {
+        return clientMap;
+    }
 }

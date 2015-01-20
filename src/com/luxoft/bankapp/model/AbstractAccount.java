@@ -2,10 +2,13 @@ package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 
+import java.io.Serializable;
+import java.util.Comparator;
+
 /**
  * Created by SCJP on 14.01.2015.
  */
-public abstract class AbstractAccount implements Account {
+public abstract class AbstractAccount implements Account, Serializable {
 
     private float balance = 0;
 
@@ -24,16 +27,16 @@ public abstract class AbstractAccount implements Account {
     @Override
     public void deposit(float x) { // добавляет значение  к балансу
         Float b = getBalance()+x;
-        setBalance(b);
+        balance = b;
     }
 
     @Override
     public void withdraw(float x) throws NotEnoughFundsException {  // уменьшает баланс на x
         if (x > balance) {
-            throw new NotEnoughFundsException("amount is more then clients balance ", getBalance());
+            throw new NotEnoughFundsException("amount is more then clients balance ", balance);
         } else {
-            Float b = getBalance() - x;
-            setBalance(b);
+            Float b = balance - x;
+           balance = b;
         }
     }
 
