@@ -10,11 +10,16 @@ import java.util.Map;
 public interface Account extends Report {
 
     public float getBalance();
+
     public void deposit(float x);
-    public void withdraw(float x) throws  NotEnoughFundsException;
+
+    public void withdraw(float x) throws NotEnoughFundsException;
+
     public void setBalance(float balance);
+
     float decimalValue();
-    public  void parseFeed(Map<String,String> feed);
+
+    public void parseFeed(Map<String, String> feed);
 
 
 }

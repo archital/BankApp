@@ -39,19 +39,14 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     }
 
     @Override
-    public void withdraw(float x) throws OverDraftLimitExceededException{
-        if (x > getBalance()) {
-            throw new OverDraftLimitExceededException("OverDraftLimitExceededException", getOverdraft());
-        } else {
-        if(getBalance()> x){ // необходимое количество денег вычитается из значения overdraft.
-            float NeedSum = getBalance() - x;
-            float newOverdraft = getOverdraft() - NeedSum;
-            setOverdraft(newOverdraft);
-        }
-        else {
-            Float b = getBalance() - x;
-            setBalance(b);
-        }
+    public void withdraw(float x) throws OverDraftLimitExceededException {
+        if (x > (getBalance() + getOverdraft())) {
+
+            float howMuchClientWantCanTake = getBalance() + getOverdraft();
+            throw new OverDraftLimitExceededException(x, howMuchClientWantCanTake);
+        } else if ((getBalance() + getOverdraft()) > x) {
+            float NewBalance = (getBalance() + getOverdraft()) - x;
+            setBalance(NewBalance);
         }
     }
 
@@ -62,8 +57,8 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
 
     @Override
     public void printReport() {
-        System.out.print( "Checking Account" );
-        System.out.println("Balance: " + getBalance()+ "} ");
+        System.out.print("Checking Account");
+        System.out.println("Balance: " + getBalance() + "} ");
     }
 
     @Override

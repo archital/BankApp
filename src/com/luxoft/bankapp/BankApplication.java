@@ -2,6 +2,7 @@ package com.luxoft.bankapp;
 
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
 import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.expeption.FeedException;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
@@ -20,8 +21,9 @@ public class BankApplication {
      * @param args the command line arguments
      */
     private Bank bank;
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) {
 
 
         if (args[0].equals("report")) {
@@ -54,7 +56,8 @@ public class BankApplication {
         }
 
     }
-    public  void initialize() {
+
+    public void initialize() {
         // create first client
         Account account1ForClient1 = new SavingAccount(100);
         Account account2ForClient1 = new CheckingAccount(2, 50);
@@ -114,7 +117,7 @@ public class BankApplication {
         } catch (ClientExistsException e) {
             e.printStackTrace();
         }
-        System.out.println("///////////////Client1 toString////////////");
+        System.out.println("///////////////Client 1 toString////////////");
         System.out.println(client1.toString());
         try {
             System.out.println("///////////////Save Client1 to File////////////");
@@ -130,19 +133,33 @@ public class BankApplication {
             e.printStackTrace();
         }
 
-        System.out.println("///////////////Client2 toString////////////");
+        System.out.println("///////////////Client 2 toString////////////");
         System.out.println(client2.toString());
+
+        System.out.println("///////////////Client 3 from file////////////");
+        BankFeedService bankFeedService = new BankFeedService();
+        try {
+            bankFeedService.setActiveBank(bank);
+            bankFeedService.loadFeeds("C:\\Users\\SCJP\\IdeaProjects\\Feed\\Folder");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FeedException e) {
+            e.printStackTrace();
+        }
+
+
     }
+
 
     public Bank getBank() {
         return bank;
     }
 
-    public  void modifyBank(){
+    public void modifyBank() {
         Set<Client> clients = bank.getClients();
-        for(Client client : clients){
+        for (Client client : clients) {
             Set<Account> accounts = client.getAccounts();
-            for(Account account : accounts){
+            for (Account account : accounts) {
                 account.deposit(150);
 
                 try {
@@ -153,16 +170,19 @@ public class BankApplication {
 
             }
         }
-    };
+    }
 
+    ;
 
 
     public void printBankReport() {
 
 
-         bank.printReport();
+        bank.printReport();
 
-    };
+    }
+
+    ;
 
     public void printBankReportSecondChange() {
 
@@ -170,15 +190,16 @@ public class BankApplication {
         System.out.println("Get number of Clients");
         bankReport.getNumberOfClients(bank);
         System.out.println("Get accounts number");
-       bankReport.getAccountsNumber(bank);
+        bankReport.getAccountsNumber(bank);
         System.out.println("Get Clients by City: ");
         bankReport.getClientsByCity(bank);
         System.out.println("Get bank credit SUM");
         bankReport.getBankCreditSum(bank);
         System.out.println("Get Client sorted ASC by total balance: ");
         bankReport.getClientsSorted(bank);
-    };
+    }
 
+    ;
 
 
 }

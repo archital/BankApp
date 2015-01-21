@@ -14,22 +14,24 @@ import java.util.Set;
 /**
  * Created by SCJP on 14.01.2015.
  */
-public class Client implements  Report, Serializable {
+public class Client implements Report, Serializable {
 
 
     @Override
     public void printReport() {  //Вывести информацию о клиентах и всех его считать
         System.out.println("Client " +
-                "name='" + this.gender.getGenderPrefix() +this.name  + " email address : "+ this.getEmail()+" telephone: "+
+                "name='" + this.gender.getGenderPrefix() + this.name + " email address : " + this.getEmail() + " telephone: " +
                 this.getTelephoneNumber() +
                 " , accounts = ");
-        for(Report account : accounts){
+        for (Report account : accounts) {
             account.printReport();
-        };
-        System.out.println( "Total balance =" + getBalance() +", Active Account balance=" + activeAccount.getBalance());
+        }
+        ;
+        System.out.println("Total balance =" + getBalance() + ", Active Account balance=" + activeAccount.getBalance());
 
 
     }
+
     private static final long serialVersionUID = 1L;
 
     private Gender gender;
@@ -50,10 +52,10 @@ public class Client implements  Report, Serializable {
         Account acc = findAccountByItsType(accountType);
         setActiveAccount(acc);
 
-        if ("m".equals(feed.get("gender"))){ //CHECK GENDER
+        if ("m".equals(feed.get("gender"))) { //CHECK GENDER
             setGender(Gender.MALE);
         }
-        if ("F".equals(feed.get("gender"))){
+        if ("F".equals(feed.get("gender"))) {
             setGender(Gender.FEMALE);
         }
 
@@ -83,9 +85,8 @@ public class Client implements  Report, Serializable {
 
         }
 
-            return createAccountWithOnlyType(accountType);
-        }
-
+        return createAccountWithOnlyType(accountType);
+    }
 
 
     /**
@@ -98,7 +99,7 @@ public class Client implements  Report, Serializable {
         } else if ("c".equals(accountType)) {
             acc = new CheckingAccount();
         } else {
-            throw new FeedException("Account type not found "+accountType);
+            throw new FeedException("Account type not found " + accountType);
         }
         accounts.add(acc);
         return acc;
@@ -131,9 +132,10 @@ public class Client implements  Report, Serializable {
         this.email = email;
     }
 
-    public void addAccount (Account account){
+    public void addAccount(Account account) {
         accounts.add(account);
     }
+
     public String getName() {
         return name;
     }
@@ -153,6 +155,7 @@ public class Client implements  Report, Serializable {
     public void setActiveAccount(Account activeAccount) {
         this.activeAccount = activeAccount;
     }
+
     public Gender getGender() {
         return gender;
     }
@@ -169,7 +172,7 @@ public class Client implements  Report, Serializable {
 
         float balance = 0;
 
-        for(Account account : accounts){
+        for (Account account : accounts) {
             balance += account.getBalance();
         }
         return balance;
@@ -178,7 +181,6 @@ public class Client implements  Report, Serializable {
     public Account getActiveAccount() {
         return activeAccount;
     }
-
 
 
     public Client(String name, float initialOverdraft, Gender gender) {
@@ -192,34 +194,33 @@ public class Client implements  Report, Serializable {
         this.initialOverdraft = initialOverdraft;
     }
 
-    public void createCheckingAccount(float overdraft, float balance){
+    public void createCheckingAccount(float overdraft, float balance) {
         CheckingAccount checkingAccount1 = null;
         if (overdraft >= 0) {
             checkingAccount1 = new CheckingAccount(overdraft, balance);
             addAccount(checkingAccount1);
-        }  else {
-            throw new  IllegalArgumentException("Overdraft must be more or equals 0");
+        } else {
+            throw new IllegalArgumentException("Overdraft must be more or equals 0");
 
         }
     }
 
-    public void createSavingAccount(float balance){
-       SavingAccount savingAccount1 = new SavingAccount(balance);
-            addAccount(savingAccount1);
+    public void createSavingAccount(float balance) {
+        SavingAccount savingAccount1 = new SavingAccount(balance);
+        addAccount(savingAccount1);
     }
 
 
-
-    public void createAccount(String accountType,float overdraft, float balance) throws IllegalArgumentException{
+    public void createAccount(String accountType, float overdraft, float balance) throws IllegalArgumentException {
         CheckingAccount checkingAccount1 = null;
-        if (accountType.equals("c")) { if (overdraft >= 0) {
-                 checkingAccount1 = new CheckingAccount(overdraft, balance);
-            addAccount(checkingAccount1);
-        }
-        else {
-            throw new  IllegalArgumentException("Overdraft must be more or equals 0");
+        if (accountType.equals("c")) {
+            if (overdraft >= 0) {
+                checkingAccount1 = new CheckingAccount(overdraft, balance);
+                addAccount(checkingAccount1);
+            } else {
+                throw new IllegalArgumentException("Overdraft must be more or equals 0");
 
-        }
+            }
         }
         SavingAccount savingAccount1 = null;
         if (accountType.equals("s")) {
@@ -269,13 +270,12 @@ public class Client implements  Report, Serializable {
         stringBuilder.append(" Total balance: ");
         stringBuilder.append(getBalance());
         stringBuilder.append(" Accounts: ");
-                for (Account ac: accounts){
-                    stringBuilder.append(ac.toString());
-                    stringBuilder.append("\n");
+        for (Account ac : accounts) {
+            stringBuilder.append(ac.toString());
+            stringBuilder.append("\n");
         }
-       return stringBuilder.toString();
+        return stringBuilder.toString();
     }
-
 
 
 }

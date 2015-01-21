@@ -7,5 +7,6 @@ import com.luxoft.bankapp.expeption.ClientExistsException;
  */
 public interface Command {
     void execute() throws ClientExistsException;
+
     void printCommandInfo();
 }

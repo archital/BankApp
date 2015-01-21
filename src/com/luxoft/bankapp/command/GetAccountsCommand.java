@@ -20,7 +20,7 @@ public class GetAccountsCommand implements Command {
         Client client = null;
 
         System.out.println("Do you want Current Client to get accounts (yes/no)");
-        if(scanner.nextLine().trim().equals("yes")){
+        if (scanner.nextLine().trim().equals("yes")) {
             client = BankCommander.currentClient;
 
 
@@ -28,8 +28,8 @@ public class GetAccountsCommand implements Command {
                 System.out.println("Error! Client with such name was not found.\n");
                 return;
             }
-            if(client.getAccounts().isEmpty()) {
-                System.out.println("Client: " + client.getGender().getGenderPrefix()+client.getName()+"haven't any accouns in Bank number "+ BankCommander.currentBank.getBankNumber());
+            if (client.getAccounts().isEmpty()) {
+                System.out.println("Client: " + client.getGender().getGenderPrefix() + client.getName() + "haven't any accouns in Bank number " + BankCommander.currentBank.getBankNumber());
             } else {
                 for (Report account : client.getAccounts()) {
                     account.printReport();
@@ -37,29 +37,28 @@ public class GetAccountsCommand implements Command {
             }
 
 
-        }
-       else {
-        while (sb.length() == 0) {
-            System.out.println("Input client name: ");
-            sb.delete(0, sb.length());
-            sb.append(scanner.nextLine().trim());
-        }
-        String clientName = sb.toString();
-        sb.delete(0, sb.length());
-
-
-        client = BankCommander.service.findClient(BankCommander.currentBank, clientName.toString());
-        if (client == null) {
-            System.out.println("Error! Client with such name was not found.\n");
-            return;
-        }
-        if(client.getAccounts().isEmpty()) {
-            System.out.println("Client: " + client.getGender()+client.getName()+"haven't any accouns in Bank number "+ BankCommander.currentBank.getBankNumber());
         } else {
-            for (Report account : client.getAccounts()) {
-                account.printReport();
+            while (sb.length() == 0) {
+                System.out.println("Input client name: ");
+                sb.delete(0, sb.length());
+                sb.append(scanner.nextLine().trim());
             }
-        }
+            String clientName = sb.toString();
+            sb.delete(0, sb.length());
+
+
+            client = BankCommander.service.findClient(BankCommander.currentBank, clientName.toString());
+            if (client == null) {
+                System.out.println("Error! Client with such name was not found.\n");
+                return;
+            }
+            if (client.getAccounts().isEmpty()) {
+                System.out.println("Client: " + client.getGender() + client.getName() + "haven't any accouns in Bank number " + BankCommander.currentBank.getBankNumber());
+            } else {
+                for (Report account : client.getAccounts()) {
+                    account.printReport();
+                }
+            }
         }
     }
 

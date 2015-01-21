@@ -1,24 +1,16 @@
 package com.luxoft.bankapp.server;
 
-import com.luxoft.bankapp.command.*;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
-import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.BankInfo;
-import sun.misc.IOUtils;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Created by acer on 20.01.2015.
+ * Created by acer on 21.01.2015.
  */
-public class BankClient {
+public class BankRemoteOffice {
     Socket requestSocket;
     ObjectOutputStream out;
     ObjectInputStream in;
@@ -48,7 +40,7 @@ public class BankClient {
 
                     sb.append(scanner.nextLine().trim());
 
-                    message = sb.toString();
+                    message = sb.toString();  //should enter "Office" to connect like "Remote Office"
                     sb.delete(0, sb.length());
 
                     System.out.println("My name :"+ message);
@@ -57,7 +49,7 @@ public class BankClient {
 
                     if(message.equals("bye")) {
                         System.out.println( "Client was not found");
-                       break;
+                        break;
                     }
                     System.out.println("server>" + message);  //enter command
 
@@ -70,59 +62,59 @@ public class BankClient {
                     System.out.println("command is selected :"+ message);
                     sendMessage(message);
 
-                 while (!message.equals("bye")) {
-                     while (message.equals("withdraw")) {
+                    while (!message.equals("bye")) {
+                        while (message.equals("withdraw")) {
 
 
-                         message = (String) in.readObject();
-                         System.out.println("server>" + message);
-                         sb.append(scanner.nextLine().trim());
+                            message = (String) in.readObject();
+                            System.out.println("server>" + message);
+                            sb.append(scanner.nextLine().trim());
 
-                         message = sb.toString();
-                         sb.delete(0, sb.length());
-                         sendMessage(message);
-                         message = (String) in.readObject();
-                         System.out.println("server>!!!!" + message);
-
-
-                         sb.append(scanner.nextLine().trim());
-
-                         message = sb.toString();
-                         sb.delete(0, sb.length());
-                         sendMessage(message);
+                            message = sb.toString();
+                            sb.delete(0, sb.length());
+                            sendMessage(message);
+                            message = (String) in.readObject();
+                            System.out.println("server>!!!!" + message);
 
 
-                         if (message.equals("balance")) {
-                             break;
-                         } else if (message.equals("bye")) {
-                             break;
-                         } else if (message.equals("withdraw")) {
-                             continue;
-                         }
+                            sb.append(scanner.nextLine().trim());
 
-                     }
-
-                     while (message.equals("balance")) {
+                            message = sb.toString();
+                            sb.delete(0, sb.length());
+                            sendMessage(message);
 
 
-                         message = (String) in.readObject();
-                         System.out.println("server>" + message);
-                         sb.append(scanner.nextLine().trim());
+                            if (message.equals("balance")) {
+                                break;
+                            } else if (message.equals("bye")) {
+                                break;
+                            } else if (message.equals("withdraw")) {
+                                continue;
+                            }
 
-                         message = sb.toString();
-                         sb.delete(0, sb.length());
-                         sendMessage(message);
+                        }
 
-                         if (message.equals("balance")) {
-                             continue;
-                         } else if (message.equals("bye")) {
-                             break;
-                         } else if (message.equals("withdraw")) {
-                             break;
-                         }
+                        while (message.equals("balance")) {
 
-                     }
-                 }
+
+                            message = (String) in.readObject();
+                            System.out.println("server>" + message);
+                            sb.append(scanner.nextLine().trim());
+
+                            message = sb.toString();
+                            sb.delete(0, sb.length());
+                            sendMessage(message);
+
+                            if (message.equals("balance")) {
+                                continue;
+                            } else if (message.equals("bye")) {
+                                break;
+                            } else if (message.equals("withdraw")) {
+                                break;
+                            }
+
+                        }
+                    }
 
 
 

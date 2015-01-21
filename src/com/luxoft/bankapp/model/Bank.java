@@ -25,9 +25,6 @@ public class Bank {
     private long bankNumber;
 
 
-
-
-
     public void parseFeed(Map<String, String> feedMap) throws IllegalArgumentException, FeedException {
 
         String name = feedMap.get("name"); // client name
@@ -42,12 +39,11 @@ public class Bank {
     }
 
 
-
-    public void addClient( Client client) throws ClientExistsException {
-       for (Client c: getClients()){
-           if ( c.getName().equals(client.getName())){
-               throw new ClientExistsException("Client with that name already exists");
-           }
+    public void addClient(Client client) throws ClientExistsException {
+        for (Client c : getClients()) {
+            if (c.getName().equals(client.getName())) {
+                throw new ClientExistsException("Client with that name already exists");
+            }
         }
         clients.add(client);
         for (ClientRegistrationListener listener : listeners) {
@@ -56,22 +52,25 @@ public class Bank {
     }
 
 
-    public void removeClient( Client client) {
+    public void removeClient(Client client) {
         clients.remove(client);
     }
 
     public void addRegistrationListener(ClientRegistrationListener registrationListener) {
         listeners.add(registrationListener);
-    };
+    }
+
+    ;
 
     public void printReport() {
-        System.out.println("Bank number " + getBankNumber() +" report: ");
-        for (Client c: getClients()){
+        System.out.println("Bank number " + getBankNumber() + " report: ");
+        for (Client c : getClients()) {
             System.out.println();
             c.printReport();
         }
     }
-    public Bank(int bankNumber){
+
+    public Bank(int bankNumber) {
         this.bankNumber = bankNumber;
     }
 
@@ -88,14 +87,14 @@ public class Bank {
 
             @Override
             public void onClientAdded(Client client) {
-                System.out.println("New client added, " + client.getName()  + " " + new Date()+" to Bank number №"+ getBankNumber());
-               clientMap.put(client.getName(),client);
+                System.out.println("New client added, " + client.getName() + " " + new Date() + " to Bank number №" + getBankNumber());
+                clientMap.put(client.getName(), client);
 
             }
         });
     }
 
-    public Bank(List<ClientRegistrationListener> registrationListeners){
+    public Bank(List<ClientRegistrationListener> registrationListeners) {
         this();
         this.listeners.addAll(registrationListeners);
     }
@@ -113,7 +112,7 @@ public class Bank {
     public class EmailNotificationListener implements ClientRegistrationListener {
         @Override
         public void onClientAdded(Client c) {
-            System.out.println("Notification email for client " +  c.getGender().getGenderPrefix() + " " + c.getName() + "to be sent");
+            System.out.println("Notification email for client " + c.getGender().getGenderPrefix() + " " + c.getName() + "to be sent");
         }
     }
 

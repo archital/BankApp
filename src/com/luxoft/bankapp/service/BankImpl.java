@@ -3,6 +3,7 @@ package com.luxoft.bankapp.service;
 /**
  * Created by SCJP on 15.01.2015.
  */
+
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
@@ -63,7 +64,7 @@ public class BankImpl implements BankService {
     @Override
     public void saveClient(Client client) throws IOException { //for Write Client information to File
 
-        String FilePath = "C:\\Users\\acer\\IdeaProjects\\Feed\\ObjectFile";
+        String FilePath = "C:\\Users\\SCJP\\IdeaProjects\\Feed\\FeedObject";
         File file5 = new File(FilePath);
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file5)); //serialization
 
@@ -73,13 +74,13 @@ public class BankImpl implements BankService {
     }
 
     @Override
-    public void loadClient(Client client) throws IOException, ClassNotFoundException { //for Read Client information to File
-        String FilePath = "C:\\Users\\acer\\IdeaProjects\\Feed\\ObjectFile";
+    public void loadClient(Client client) throws IOException, ClassNotFoundException {
+        String FilePath = "C:\\Users\\SCJP\\IdeaProjects\\Feed\\FeedObject";
         File fileObj = new File(FilePath);
 
-        ObjectInputStream ois = new ObjectInputStream (new FileInputStream(fileObj));  //deserialization
-        Client  obj = (Client)ois.readObject();
-        System.out.println("Client = "+ obj.toString());
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileObj));
+        Client obj = (Client) ois.readObject();
+        System.out.println("Client = " + obj.toString());
         ois.close();
     }
 

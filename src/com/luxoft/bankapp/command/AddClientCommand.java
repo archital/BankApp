@@ -17,10 +17,11 @@ public class AddClientCommand implements Command {
     public void execute() throws ClientExistsException {
         if (BankCommander.currentBank == null) {
             System.out.println("Error!!! Current bank is undefined");
-         return;
+            return;
         }
         StringBuilder sb = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
+
         while (sb.length() == 0) {
             System.out.println("Input client name: ");
             sb.delete(0, sb.length());
@@ -70,7 +71,7 @@ public class AddClientCommand implements Command {
             System.out.println("Input client telephone number: ");
             sb.delete(0, sb.length());
             sb.append(scanner.nextLine().trim());
-       }
+        }
         pattern = Pattern.compile("^\\(?|^\\+?(\\d{3}|\\d{5})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$");
         matcher = pattern.matcher(sb);
         if (!matcher.matches()) {
@@ -89,7 +90,7 @@ public class AddClientCommand implements Command {
         matcher = pattern.matcher(sb);
         if (!matcher.matches()) {
             System.out.println("Error!!! Illegal e-mail address.");
-           return;
+            return;
         }
 
         Client client = new Client();

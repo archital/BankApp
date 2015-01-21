@@ -13,26 +13,28 @@ import java.util.*;
 public class BankReport {
 
 
-    public void getNumberOfClients(Bank bank) {
+    public long getNumberOfClients(Bank bank) {
 
         long l = 0;
         for (Client c : bank.getClients()) {
-             l++;
+            l++;
         }
         System.out.println("Number of clients " + l);
+        return l;
     }
 
-    public void getAccountsNumber(Bank bank) {
+    public long getAccountsNumber(Bank bank) {
         long l = 0;
         for (Client c : bank.getClients()) {
             for (Account account : c.getAccounts()) {
-                 l++;
+                l++;
             }
         }
         System.out.println("Number of Accounts " + l);
+        return l;
     }
 
-    public void getClientsSorted(Bank bank) {
+    public String getClientsSorted(Bank bank) {
 
 
         Set<Client> clients = new TreeSet<Client>(new Comparator<Client>() { // ASC
@@ -51,17 +53,19 @@ public class BankReport {
             }
         });
         for (Client cl : bank.getClients()) {
-         Client client = cl;
+            Client client = cl;
             clients.add(client);
         }
 
         for (Client c : clients) {
             System.out.println("Client :" + c.toString());
+            return "Client"+ c.toString();
         }
 
+        return null;
     }
 
-    public void getBankCreditSum(Bank bank) {
+    public float getBankCreditSum(Bank bank) {
         float resultSum = 0;
         for (Client cl : bank.getClients()) {
             for (Account account : cl.getAccounts()) {
@@ -71,22 +75,24 @@ public class BankReport {
             }
         }
         System.out.println("Total sum that client's get more than limit is: " + resultSum);
+        return resultSum;
     }
 
 
-    public void getClientsByCity (Bank bank){
+    public Map<String, List<Client>> getClientsByCity(Bank bank) {
 
         Map<String, List<Client>> listMap = new TreeMap();
         Set<Client> clients = bank.getClients();
-        for (Client client : clients){
-            List <Client> clientList = listMap.get(client.getCity());
-            if(clientList==null){
+        for (Client client : clients) {
+            List<Client> clientList = listMap.get(client.getCity());
+            if (clientList == null) {
                 clientList = new ArrayList();
             }
             clientList.add(client);
             listMap.put(client.getCity(), clientList);
         }
         System.out.println(listMap.toString());
+        return listMap;
     }
 
 }

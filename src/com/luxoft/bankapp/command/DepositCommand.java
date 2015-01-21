@@ -20,7 +20,7 @@ public class DepositCommand implements Command {
         int amount = 0;
 
         System.out.println("Do you want to put money to Current Client account (yes/no)");
-        if(scanner.nextLine().trim().equals("yes")){
+        if (scanner.nextLine().trim().equals("yes")) {
             client = BankCommander.currentClient;
 
 
@@ -28,19 +28,18 @@ public class DepositCommand implements Command {
                 System.out.println("Error! Client with such name was not found.\n");
                 return;
             }
-            if(client.getAccounts().isEmpty()) {
-                System.out.println("Client: " + client.getGender().getGenderPrefix()+client.getName()+"haven't any accouns in Bank number "+ BankCommander.currentBank.getBankNumber());
+            if (client.getAccounts().isEmpty()) {
+                System.out.println("Client: " + client.getGender().getGenderPrefix() + client.getName() + "haven't any accouns in Bank number " + BankCommander.currentBank.getBankNumber());
                 return;
             } else {
                 System.out.println("Enter amount that you want to put to active account: ");
-                amount =   Integer.parseInt(scanner.nextLine().trim());
+                amount = Integer.parseInt(scanner.nextLine().trim());
                 client.getActiveAccount().deposit(amount);
 
             }
 
 
-        }
-        else {
+        } else {
             while (sb.length() == 0) {
                 System.out.println("Input client name: ");
                 sb.delete(0, sb.length());
@@ -55,13 +54,15 @@ public class DepositCommand implements Command {
                 System.out.println("Error!!! Client with such name was not found.");
                 return;
             }
-            if(client.getAccounts().isEmpty()) {
-                System.out.println("Client: " + client.getGender()+client.getName()+"haven't any accouns in Bank number "+ BankCommander.currentBank.getBankNumber());
+            if (client.getAccounts().isEmpty()) {
+                System.out.println("Client: " + client.getGender() + client.getName() + "haven't any accouns in Bank number " + BankCommander.currentBank.getBankNumber());
                 return;
-            } else {  System.out.println("Enter amount that you want to put to active account: ");
-                amount =   Integer.parseInt(scanner.nextLine().trim());
+            } else {
+                System.out.println("Enter amount that you want to put to active account: ");
+                amount = Integer.parseInt(scanner.nextLine().trim());
                 client.getActiveAccount().deposit(amount);
-        } }
+            }
+        }
     }
 
     @Override

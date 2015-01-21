@@ -13,7 +13,6 @@ public abstract class AbstractAccount implements Account, Serializable {
     private float balance = 0;
 
 
-
     public float getBalance() {
         return balance;
     }
@@ -23,20 +22,19 @@ public abstract class AbstractAccount implements Account, Serializable {
     }
 
 
-
     @Override
     public void deposit(float x) { // добавляет значение  к балансу
-        Float b = getBalance()+x;
+        Float b = getBalance() + x;
         balance = b;
     }
 
     @Override
     public void withdraw(float x) throws NotEnoughFundsException {  // уменьшает баланс на x
         if (x > balance) {
-            throw new NotEnoughFundsException("amount is more then clients balance ", balance);
+            throw new NotEnoughFundsException();
         } else {
             Float b = balance - x;
-           balance = b;
+            balance = b;
         }
     }
 

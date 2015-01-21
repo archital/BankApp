@@ -3,28 +3,27 @@ package com.luxoft.bankapp.expeption;
 /**
  * Created by SCJP on 15.01.2015.
  */
+
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.CheckingAccount;
 
-public class OverDraftLimitExceededException extends NotEnoughFundsException{
+public class OverDraftLimitExceededException extends NotEnoughFundsException {
 
 
+    private float sumClientThatClientCanTake;
 
-    private CheckingAccount account;
-
-
-
-    public OverDraftLimitExceededException(String message, float amount, CheckingAccount account) {
-        super(message, amount);
-        this.account = account;
+    public float getSumClientThatClientCanTake() {
+        return sumClientThatClientCanTake;
     }
 
-    public float getMaxAmountOfAvailableFunds(){
-        return account.getOverdraft() + account.getBalance();
+    public OverDraftLimitExceededException(float overdriftPlusBalance, float sumClientWant) {
+
+
+        this.sumClientThatClientCanTake = overdriftPlusBalance - sumClientWant;
+
+
     }
 
-    public OverDraftLimitExceededException(String s, float amount) {
-        super(s, amount);
-    }
+
 }
 

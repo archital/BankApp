@@ -14,13 +14,13 @@ public class SavingAccount extends AbstractAccount implements Serializable {
     public void parseFeed(Map<String, String> feed) {
         float overdraft = Float.parseFloat(feed.get("overdraft"));
         float balance = Float.parseFloat(feed.get("balance"));
-        SavingAccount savingAccount  = new SavingAccount(balance);
+        SavingAccount savingAccount = new SavingAccount(balance);
     }
 
     public SavingAccount() {
     }
 
-    public SavingAccount( float balance) {
+    public SavingAccount(float balance) {
         setBalance(balance);
 
     }
@@ -28,7 +28,7 @@ public class SavingAccount extends AbstractAccount implements Serializable {
     @Override
     public void printReport() {
         System.out.print("Saving account ");
-        System.out.println("Balance: " + getBalance()+ " }");
+        System.out.println("Balance: " + getBalance() + " }");
     }
 
 
