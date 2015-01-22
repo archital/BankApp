@@ -55,7 +55,7 @@ public class DepositCommand implements Command {
                 return;
             }
             if (client.getAccounts().isEmpty()) {
-                System.out.println("Client: " + client.getGender() + client.getName() + "haven't any accouns in Bank number " + BankCommander.currentBank.getBankNumber());
+                System.out.println("Client: " + client.getGender() + client.getName() + "haven't any accounts in Bank number " + BankCommander.currentBank.getBankNumber());
                 return;
             } else {
                 System.out.println("Enter amount that you want to put to active account: ");

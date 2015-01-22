@@ -1,11 +1,9 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.expeption.FeedException;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.service.Gender;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +46,7 @@ public class Client implements Report, Serializable {
     }
 
     public void parseFeed(Map<String, String> feed) throws FeedException {
-        String accountType = feed.get("accounttype");
+        String accountType = feed.get("accountType");
         Account acc = findAccountByItsType(accountType);
         setActiveAccount(acc);
 
@@ -66,9 +64,7 @@ public class Client implements Report, Serializable {
          */
         acc.parseFeed(feed);
 
-
     }
-
 
     /**
      * This method finds account by its type or create a new one
@@ -92,7 +88,7 @@ public class Client implements Report, Serializable {
     /**
      * This method creates account by its type
      */
-    private Account createAccountWithOnlyType(String accountType) throws FeedException {
+    public Account createAccountWithOnlyType(String accountType) throws FeedException {
         Account acc;
         if ("s".equals(accountType)) {
             acc = new SavingAccount();
@@ -194,20 +190,22 @@ public class Client implements Report, Serializable {
         this.initialOverdraft = initialOverdraft;
     }
 
-    public void createCheckingAccount(float overdraft, float balance) {
+    public Account createCheckingAccount(float overdraft, float balance) {
         CheckingAccount checkingAccount1 = null;
         if (overdraft >= 0) {
             checkingAccount1 = new CheckingAccount(overdraft, balance);
             addAccount(checkingAccount1);
+            return checkingAccount1;
         } else {
             throw new IllegalArgumentException("Overdraft must be more or equals 0");
 
         }
     }
 
-    public void createSavingAccount(float balance) {
+    public Account createSavingAccount(float balance) {
         SavingAccount savingAccount1 = new SavingAccount(balance);
         addAccount(savingAccount1);
+        return savingAccount1;
     }
 
 

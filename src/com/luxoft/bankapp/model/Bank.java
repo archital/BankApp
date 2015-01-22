@@ -101,7 +101,7 @@ public class Bank {
 
     public class PrintClientListener implements ClientRegistrationListener {
         @Override
-        public void onClientAdded(Client c) { //распечатывает клиента на консоль
+        public void onClientAdded(Client c) {
             System.out.println("Name: " + c.getGender().getGenderPrefix() + " " + c.getName());
             System.out.println("Overdraft: " + c.getInitialOverdraft());
             System.out.println("Balance:" + c.getBalance());

@@ -3,7 +3,6 @@ package com.luxoft.bankapp.command;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.BankReport;
 
 import java.util.Scanner;
 

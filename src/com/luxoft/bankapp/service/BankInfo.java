@@ -26,12 +26,4 @@ public class BankInfo {
 
     }
 
-    public BankInfo(Bank bank, Client client) throws ClientExistsException {
-        BankImpl bank1 = new BankImpl();
-        bank1.addClient(bank, client);
-        bank1.removeClient(bank, client);
-
-    }
-
-
 }

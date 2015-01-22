@@ -1,157 +1,408 @@
 package com.luxoft.bankapp.server;
 
+import com.luxoft.bankapp.BankApplication;
+import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.Gender;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Created by acer on 21.01.2015.
+ * Created by SCJP on 21.01.2015.
  */
 public class BankRemoteOffice {
-    Socket requestSocket;
-    ObjectOutputStream out;
-    ObjectInputStream in;
-    String message;
-    static final String SERVER = "localhost";
 
-    void run() {
-        try {
-            // 1. creating a socket to connect to the server
-            requestSocket = new Socket(SERVER, 2004);
-            System.out.println("Connected to localhost in port 2004");
-            // 2. get Input and Output streams
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            out.flush();
-            in = new ObjectInputStream(requestSocket.getInputStream());
-            // 3: Communicating with the server
-            do {
-                try {
+	ServerSocket providerSocket;
+	Socket connection = null;
+	ObjectOutputStream out;
+	ObjectInputStream in;
+	String message;
 
-                    Scanner scanner = new Scanner(System.in);
-                    StringBuilder sb = new StringBuilder();
-
-
-                    message = (String) in.readObject();
-                    System.out.println("server>" + message);
-
-
-                    sb.append(scanner.nextLine().trim());
-
-                    message = sb.toString();  //should enter "Office" to connect like "Remote Office"
-                    sb.delete(0, sb.length());
-
-                    System.out.println("My name :"+ message);
-                    sendMessage(message);
-                    message = (String) in.readObject();
-
-                    if(message.equals("bye")) {
-                        System.out.println( "Client was not found");
-                        break;
-                    }
-                    System.out.println("server>" + message);  //enter command
-
-
-                    sb.append(scanner.nextLine().trim());
-
-                    message = sb.toString();
-                    sb.delete(0, sb.length());
-
-                    System.out.println("command is selected :"+ message);
-                    sendMessage(message);
-
-                    while (!message.equals("bye")) {
-                        while (message.equals("withdraw")) {
-
-
-                            message = (String) in.readObject();
-                            System.out.println("server>" + message);
-                            sb.append(scanner.nextLine().trim());
-
-                            message = sb.toString();
-                            sb.delete(0, sb.length());
-                            sendMessage(message);
-                            message = (String) in.readObject();
-                            System.out.println("server>!!!!" + message);
-
-
-                            sb.append(scanner.nextLine().trim());
-
-                            message = sb.toString();
-                            sb.delete(0, sb.length());
-                            sendMessage(message);
-
-
-                            if (message.equals("balance")) {
-                                break;
-                            } else if (message.equals("bye")) {
-                                break;
-                            } else if (message.equals("withdraw")) {
-                                continue;
-                            }
-
-                        }
-
-                        while (message.equals("balance")) {
-
-
-                            message = (String) in.readObject();
-                            System.out.println("server>" + message);
-                            sb.append(scanner.nextLine().trim());
-
-                            message = sb.toString();
-                            sb.delete(0, sb.length());
-                            sendMessage(message);
-
-                            if (message.equals("balance")) {
-                                continue;
-                            } else if (message.equals("bye")) {
-                                break;
-                            } else if (message.equals("withdraw")) {
-                                break;
-                            }
-
-                        }
-                    }
+	public static Bank currentBank = new Bank();
+	public static Client currentClient = null;
+	public static float amount;
 
 
 
 
-                } catch (ClassNotFoundException classNot) {
-                    System.err.println("data received in unknown format");
-                }
-            } while (!message.equals("bye"));
-        } catch (UnknownHostException unknownHost) {
-            System.err.println("You are trying to connect to an unknown host!");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        } finally {
-            // 4: Closing connection
-            try {
-                in.close();
-                out.close();
-                requestSocket.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-    }
+	void run () {
+		try {
+			// 1. creating a server socket
+			try {
+				providerSocket = new ServerSocket(2004, 10);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			// 2. Wait for connection
+			System.out.println("Waiting for connection");
+			try {
+				connection = providerSocket.accept();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Connection received from "
+					+ connection.getInetAddress().getHostName());
+			// 3. get Input and Output streams
+			try {
+				out = new ObjectOutputStream(connection.getOutputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				in = new ObjectInputStream(connection.getInputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			sendMessage("Connection successful, enter command");
+			// 4. The two parts communicate via the input and output streams
+			do {
+				try {
+					message = (String) in.readObject();
 
-    void sendMessage(final String msg) {
-        try {
-            out.writeObject(msg);
-            out.flush();
-            System.out.println("client>" + msg);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
 
-    public static void main(final String args[]) {
-        BankClient client = new BankClient();
-        client.run();
-    }
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				System.out.println("client> " + message);
+				if (message.equals("bye")) {
+					sendMessage("bye");
+				}
 
+
+				while (!message.equals("bye")) {
+
+					while (message.equals("remove")) {
+						sendMessage("Enter client name that you want to delete ");
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						currentClient = null;
+						BankImpl bankImp = new BankImpl();
+
+
+						try {
+							currentClient = bankImp.getClient(currentBank, message);
+						} catch (ClientExistsException e) {
+							e.printStackTrace();
+						}
+
+
+						if (currentClient == null) {
+							System.out.println("Error!!! This Client is already delete.");
+
+							sendMessage("bye");
+							return;
+						}
+
+						bankImp.removeClient(currentBank, currentClient);
+						sendMessage(" Client removed!!  enter new command: ");
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client>" + message);
+
+						if (message.equals("bye")) {
+							break;
+						} else if (message.equals("add")) {
+							break;
+						} else if (message.equals("remove")) {
+							continue;
+						}
+					}
+
+					while (message.equals("add")) {
+						sendMessage("Enter client name that you want to add ");
+
+						try {
+							try {
+								message = (String) in.readObject();
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+						System.out.println("client> " + message);
+
+						currentClient = null;
+						BankImpl bankImp = new BankImpl();
+
+
+						try {
+							currentClient = bankImp.getClient(currentBank, message);
+						} catch (ClientExistsException e) {
+							e.printStackTrace();
+						}
+
+
+						if (!(currentClient == null)) {
+							System.out.println("Error!!! This Client is already added.");
+
+							sendMessage("bye");
+							return;
+						}
+
+						Client client = new Client();
+						client.setName(message);
+
+						sendMessage("enter gender to client name " + client.getName());
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						Pattern pattern = Pattern.compile("[MmFf]");
+						Matcher matcher = pattern.matcher(message);
+						if (!matcher.matches()) {
+							System.out.println("Error!!! Illegal gender description");
+							sendMessage("bye");
+							return;
+						}
+
+						if (message.equals("m")) {
+							client.setGender(Gender.MALE);
+						}
+
+						if (message.equals("f")) {
+							client.setGender(Gender.FEMALE);
+						}
+
+						sendMessage("enter city to client name " +
+								client.getGender().getGenderPrefix() + client.getName());
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						client.setCity(message);
+						sendMessage("enter telephone to client name " +
+								client.getGender().getGenderPrefix() + client.getName());
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						pattern = Pattern.compile("^\\(?|^\\+?(\\d{3}|\\d{5})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$");
+						matcher = pattern.matcher(message);
+						if (!matcher.matches()) {
+							System.out.println("Error!!! Illegal telephone number.");
+							sendMessage("bye");
+							return;
+						}
+
+						client.setTelephoneNumber(message);
+
+						sendMessage("enter email to client name " +
+								client.getGender().getGenderPrefix() + client.getName());
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						pattern = Pattern.compile("([a-zA-Z][\\w]*)@([a-zA-Z][\\w]*[.])*((net)|(com)|(org))");
+						matcher = pattern.matcher(message);
+						if (!matcher.matches()) {
+							System.out.println("Error!!! Illegal e-mail address.");
+							sendMessage("bye");
+							return;
+						}
+						client.setEmail(message);
+
+						sendMessage("enter Overdraft to client " +
+								client.getGender().getGenderPrefix() + client.getName());
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						float overdraft = Float.parseFloat(message);
+
+						if (overdraft < 0) {
+							System.out.println("Error!!! Value must be positive. ");
+
+							sendMessage("bye");
+							return;
+						}
+
+						sendMessage("enter total balance to client " +
+								client.getGender().getGenderPrefix() + client.getName());
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						float balance = (Float.parseFloat(message));
+
+						if (balance < 0) {
+							System.out.println("Error!!! Value must be positive. ");
+
+							sendMessage("bye");
+							return;
+						}
+
+						try {
+							currentBank.addClient(client);
+						} catch (ClientExistsException e) {
+							e.printStackTrace();
+						}
+
+						sendMessage("enter what Account TYPE you want to create to client  's' / 'c' " +
+								client.getGender().getGenderPrefix() + client.getName());
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client> " + message);
+
+						if(message.equals("s")){
+
+
+							client.setActiveAccount(client.createSavingAccount(balance));
+						} else if (message.equals("c")) {
+
+							client.setActiveAccount(client.createCheckingAccount(overdraft, balance));
+						} else {
+							message = "bye";
+							sendMessage(message);
+							return;
+						}
+
+						client.setInitialOverdraft(overdraft);
+						try {
+							client.setActiveAccount(client.createAccountWithOnlyType(message));
+						} catch (FeedException e) {
+							e.printStackTrace();
+						}
+
+						sendMessage(" Client is add!! " +
+								client.toString()
+								+ " enter new command: ");
+
+						try {
+							message = (String) in.readObject();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						System.out.println("client>" + message);
+
+						if (message.equals("bye")) {
+							break;
+						} else if (message.equals("add")) {
+							continue;
+						} else if (message.equals("remove")) {
+							break;
+						}
+					}
+
+
+				}
+
+				if (message.equals("bye")) {
+					sendMessage("bye");
+
+				}
+			}
+
+			while (!message.equals("bye"));
+
+		} finally {
+			// 4: Closing connection
+			try {
+				in.close();
+				out.close();
+				providerSocket.close();
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+			}
+		}
+	}
+
+
+	void sendMessage (final String msg) {
+		try {
+			out.writeObject(msg);
+			out.flush();
+			System.out.println("server>" + msg);
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		}
+	}
+
+	public static void main (final String args[]) {
+
+
+		BankRemoteOffice bankRemoteOffice = new BankRemoteOffice();
+		BankApplication bankApplication = new BankApplication();
+
+		bankApplication.initialize();
+
+		while (true) {
+
+			bankRemoteOffice.run();
+		}
+	}
 }

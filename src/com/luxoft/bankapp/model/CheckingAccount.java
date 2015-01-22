@@ -11,7 +11,7 @@ import java.util.Map;
 public class CheckingAccount extends AbstractAccount implements Serializable {
 
 
-    private float overdraft = 0; // maximum size of acc
+    private float overdraft = 0;
 
 
     public CheckingAccount(float overdraft, float balance) {

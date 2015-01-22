@@ -62,11 +62,11 @@ public class BankImpl implements BankService {
     }
 
     @Override
-    public void saveClient(Client client) throws IOException { //for Write Client information to File
+    public void saveClient(Client client) throws IOException {
 
         String FilePath = "C:\\Users\\SCJP\\IdeaProjects\\Feed\\FeedObject";
         File file5 = new File(FilePath);
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file5)); //serialization
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file5));
 
 
         oos.writeObject(client);

@@ -1,11 +1,7 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.BankApplication;
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
-import com.luxoft.bankapp.expeption.BankException;
 import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
-import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;

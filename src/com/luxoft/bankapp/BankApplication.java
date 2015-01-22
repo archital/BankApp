@@ -119,33 +119,9 @@ public class BankApplication {
         }
         System.out.println("///////////////Client 1 toString////////////");
         System.out.println(client1.toString());
-        try {
-            System.out.println("///////////////Save Client1 to File////////////");
-            bankService.saveClient(client1);
-            try {
-                System.out.println("///////////////Read Client1 to File////////////");
-                System.out.println();
-                bankService.loadClient(client1);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         System.out.println("///////////////Client 2 toString////////////");
         System.out.println(client2.toString());
-
-        System.out.println("///////////////Client 3 from file////////////");
-        BankFeedService bankFeedService = new BankFeedService();
-        try {
-            bankFeedService.setActiveBank(bank);
-            bankFeedService.loadFeeds("C:\\Users\\SCJP\\IdeaProjects\\Feed\\Folder");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (FeedException e) {
-            e.printStackTrace();
-        }
 
 
     }

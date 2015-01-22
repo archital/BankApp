@@ -35,41 +35,7 @@ public class BankFeedService {
         activeBank.parseFeed(result);
     }
 
-    ;
 
-
-//   public void loadFeeds(String folder) throws IOException, FeedException {
-//
-//           File file = new File(folder);
-//           FileInputStream fileInputStream2;
-//           FileInputStream fileInputStream1;
-//           String s = "";
-//
-//       if(file.exists()){
-//           if(file.isDirectory()) {
-//               String str[] = file.list();
-//              for (int i = 0; i< str.length; i++){
-//                 File file2 = new File (str[i]);
-//                 fileInputStream2 =  new FileInputStream(file);
-//    DataInputStream  dataInputStream2  = new DataInputStream(new BufferedInputStream(fileInputStream2));
-//                  while (dataInputStream2.available() > 0) {
-//                      s =  dataInputStream2.readUTF();
-//                      parseFeed(s);
-//                  }
-//                  dataInputStream2.close();
-//              }
-//           }
-//       else {
-//               fileInputStream1 =  new FileInputStream(file);
-//               DataInputStream  dataInputStream1  = new DataInputStream(new BufferedInputStream(fileInputStream1));
-//               while (dataInputStream1.available() > 0) {
-//                   s =  dataInputStream1.readUTF();
-//                   parseFeed(s);
-//               }
-//               dataInputStream1.close();
-//           }
-//   }}
-//
 
 
     public void loadFeeds(String folder) throws FeedException, IOException {
