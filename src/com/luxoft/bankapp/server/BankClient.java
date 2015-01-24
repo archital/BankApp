@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 /**
- * Created by acer on 20.01.2015.
+ * Created by Arthur Popichenko on 20.01.2015.
  */
 public class BankClient {
 	Socket requestSocket;
@@ -16,6 +16,60 @@ public class BankClient {
 	ObjectInputStream in;
 	String message;
 	static final String SERVER = "localhost";
+
+
+
+	void runCommander () {
+		try {
+			// 1. creating a socket to connect to the server
+			requestSocket = new Socket(SERVER, 2004);
+			System.out.println("Connected to localhost in port 2004");
+			// 2. get Input and Output streams
+			out = new ObjectOutputStream(requestSocket.getOutputStream());
+			out.flush();
+			in = new ObjectInputStream(requestSocket.getInputStream());
+			// 3: Communicating with the server
+			do {
+				try {
+					message = (String) in.readObject();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				System.out.println("server>" + message);
+
+				if (!message.equals("bye")) {
+
+					Scanner scanner = new Scanner(System.in);
+					StringBuilder sb = new StringBuilder();
+
+					sb.append(scanner.nextLine().trim());
+
+					message = sb.toString();
+					sb.delete(0, sb.length());
+
+					sendMessage(message);
+				}
+				else {
+					sendMessage("bye");
+				}
+			} while (!message.equals("bye"));
+		} catch (UnknownHostException unknownHost) {
+			System.err.println("You are trying to connect to an unknown host!");
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		} finally {
+			// 4: Closing connection
+			try {
+				in.close();
+				out.close();
+				requestSocket.close();
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+			}
+		}
+	}
+
+
 
 	void run () {
 		try {
@@ -78,9 +132,12 @@ public class BankClient {
 							sb.delete(0, sb.length());
 							sendMessage(message);
 							message = (String) in.readObject();
-							System.out.println("server>!!!!" + message);
+							System.out.println("server>" + message);
 
-
+							if (message.equals("bye")) {
+								System.out.println("Amount was to much!");
+								break;
+							}
 							sb.append(scanner.nextLine().trim());
 
 							message = sb.toString();
@@ -192,6 +249,7 @@ public class BankClient {
 							System.out.println("server>" + message);
 
 							if (message.equals("bye")) {
+								System.out.println("Client is already exists ");
 								break;
 							}
 							sb.append(scanner.nextLine().trim());
@@ -365,15 +423,32 @@ public class BankClient {
 	public static void main (final String args[]) {
 		BankClient client = new BankClient();
 		//client.run();   // This method run connection to BankServer
-		                  //you can enter and run command "balance" = to see client's balance
-		                  // "withdraw" = to take money from account
-		                  // "bye" = to exit
+		//you can enter and run command:
+
+		// "balance" = to see client's balance
+		// "withdraw" = to take money from account
+		// "bye" = to exit
 
 
-		  client.runBankRemote(); // This method run connection to BankRemoteOffice
-		                          //you can enter and run command "remove" = to remove client
-		                          // "add" = to add client
-		                          // "bye" = to exit
+	//	client.runBankRemote(); // This method run connection to BankRemoteOffice
+		//you can enter and run command:
+
+		// "remove" = to remove client
+		// "add" = to add client
+		// "bye" = to exit
+
+		client.runCommander(); // This method run connection to CommanderServer
+		//you can enter and run command:
+
+		// "remove" = to remove client
+		// "add" = to add client
+		// "bye" = to exit
+		// "find" =
+		// "balance" = to get information about all accounts and total balance
+		// "transfer" = to take money from one account to another
+		// "withdraw" = to take money from account
+		// "deposit" = to put money to active account
 	}
 
 }
+

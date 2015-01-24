@@ -1,7 +1,16 @@
+
+
+
+
+
 package com.luxoft.bankapp.command;
 
 import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.server.CommanderServer;
+import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.BankService;
 import com.luxoft.bankapp.service.Gender;
 
 import java.util.Scanner;
@@ -13,103 +22,123 @@ import java.util.regex.Pattern;
  */
 public class AddClientCommand implements Command {
 
+    private InputOutput inOut;
+    private Bank currentBank;
+     private Gender gender;
+
+    public AddClientCommand (InputOutput inOut, Bank currentBank) {
+        this.inOut = inOut;
+        this.currentBank = currentBank;
+
+    }
+
+    public AddClientCommand () {
+    }
+
     @Override
     public void execute() throws ClientExistsException {
-        if (BankCommander.currentBank == null) {
-            System.out.println("Error!!! Current bank is undefined");
+        if (currentBank == null) {
+            inOut.println("Error!!! Current bank is undefined");
             return;
         }
-        StringBuilder sb = new StringBuilder();
-        Scanner scanner = new Scanner(System.in);
+        inOut.println("Input client name: ");
 
-        while (sb.length() == 0) {
-            System.out.println("Input client name: ");
-            sb.delete(0, sb.length());
-            sb.append(scanner.nextLine().trim());
-        }
-        String clientName = sb.toString();
-        sb.delete(0, sb.length());
+        String name = inOut.readln();
 
-        while (sb.length() == 0) {
-            System.out.println("Input client gender ( M/F ): ");
-            sb.delete(0, sb.length());
-            sb.append(scanner.nextLine().trim());
+        Client currentClient = null;
+        BankImpl bankImp = new BankImpl();
+
+
+        try {
+            currentClient = bankImp.getClient(currentBank, name);
+        } catch (ClientExistsException e) {
+            e.printStackTrace();
         }
-        Pattern pattern = Pattern.compile("[MmFf]");
-        Matcher matcher = pattern.matcher(sb);
-        if (!matcher.matches()) {
-            System.out.println("Error!!! Illegal gender description");
+
+
+        if (!(currentClient == null)) {
+            inOut.println("Error!!! Client with that name already added ");
             return;
         }
-        Gender gender;
-        if (sb.toString().equals("m") || sb.toString().equals("M"))
+
+        inOut.println("Input client gender ( M/F ): ");
+
+         String gend = inOut.readln();
+
+            Pattern pattern = Pattern.compile("[MmFf]");
+        Matcher matcher = pattern.matcher(gend);
+
+            if (gend.equals("m")||gend.equals("M")) {
             gender = Gender.MALE;
-        else {
+                inOut.println("Input client overdraft: ");
+    } else if (gend.equals("f")||gend.equals("F")) {
             gender = Gender.FEMALE;
-        }
-        sb.delete(0, sb.length());
+                inOut.println("Input client overdraft: ");
+  } else if (!matcher.matches()){
+                inOut.println("Error!!! Illegal gender description");
+                return;
+            }
 
-        while (sb.length() == 0) {
-            System.out.println("Input client overdraft: ");
-            sb.delete(0, sb.length());
-            sb.append(scanner.nextLine().trim());
-        }
+
+
         float overdraft;
         try {
-            overdraft = Float.parseFloat(sb.toString());
+            overdraft = Float.parseFloat(inOut.readln());
         } catch (RuntimeException e) {
-            System.out.println("Error!!! Illegal number value. ");
+            inOut.println("Error!!! Illegal number value. ");
             return;
         }
         if (overdraft < 0) {
-            System.out.println("Error!!! Value must be positive. ");
+            inOut.println("Error!!! Value must be positive. ");
             return;
         }
-        sb.delete(0, sb.length());
 
-        while (sb.length() == 0) {
-            System.out.println("Input client telephone number: ");
-            sb.delete(0, sb.length());
-            sb.append(scanner.nextLine().trim());
-        }
+            inOut.println("Input client telephone number: ");
+
         pattern = Pattern.compile("^\\(?|^\\+?(\\d{3}|\\d{5})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$");
-        matcher = pattern.matcher(sb);
-        if (!matcher.matches()) {
-            System.out.println("Error!!! Illegal telephone number.");
-            return;
-        }
-        String telString = sb.toString();
-        sb.delete(0, sb.length());
 
-        while (sb.length() == 0) {
-            System.out.println("Input client e-mail: ");
-            sb.delete(0, sb.length());
-            sb.append(scanner.nextLine().trim());
-        }
-        pattern = Pattern.compile("([a-zA-Z][\\w]*)@([a-zA-Z][\\w]*[.])*((net)|(com)|(org))");
-        matcher = pattern.matcher(sb);
+       String telephone = inOut.readln().trim();
+        matcher = pattern.matcher(telephone);
         if (!matcher.matches()) {
-            System.out.println("Error!!! Illegal e-mail address.");
+            inOut.println("Error!!! Illegal telephone number.");
             return;
         }
+
+
+            inOut.println("Input client e-mail: ");
+
+
+        pattern = Pattern.compile("([a-zA-Z][\\w]*)@([a-zA-Z][\\w]*[.])*((net)|(com)|(org))");
+
+        String email = inOut.readln().trim();
+        matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            inOut.println("Error!!! Illegal e-mail address.");
+            return;
+        }
+
+        inOut.println("Enter Client City ");
+        String city = inOut.readln();
 
         Client client = new Client();
-        client.setEmail(sb.toString());
-        client.setName(clientName);
-        client.setInitialOverdraft(overdraft);
-        client.setTelephoneNumber(telString);
-        client.setGender(gender);
 
-        System.out.println("Client is added: " + client.toString());
-        BankCommander.service.addClient(BankCommander.currentBank, client);
-        BankCommander.currentClient = client;
+        client.setName(name);
+        client.setInitialOverdraft(overdraft);
+        client.setTelephoneNumber(telephone);
+        client.setGender(gender);
+        client.setEmail(email);
+        client.setCity(city);
+
+        bankImp.addClient(currentBank , client);
+        currentClient = client;
         System.out.println("Client is selected: ");
-        System.out.println(client.toString());
+        inOut.println("Client is added and selected as 'current client': " + client.toString()+"\n enter 'back'/ 'exit' or 'bye'" );
     }
 
     @Override
     public void printCommandInfo() {
-        System.out.print("Add Client");
+        inOut.println("Add Client");
     }
+
 }
 

@@ -1,7 +1,9 @@
 package com.luxoft.bankapp.command;
 
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
+import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.BankImpl;
 
 import java.util.Scanner;
 
@@ -9,52 +11,61 @@ import java.util.Scanner;
  * Created by acer on 15.01.2015.
  */
 public class TransferCommand implements Command {
+
+    private InputOutput inOut;
+    private Bank currentBank;
+    private Client currentClient;
+    private float amount = 0;
+
+
+    public TransferCommand (InputOutput inputOutput, Bank currentBank, Client currentClient) {
+
+        this.inOut = inputOutput;
+        this.currentBank = currentBank;
+        this.currentClient = currentClient;
+    }
+
+    public TransferCommand () {
+    }
+
     @Override
     public void execute() {
+
+        BankImpl bankImp = new BankImpl();
+
         if (BankCommander.currentBank == null) {
-            System.out.println("Error!!! Current bank is undefined");
+           inOut.println("Error!!! Current bank is undefined");
             return;
         }
-        StringBuilder sb = new StringBuilder();
-        Scanner scanner = new Scanner(System.in);
-        Client client = null;
-        int amount = 0;
-
-
-        client = BankCommander.currentClient;
-
-
-        if (client == null) {
-            System.out.println("Error!!! Client with such name was not found.");
+        if (currentClient == null) {
+            inOut.println("Error!!! Client with such name was not found.");
             return;
         }
-        if (client.getAccounts().isEmpty()) {
-            System.out.println("Client: " + client.getGender().getGenderPrefix() + client.getName() + "haven't any accouns in Bank number " + BankCommander.currentBank.getBankNumber());
+        if (currentClient.getAccounts().isEmpty()) {
+            inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any account in Bank number " + currentBank.getBankNumber());
             return;
-        } else {
-            System.out.println("Enter amount that you want to get from active account: ");
-            amount = Integer.parseInt(scanner.nextLine().trim());
+        } else{
+            inOut.println("Enter amount that you want to get from active account: ");
+            amount = Float.parseFloat(inOut.readln());
             try {
-                client.getActiveAccount().withdraw(amount);
+                currentClient.getActiveAccount().withdraw(amount);
             } catch (NotEnoughFundsException e) {
                 e.printStackTrace();
             }
-            while (sb.length() == 0) {
-                System.out.println("Input client name whom you want to transfer money: ");
-                sb.delete(0, sb.length());
-                sb.append(scanner.nextLine().trim());
-            }
-            String clientName = sb.toString();
-            sb.delete(0, sb.length());
 
+                inOut.println("Input client name whom you want to transfer money: ");
 
-            client = BankCommander.service.findClient(BankCommander.currentBank, clientName.toString());
+            String clientName = inOut.readln();
+
+             Client client = null;
+            client = bankImp.findClient(currentBank, clientName);
             if (client == null) {
-                System.out.println("Error!!! Client with such name was not found.");
+                inOut.println("Error!!! Client with such name was not found.");
                 return;
             } else {
 
                 client.getActiveAccount().deposit(amount);
+                inOut.println(client.toString()+ "\n Successful transfer, enter 'back'/ 'exit' or 'bye' ");
             }
         }
 
@@ -64,6 +75,6 @@ public class TransferCommand implements Command {
 
     @Override
     public void printCommandInfo() {
-        System.out.print("Transfer command");
+        inOut.println("Transfer command");
     }
 }

@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.server;
 
-import com.luxoft.bankapp.BankApplication;
+
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.FeedException;
 import com.luxoft.bankapp.model.Bank;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 /**
  * Created by SCJP on 21.01.2015.
  */
-public class BankRemoteOffice {
+public class BankRemoteOffice extends AbstractServer {
 
 	ServerSocket providerSocket;
 	Socket connection = null;
@@ -27,7 +27,9 @@ public class BankRemoteOffice {
 	ObjectInputStream in;
 	String message;
 
-	public static Bank currentBank = new Bank();
+
+
+	public static Bank currentBank = null;
 	public static Client currentClient = null;
 	public static float amount;
 
@@ -110,7 +112,7 @@ public class BankRemoteOffice {
 						}
 
 
-						if (currentClient == null) {
+						if (currentClient.equals(null)) {
 							System.out.println("Error!!! This Client is already delete.");
 
 							sendMessage("bye");
@@ -396,9 +398,10 @@ public class BankRemoteOffice {
 
 
 		BankRemoteOffice bankRemoteOffice = new BankRemoteOffice();
-		BankApplication bankApplication = new BankApplication();
+		AbstractServer abstractServer = new AbstractServer();
 
-		bankApplication.initialize();
+		abstractServer.initialize();
+		currentBank = abstractServer.getCurrentBank();
 
 		while (true) {
 

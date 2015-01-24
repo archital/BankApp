@@ -16,10 +16,10 @@ public class OverDraftLimitExceededException extends NotEnoughFundsException {
         return sumClientThatClientCanTake;
     }
 
-    public OverDraftLimitExceededException(float overdriftPlusBalance, float sumClientWant) {
+    public OverDraftLimitExceededException(float sumClientWant) {
 
 
-        this.sumClientThatClientCanTake = overdriftPlusBalance - sumClientWant;
+        this.sumClientThatClientCanTake =  sumClientWant;
 
 
     }

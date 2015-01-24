@@ -60,7 +60,7 @@ public class BankApplication {
     public void initialize() {
         // create first client
         Account account1ForClient1 = new SavingAccount(100);
-        Account account2ForClient1 = new CheckingAccount(2, 50);
+        Account account2ForClient1 = new CheckingAccount(234, 5021);
         Client client1 = new Client();
         client1.setName("Peter");
         client1.setGender(Gender.MALE);
@@ -71,7 +71,7 @@ public class BankApplication {
 
         // create second client
         Account account1ForClient2 = new SavingAccount(20);
-        Account account2ForClient2 = new CheckingAccount(4, 35);
+        Account account2ForClient2 = new CheckingAccount(345345, 35324);
         Client client2 = new Client();
         client2.setName("Ludmila");
         client2.setGender(Gender.FEMALE);

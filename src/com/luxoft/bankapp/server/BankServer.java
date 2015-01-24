@@ -13,17 +13,19 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class BankServer {
+public class BankServer extends  AbstractServer{
 	ServerSocket providerSocket;
 	Socket connection = null;
 	ObjectOutputStream out;
 	ObjectInputStream in;
 	String message;
 
-	public static Bank currentBank = new Bank();
+	public static Bank currentBank = null;
 	public static Client currentClient = null;
 	public static BankApplication bankApplication = new BankApplication();
 	public static float amount;
+
+
 
 
 
@@ -43,6 +45,7 @@ public class BankServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			System.out.println("Connection received from "
 					+ connection.getInetAddress().getHostName());
 			// 3. get Input and Output streams
@@ -235,9 +238,12 @@ public class BankServer {
 
 	public static void main (final String args[]) {
 
-		BankApplication bankApplication = new BankApplication();
-		bankApplication.initialize(); //initialized server with data
+		AbstractServer abstractServer = new AbstractServer();
+		abstractServer.initialize();           //initialized server with data
+		currentBank = abstractServer.getCurrentBank();
 		BankServer server = new BankServer();
+
+
 		while (true) {
 
 			server.run();

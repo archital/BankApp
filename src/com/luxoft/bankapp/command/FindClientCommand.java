@@ -1,7 +1,9 @@
 package com.luxoft.bankapp.command;
 
 import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.server.CommanderServer;
 import com.luxoft.bankapp.service.BankImpl;
 
 import java.util.Scanner;
@@ -10,38 +12,50 @@ import java.util.Scanner;
  * Created by acer on 15.01.2015.
  */
 public class FindClientCommand implements Command {
+
+    private InputOutput inOut;
+    private Bank currentBank;
+
+
+    public FindClientCommand (InputOutput inputOutput, Bank currentBank) {
+    this.inOut = inputOutput;
+    this.currentBank = currentBank;
+
+    }
+
+    public FindClientCommand () {
+    }
+
+
     @Override
     public void execute() {
-        if (BankCommander.currentBank == null) {
-            System.out.println("Error!!! Current bank is undefined.");
+        if (currentBank == null) {
+            inOut.println("Error!!! Current bank is undefined.");
             return;
         }
 
-        StringBuilder name = new StringBuilder();
-        Scanner scanner = new Scanner(System.in);
-        while (name.length() == 0) {
-            System.out.println("Input client name: ");
-            name.delete(0, name.length());
-            name.append(scanner.nextLine().trim());
-        }
+                inOut.println("Input client name: ");
+           String name = inOut.readln().trim();
+
+
         Client client = null;
         BankImpl bankImp = new BankImpl();
         try {
-            client = bankImp.getClient(BankCommander.currentBank, name.toString());
+            client = bankImp.getClient(currentBank, name);
         } catch (ClientExistsException e) {
             e.printStackTrace();
         }
         if (client == null) {
-            System.out.println("Error!!! Client with such name was not found.");
+            inOut.println("Error!!! Client with such name was not found.");
             return;
         }
-        BankCommander.currentClient = client;
+        CommanderServer.currentClient = client;
         System.out.println("Client is selected: ");
-        System.out.println(client.toString());
+        inOut.println(client.toString() + "\n enter new command 'back'/ 'exit' or 'bye'");
     }
 
     @Override
     public void printCommandInfo() {
-        System.out.print("Find Client");
+        inOut.println("Find Client");
     }
 }
