@@ -55,7 +55,10 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
 
     @Override
     public float decimalValue() {
-        return 0;
+
+       float res = (float) (Math.rint(100.0 * getBalance()) / 100.0);
+
+        return res;
     }
 
     @Override

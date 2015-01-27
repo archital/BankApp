@@ -190,43 +190,6 @@ public class Client implements Report, Serializable {
         this.initialOverdraft = initialOverdraft;
     }
 
-    public Account createCheckingAccount(float overdraft, float balance) {
-        CheckingAccount checkingAccount1 = null;
-        if (overdraft >= 0) {
-            checkingAccount1 = new CheckingAccount(overdraft, balance);
-            addAccount(checkingAccount1);
-            return checkingAccount1;
-        } else {
-            throw new IllegalArgumentException("Overdraft must be more or equals 0");
-
-        }
-    }
-
-    public Account createSavingAccount(float balance) {
-        SavingAccount savingAccount1 = new SavingAccount(balance);
-        addAccount(savingAccount1);
-        return savingAccount1;
-    }
-
-
-    public void createAccount(String accountType, float overdraft, float balance) throws IllegalArgumentException {
-        CheckingAccount checkingAccount1 = null;
-        if (accountType.equals("c")) {
-            if (overdraft >= 0) {
-                checkingAccount1 = new CheckingAccount(overdraft, balance);
-                addAccount(checkingAccount1);
-            } else {
-                throw new IllegalArgumentException("Overdraft must be more or equals 0");
-
-            }
-        }
-        SavingAccount savingAccount1 = null;
-        if (accountType.equals("s")) {
-            savingAccount1 = new SavingAccount(balance);
-            addAccount(savingAccount1);
-        }
-    }
-
 
     @Override
     public boolean equals(Object o) {

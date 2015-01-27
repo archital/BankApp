@@ -4,6 +4,7 @@ package com.luxoft.bankapp.server;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.FeedException;
 import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.Gender;
@@ -321,21 +322,25 @@ public class BankRemoteOffice extends AbstractServer {
 						if(message.equals("s")){
 
 
-							client.setActiveAccount(client.createSavingAccount(balance));
-						} else if (message.equals("c")) {
+                            try {
+                                client.setActiveAccount(client.createAccountWithOnlyType("s"));
+	                            client.getActiveAccount().setBalance(balance);
+                            } catch (FeedException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (message.equals("c")) {
 
-							client.setActiveAccount(client.createCheckingAccount(overdraft, balance));
-						} else {
+                            try {
+	                            CheckingAccount checkingAccount = (CheckingAccount) client.createAccountWithOnlyType("c");
+	                            checkingAccount.setOverdraft(overdraft);
+                                client.setActiveAccount(checkingAccount);
+                            } catch (FeedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
 							message = "bye";
 							sendMessage(message);
 							return;
-						}
-
-						client.setInitialOverdraft(overdraft);
-						try {
-							client.setActiveAccount(client.createAccountWithOnlyType(message));
-						} catch (FeedException e) {
-							e.printStackTrace();
 						}
 
 						sendMessage(" Client is add!! " +
