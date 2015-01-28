@@ -55,7 +55,7 @@ public class AbstractServer {
 
 		currentBank = new Bank();
 		currentBank = new Bank(listeners);
-		currentBank.setBankNumber(1);
+		currentBank.setId(1);
 		BankService bankService = new BankImpl();
 		try {
 			bankService.addClient( currentBank, client1);

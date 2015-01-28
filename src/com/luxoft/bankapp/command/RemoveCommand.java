@@ -11,14 +11,13 @@ import com.luxoft.bankapp.service.BankImpl;
 public class RemoveCommand implements Command {
 
 
-	private InputOutput inOut;
+
 	private Bank currentBank;
 
 
 
-	public RemoveCommand (InputOutput inputOutput, Bank currentBank) {
+	public RemoveCommand (Bank currentBank) {
 
-		this.inOut = inputOutput;
 		this.currentBank = currentBank;
 	}
 

@@ -8,12 +8,9 @@ package com.luxoft.bankapp.command;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.server.CommanderServer;
 import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.BankService;
 import com.luxoft.bankapp.service.Gender;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,12 +19,12 @@ import java.util.regex.Pattern;
  */
 public class AddClientCommand implements Command {
 
-    private InputOutput inOut;
+
     private Bank currentBank;
      private Gender gender;
 
-    public AddClientCommand (InputOutput inOut, Bank currentBank) {
-        this.inOut = inOut;
+    public AddClientCommand (Bank currentBank) {
+
         this.currentBank = currentBank;
 
     }

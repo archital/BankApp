@@ -6,19 +6,17 @@ import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.server.CommanderServer;
 import com.luxoft.bankapp.service.BankImpl;
 
-import java.util.Scanner;
-
 /**
  * Created by acer on 15.01.2015.
  */
 public class FindClientCommand implements Command {
 
-    private InputOutput inOut;
+
     private Bank currentBank;
 
 
-    public FindClientCommand (InputOutput inputOutput, Bank currentBank) {
-    this.inOut = inputOutput;
+    public FindClientCommand (Bank currentBank) {
+
     this.currentBank = currentBank;
 
     }

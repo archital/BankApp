@@ -5,22 +5,19 @@ import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
 
-import java.util.Scanner;
-
 /**
  * Created by acer on 15.01.2015.
  */
 public class TransferCommand implements Command {
 
-    private InputOutput inOut;
     private Bank currentBank;
     private Client currentClient;
     private float amount = 0;
 
 
-    public TransferCommand (InputOutput inputOutput, Bank currentBank, Client currentClient) {
+    public TransferCommand (Bank currentBank, Client currentClient) {
 
-        this.inOut = inputOutput;
+
         this.currentBank = currentBank;
         this.currentClient = currentClient;
     }
@@ -42,7 +39,7 @@ public class TransferCommand implements Command {
             return;
         }
         if (currentClient.getAccounts().isEmpty()) {
-            inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any account in Bank number " + currentBank.getBankNumber());
+            inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any account in Bank number " + currentBank.getId());
             return;
         } else{
             inOut.println("Enter amount that you want to get from active account: ");

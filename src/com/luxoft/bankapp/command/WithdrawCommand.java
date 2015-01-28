@@ -4,21 +4,19 @@ import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
-import java.util.Scanner;
 
 /**
  * Created by acer on 15.01.2015.
  */
 public class WithdrawCommand implements Command {
 
-    private InputOutput inOut;
     private Bank currentBank;
     private Client currentClient;
     private float amount = 0;
 
-    public WithdrawCommand (InputOutput inputOutput, Bank currentBank, Client currentClient) {
+    public WithdrawCommand (Bank currentBank, Client currentClient) {
 
-        this.inOut = inputOutput;
+
         this.currentBank = currentBank;
         this.currentClient = currentClient;
     }
@@ -38,7 +36,7 @@ public class WithdrawCommand implements Command {
                 return;
             }
             if (currentClient.getAccounts().isEmpty()) {
-                inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getBankNumber());
+                inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
                 return;
             } else {
                 inOut.println("Enter amount that you want to get: ");

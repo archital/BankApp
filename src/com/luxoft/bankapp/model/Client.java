@@ -14,6 +14,20 @@ import java.util.Set;
  */
 public class Client implements Report, Serializable {
 
+    private int id;
+
+    private static final long serialVersionUID = 1L;
+
+
+    private Gender gender;
+    private String name = "";
+    private String telephoneNumber = "";
+    private String email = "";
+    private Set<Account> accounts = new HashSet<Account>();
+    private float initialOverdraft;
+    private Account activeAccount;
+    private String city = "";
+
 
     @Override
     public void printReport() {  //Вывести информацию о клиентах и всех его считать
@@ -30,16 +44,13 @@ public class Client implements Report, Serializable {
 
     }
 
-    private static final long serialVersionUID = 1L;
+    public int getId() {
+        return id;
+    }
 
-    private Gender gender;
-    private String name = "";
-    private String telephoneNumber = "";
-    private String email = "";
-    private Set<Account> accounts = new HashSet<Account>();
-    private float initialOverdraft;
-    private Account activeAccount;
-    private String city = "";
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Client(String name) {
         this.name = name;
@@ -164,6 +175,9 @@ public class Client implements Report, Serializable {
         return accounts;
     }
 
+
+
+
     public float getBalance() {
 
         float balance = 0;
@@ -228,8 +242,12 @@ public class Client implements Report, Serializable {
         stringBuilder.append(getEmail());
         stringBuilder.append(" telephone : ");
         stringBuilder.append(getTelephoneNumber());
+        stringBuilder.append(" City: ");
+        stringBuilder.append(getCity());
         stringBuilder.append(" Total balance: ");
         stringBuilder.append(getBalance());
+        stringBuilder.append(" initial overdraft: ");
+        stringBuilder.append(getInitialOverdraft());
         stringBuilder.append(" Accounts: ");
         for (Account ac : accounts) {
             stringBuilder.append(ac.toString());

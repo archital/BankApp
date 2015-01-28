@@ -121,7 +121,7 @@ public class BankServer extends  AbstractServer{
 
 						if (currentClient.getAccounts().isEmpty()) {
 							sendMessage("Client: " + currentClient.getGender().getGenderPrefix() +
-									currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getBankNumber());
+									currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
 							return;
 						} else {
 							sendMessage(currentClient.getAccounts().toString() + "Total balance: " + Float.toString(currentClient.getBalance())
@@ -152,7 +152,7 @@ public class BankServer extends  AbstractServer{
 
 						if (currentClient.getAccounts().isEmpty()) {
 							sendMessage("Client: " + currentClient.getGender().getGenderPrefix() +
-									currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getBankNumber());
+									currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
 							return;
 						} else {
 							sendMessage("Enter amount that you want to get: ");

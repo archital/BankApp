@@ -3,7 +3,6 @@ package com.luxoft.bankapp.command;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
-import java.util.Scanner;
 
 /**
  * Created by acer on 15.01.2015.
@@ -11,14 +10,13 @@ import java.util.Scanner;
 public class DepositCommand implements Command {
 
 
-    private InputOutput inOut;
+
     private Bank currentBank;
     private Client currentClient;
 
 
-    public DepositCommand (InputOutput inputOutput, Bank currentBank, Client currentClient) {
+    public DepositCommand (Bank currentBank, Client currentClient) {
 
-        this.inOut = inputOutput;
         this.currentBank = currentBank;
         this.currentClient = currentClient;
     }
@@ -34,7 +32,7 @@ public class DepositCommand implements Command {
             }
 
             if (currentClient.getAccounts().isEmpty()) {
-                inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getBankNumber());
+                inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
                 return;
             } else {
                 inOut.println("Enter amount that you want to put to active account: ");

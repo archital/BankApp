@@ -1,12 +1,12 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
+import com.luxoft.bankapp.dao.*;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.Gender;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -16,6 +16,9 @@ public class BankCommander {
     public static Bank currentBank;
     public static Client currentClient = null;
     public static BankService service = new BankImpl();
+    static String bankName = "My Bank";
+
+
 
 
     public void registerCommand(String name, Command command) {
@@ -52,83 +55,119 @@ public class BankCommander {
 
     }
 
-    static {
-        // first client
-        Account account1ForClient1 = new SavingAccount(100);
-        Account account2ForClient1 = new CheckingAccount(2, 50);
-        Client client1 = new Client();
-        client1.setName("Peter");
-        client1.setGender(Gender.MALE);
-        client1.setEmail("qq@mail.ru");
-        client1.setTelephoneNumber("+380953434243");
-        client1.setCity("Dnepr");
-        client1.setActiveAccount(account1ForClient1);
-
-        // second client
-        Account account1ForClient2 = new SavingAccount(20);
-        Account account2ForClient2 = new CheckingAccount(4, 35);
-        Client client2 = new Client();
-        client2.setName("Ludmila");
-        client2.setGender(Gender.FEMALE);
-        client2.setEmail("qq@gmail.com");
-        client2.setTelephoneNumber("+380952342243");
-        client1.setCity("Lvov");
-        client2.setActiveAccount(account1ForClient2);
-
-
-        List<ClientRegistrationListener> listeners = new ArrayList();
-
-        currentBank = new Bank(1);
-        currentBank = new Bank(listeners);
-        currentBank.setBankNumber(1);
-        BankService bankService = new BankImpl();
-        try {
-            bankService.addClient(currentBank, client1);
-        } catch (ClientExistsException e) {
-            e.printStackTrace();
-        }
-        try {
-            bankService.addClient(currentBank, client2);
-        } catch (ClientExistsException e) {
-            e.printStackTrace();
-        }
-        try {
-            bankService.addAccount(client1, account1ForClient1);
-        } catch (ClientExistsException e) {
-            e.printStackTrace();
-        }
-        try {
-            bankService.addAccount(client1, account2ForClient2);
-        } catch (ClientExistsException e) {
-            e.printStackTrace();
-        }
-        try {
-            bankService.addAccount(client2, account1ForClient2);
-        } catch (ClientExistsException e) {
-            e.printStackTrace();
-        }
-        try {
-            bankService.addAccount(client2, account2ForClient1);
-        } catch (ClientExistsException e) {
-            e.printStackTrace();
-        }
-        System.out.println("///////////////Client1 toString////////////");
-        System.out.println(client1.toString());
-        System.out.println("///////////////Client2 toString////////////");
-        System.out.println(client2.toString());
-    }
-
 
     static Map<String, Command> commandMap = new HashMap<String, Command>();
 
 
     public static void main(String args[]) {
-        commandMap.put("0", new FindClientCommand());
-        commandMap.put("1", new GetAccountsCommand());
-        commandMap.put("2", new WithdrawCommand());
-        commandMap.put("3", new DepositCommand());
-        commandMap.put("4", new TransferCommand());
-        commandMap.put("5", new AddClientCommand());
+
+        BankDAO bankDAO = new BankDAOImpl();
+        try {
+            currentBank = bankDAO.getBankByName(bankName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        System.out.println(currentBank.toString());
+//
+//        ClientDAO clientDAO = new ClientDAOImpl();
+//
+//        System.out.println("Find client by name");
+//        try {
+//          currentClient =  clientDAO.findClientByName(currentBank, "Nana");
+//        } catch (ClientNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//
+//        System.out.println("current client " + currentClient.toString());
+//        System.out.println("Find client by id");
+//
+//        try {
+//            currentClient = clientDAO.findClientById(3);
+//        } catch (ClientNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (ClientExistsException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("current client " +currentClient.toString());
+//
+//
+//
+//
+//        try {
+//
+//            System.out.println("save Client");
+//            clientDAO.save(currentClient, currentBank.getId());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//
+//        System.out.println("get All Clients ");
+//
+//        try {
+//            List<Client> clientList = clientDAO.getAllClients(currentBank);
+//
+//            for (Client c : clientList) {
+//
+//                System.out.println(c.toString());
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+
+//        System.out.println("remove Client");
+//        try {
+//            clientDAO.remove(currentClient);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+//
+//        System.out.println("get Client Accounts");
+//
+//        AccountDAO accountDAO = new AccountDAOImpl();
+//        try {
+//            List<Account> accounts =    accountDAO.getClientAccounts(currentClient.getId());
+//
+//            for (Account a : accounts) {
+//
+//                currentClient.setActiveAccount(a);
+//                System.out.println(a.toString());
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+//
+//        System.out.println("save Account");
+//
+//        try {
+//            accountDAO.save(currentClient.getActiveAccount(), currentClient);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+
+
+        commandMap.put("0", new FindClientCommand(currentBank));
+        commandMap.put("1", new GetAccountsCommand(currentBank));
+        commandMap.put("2", new WithdrawCommand(currentBank));
+        commandMap.put("3", new DepositCommand(currentBank));
+        commandMap.put("4", new TransferCommand(currentBank));
+        commandMap.put("5", new AddClientCommand(currentBank));
         commandMap.put("6", new Command() { // 6 - Exit Command
             public void execute() {
                 System.exit(0);

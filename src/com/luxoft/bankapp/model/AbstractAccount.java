@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public abstract class AbstractAccount implements Account, Serializable {
 
+    private int id;
     private float balance = 0;
 
 
@@ -25,6 +26,14 @@ public abstract class AbstractAccount implements Account, Serializable {
     public void deposit(float x) {
         Float b = getBalance() + x;
         balance = b;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

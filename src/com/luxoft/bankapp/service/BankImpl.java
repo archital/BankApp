@@ -55,7 +55,7 @@ public class BankImpl implements BankService {
         }
 
         if (findClient == null) {
-            System.out.println("Person with that name is not a client of Bank" + bank.getBankNumber());
+            System.out.println("Person with that name is not a client of Bank" + bank.getId());
         }
 
         return null;

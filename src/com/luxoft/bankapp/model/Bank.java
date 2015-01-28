@@ -12,6 +12,10 @@ import java.util.*;
  */
 public class Bank {
 
+    private int id;
+    private String name;
+
+
     public List<ClientRegistrationListener> listeners = new ArrayList();
 
     private Set<Client> clients = new HashSet<Client>();
@@ -22,7 +26,7 @@ public class Bank {
         return clients;
     }
 
-    private long bankNumber;
+
 
 
     public void parseFeed(Map<String, String> feedMap) throws IllegalArgumentException, FeedException {
@@ -51,6 +55,13 @@ public class Bank {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void removeClient(Client client) {
         clients.remove(client);
@@ -63,31 +74,28 @@ public class Bank {
     ;
 
     public void printReport() {
-        System.out.println("Bank number " + getBankNumber() + " report: ");
+        System.out.println( " report: ");
         for (Client c : getClients()) {
             System.out.println();
             c.printReport();
         }
     }
 
-    public Bank(int bankNumber) {
-        this.bankNumber = bankNumber;
+    public int getId() {
+        return id;
     }
 
-    public long getBankNumber() {
-        return bankNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setBankNumber(long bankNumber) {
-        this.bankNumber = bankNumber;
-    }
 
     public Bank() {
         this.listeners.add(new ClientRegistrationListener() {
 
             @Override
             public void onClientAdded(Client client) {
-                System.out.println("New client added, " + client.getName() + " " + new Date() + " to Bank number №" + getBankNumber());
+                System.out.println("New client added, " + client.getName() + " " + new Date() + " to Bank " + getId());
                 clientMap.put(client.getName(), client);
 
             }
@@ -114,6 +122,15 @@ public class Bank {
         public void onClientAdded(Client c) {
             System.out.println("Notification email for client " + c.getGender().getGenderPrefix() + " " + c.getName() + "to be sent");
         }
+    }
+
+
+    @Override
+    public String toString () {
+        return "Bank{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     public Map<String, Client> getClientMap() {

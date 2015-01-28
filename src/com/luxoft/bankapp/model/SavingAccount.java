@@ -11,6 +11,8 @@ import java.util.Map;
 public class SavingAccount extends AbstractAccount implements Serializable {
 
 
+
+
     public void parseFeed(Map<String, String> feed) {
         float overdraft = Float.parseFloat(feed.get("overdraft"));
         float balance = Float.parseFloat(feed.get("balance"));
@@ -24,6 +26,7 @@ public class SavingAccount extends AbstractAccount implements Serializable {
         setBalance(balance);
 
     }
+
 
     @Override
     public void printReport() {

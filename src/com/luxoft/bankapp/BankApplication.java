@@ -85,7 +85,7 @@ public class BankApplication {
 
         bank = new Bank();
         bank = new Bank(listeners);
-        bank.setBankNumber(1);
+        bank.setId(1);
         BankService bankService = new BankImpl();
         try {
             bankService.addClient(bank, client1);

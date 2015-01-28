@@ -14,6 +14,7 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     private float overdraft = 0;
 
 
+
     public CheckingAccount(float overdraft, float balance) {
         this.overdraft = overdraft;
         setBalance(balance);
@@ -25,6 +26,8 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
         CheckingAccount checkingAccount = new CheckingAccount(overdraft, balance);
 
     }
+
+
 
     public void setOverdraft(float overdraft) {
         this.overdraft = overdraft;
@@ -66,6 +69,7 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
         System.out.print("Checking Account");
         System.out.println("Balance: " + getBalance() + "} ");
     }
+
 
     @Override
     public String toString() {
