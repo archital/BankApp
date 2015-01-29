@@ -17,7 +17,7 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
 
     public CheckingAccount(float overdraft, float balance) {
         this.overdraft = overdraft;
-        setBalance(balance);
+        this.balance = balance;
     }
 
     public void parseFeed(Map<String, String> feed) {
@@ -45,14 +45,14 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     public void withdraw(float x) throws OverDraftLimitExceededException {
         if (x > getBalance()) {
 
-            this.overdraft = overdraft - (x - getBalance());
+            overdraft = overdraft - (x - getBalance());
             if(overdraft < 0 ){
                 throw new OverDraftLimitExceededException(x);
             }
 
         } else if ((getBalance() + getOverdraft()) >= x) {
-            float NewBalance = getBalance()  - x;
-            setBalance(NewBalance);
+            float newBalance = getBalance()  - x;
+            setBalance(newBalance);
         }
     }
 

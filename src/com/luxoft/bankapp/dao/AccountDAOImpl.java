@@ -17,91 +17,66 @@ public class AccountDAOImpl implements AccountDAO {
         Connection conn = baseDAO.openConnection();
 
 
-        String sql5 = "SELECT ID "+
-                " FROM ACCOUNT " +
-                "WHERE ID = ? ";
 
+        if (account instanceof CheckingAccount && ((CheckingAccount) account).getId() != 0) {
+            String sql = "UPDATE ACCOUNT SET  BALANCE = ?, 	OVERDRAFT = ?, CLIENT_ID = ?" +
+                    "where ACCOUNT.id = ?";
 
-        PreparedStatement preparedStatement = conn.prepareStatement(sql5);
+            PreparedStatement preparedStatement2 = conn.prepareStatement(sql);
+            preparedStatement2.setFloat(1, account.getBalance());
+            preparedStatement2.setFloat(2, ((CheckingAccount) account).getOverdraft());
+            preparedStatement2.setInt(3, client.getId());
+            preparedStatement2.setInt(4, ((CheckingAccount) account).getId());
+            preparedStatement2.executeUpdate();
 
-        if (account instanceof CheckingAccount) {
-
-            preparedStatement.setInt(1, ((CheckingAccount) account).getId());
-        }
-    else if (account instanceof SavingAccount) {
-            preparedStatement.setInt(1, ((SavingAccount) account).getId());
-        }
-
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-
-
-            if (account instanceof CheckingAccount && ((CheckingAccount) account).getId() == resultSet.getInt(1)) {
-                String sql = "UPDATE ACCOUNT SET  BALANCE = ?, 	OVERDRAFT = ?, CLIENT_ID = ?" +
-                        "where ACCOUNT.id = ?";
-
-                PreparedStatement preparedStatement2 = conn.prepareStatement(sql);
-                preparedStatement2.setFloat(1, account.getBalance());
-                preparedStatement2.setFloat(2, ((CheckingAccount) account).getOverdraft());
-                preparedStatement2.setInt(3, client.getId());
-                preparedStatement2.setInt(4, ((CheckingAccount) account).getId());
-                preparedStatement2.executeUpdate();
-
-                client.setActiveAccount(account);
-
-            }
-
-            if (account instanceof SavingAccount && ((SavingAccount) account).getId() == resultSet.getInt(1)) {
-                String sql = "UPDATE ACCOUNT SET  BALANCE = ?, 	OVERDRAFT = ?, CLIENT_ID = ?" +
-                        "where ACCOUNT.id = ?";
-
-                PreparedStatement preparedStatement2 = conn.prepareStatement(sql);
-                preparedStatement2.setFloat(1, account.getBalance());
-                preparedStatement2.setNull(2, Types.FLOAT);
-                preparedStatement2.setInt(3, client.getId());
-                preparedStatement2.setInt(4, ((SavingAccount) account).getId());
-                preparedStatement2.executeUpdate();
-
-                client.setActiveAccount(account);
-            }
-
-
+            client.setActiveAccount(account);
 
         }
 
-        if(resultSet.wasNull()) {
+        if (account instanceof SavingAccount && ((SavingAccount) account).getId() != 0) {
+            String sql = "UPDATE ACCOUNT SET  BALANCE = ?, 	OVERDRAFT = ?, CLIENT_ID = ?" +
+                    "where ACCOUNT.id = ?";
 
-            if (account instanceof CheckingAccount) {
+            PreparedStatement preparedStatement2 = conn.prepareStatement(sql);
+            preparedStatement2.setFloat(1, account.getBalance());
+            preparedStatement2.setNull(2, Types.FLOAT);
+            preparedStatement2.setInt(3, client.getId());
+            preparedStatement2.setInt(4, ((SavingAccount) account).getId());
+            preparedStatement2.executeUpdate();
 
-                String sql = "INSERT INTO ACCOUNT(\n" +
-                        "BALANCE, \tOVERDRAFT,  \tCLIENT_ID )" +
-                        "VALUES (?, ?, ?)";
-                PreparedStatement preparedStatement3 = conn.prepareStatement(sql);
-                preparedStatement3.setFloat(1, account.getBalance());
-                preparedStatement3.setFloat(2, ((CheckingAccount) account).getOverdraft());
-                preparedStatement3.setInt(3, client.getId());
-                preparedStatement3.executeUpdate();
+            client.setActiveAccount(account);
+        }
 
-                client.setActiveAccount(account);
-            }
 
-            if (account instanceof SavingAccount) {
 
-                String sql = "INSERT INTO ACCOUNT(\n" +
-                        "BALANCE, \tOVERDRAFT,  \tCLIENT_ID )" +
-                        "VALUES (?, ?, ?)";
+        if (account instanceof CheckingAccount && ((CheckingAccount) account).getId() == 0) {
 
-                PreparedStatement preparedStatement2 = conn.prepareStatement(sql);
-                preparedStatement2.setFloat(1, account.getBalance());
-                preparedStatement2.setNull(2, Types.FLOAT);
-                preparedStatement2.setInt(3, client.getId());
-                preparedStatement2.executeUpdate();
+            String sql = "INSERT INTO ACCOUNT(\n" +
+                    "BALANCE, \tOVERDRAFT,  \tCLIENT_ID )" +
+                    "VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement3 = conn.prepareStatement(sql);
+            preparedStatement3.setFloat(1, account.getBalance());
+            preparedStatement3.setFloat(2, ((CheckingAccount) account).getOverdraft());
+            preparedStatement3.setInt(3, client.getId());
+            preparedStatement3.executeUpdate();
 
-                client.setActiveAccount(account);
+            client.setActiveAccount(account);
+        }
 
-            }
+        if (account instanceof SavingAccount && ((SavingAccount) account).getId() == 0) {
+
+            String sql = "INSERT INTO ACCOUNT(\n" +
+                    "BALANCE, \tOVERDRAFT,  \tCLIENT_ID )" +
+                    "VALUES (?, ?, ?)";
+
+            PreparedStatement preparedStatement2 = conn.prepareStatement(sql);
+            preparedStatement2.setFloat(1, account.getBalance());
+            preparedStatement2.setNull(2, Types.FLOAT);
+            preparedStatement2.setInt(3, client.getId());
+            preparedStatement2.executeUpdate();
+
+            client.setActiveAccount(account);
+
         }
 
         baseDAO.closeConnection();

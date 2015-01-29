@@ -22,12 +22,15 @@ public class Bank {
 
     private Map<String, Client> clientMap = new HashMap<String, Client>();
 
+
+
     public Set<Client> getClients() {
         return clients;
     }
 
-
-
+    public void setClients (Set<Client> clients) {
+        this.clients = clients;
+    }
 
     public void parseFeed(Map<String, String> feedMap) throws IllegalArgumentException, FeedException {
 

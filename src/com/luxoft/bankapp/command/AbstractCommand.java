@@ -9,7 +9,7 @@ import com.luxoft.bankapp.service.BankService;
 /**
  * Created by acer on 24.01.2015.
  */
-public class AbstractCommand implements Command{
+public class AbstractCommand implements Command {
 
 	protected Client currentClient;
 	protected Bank currentBank;
@@ -18,12 +18,18 @@ public class AbstractCommand implements Command{
 
 
 
+
+
+    public AbstractCommand(InputOutput io) {
+        this.ioStreams = io;
+    }
+
+
 	public AbstractCommand() {
+        ioStreams = new InputOutput();
 	}
 
-	protected AbstractCommand(InputOutput ioStreams) {
-		this.ioStreams = ioStreams;
-	}
+
 
 	protected AbstractCommand(Client currentClient, Bank currentBank, InputOutput ioStreams) {
 		this.currentClient = currentClient;

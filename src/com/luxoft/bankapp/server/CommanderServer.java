@@ -8,7 +8,6 @@ package com.luxoft.bankapp.server;
 import com.luxoft.bankapp.command.*;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.server.command.*;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;
 
@@ -88,13 +87,13 @@ public class CommanderServer extends AbstractServer{
 			InputOutput inputOutput = new InputOutput(in, out);
 
 
-			commandMap.put("find", new ServerFindClientCommand(inputOutput, currentBank));
-			commandMap.put("balance", new ServerGetAccountsCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("withdraw", new ServerWithdrawCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("deposit", new ServerDepositCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("transfer", new ServerTransferCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("add", new ServerAddClientCommand(inputOutput,currentBank));
-			commandMap.put("remove", new ServerRemoveCommand(inputOutput, currentBank));
+			commandMap.put("find", new FindClientCommand(inputOutput, currentBank));
+			commandMap.put("balance", new GetAccountsCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("withdraw", new WithdrawCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("deposit", new DepositCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("transfer", new TransferCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("add", new AddClientCommand(inputOutput,currentBank));
+			commandMap.put("remove", new RemoveCommand(inputOutput, currentBank));
 
 
 
@@ -123,31 +122,31 @@ public class CommanderServer extends AbstractServer{
 				message = (String) in.readObject();
 
 							if (message.equals("find")) {
-					new ServerFindClientCommand(inputOutput, currentBank).execute();
+					new FindClientCommand(inputOutput, currentBank).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("add")) {
-					new ServerAddClientCommand(inputOutput, currentBank).execute();
+					new AddClientCommand(inputOutput, currentBank).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("deposit")) {
-					new ServerDepositCommand(inputOutput, currentBank, currentClient).execute();
+					new DepositCommand(inputOutput, currentBank, currentClient).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("withdraw")) {
-					new ServerWithdrawCommand(inputOutput, currentBank, currentClient).execute();
+					new WithdrawCommand(inputOutput, currentBank, currentClient).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("transfer")) {
-					new ServerTransferCommand(inputOutput, currentBank, currentClient).execute();
+					new TransferCommand(inputOutput, currentBank, currentClient).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("balance")) {
-					new ServerGetAccountsCommand(inputOutput, currentBank, currentClient).execute();
+					new GetAccountsCommand(inputOutput, currentBank, currentClient).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("remove")) {
-								new ServerRemoveCommand(inputOutput, currentBank).execute();
+								new RemoveCommand(inputOutput, currentBank).execute();
 								message = (String) in.readObject();
 
 							} else if (message.equals("bye")) {

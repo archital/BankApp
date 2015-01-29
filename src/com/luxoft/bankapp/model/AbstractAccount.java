@@ -9,8 +9,8 @@ import java.io.Serializable;
  */
 public abstract class AbstractAccount implements Account, Serializable {
 
-    private int id;
-    private float balance = 0;
+    private int id= 0;
+    protected float balance = 0;
 
 
     public float getBalance() {
@@ -24,8 +24,7 @@ public abstract class AbstractAccount implements Account, Serializable {
 
     @Override
     public void deposit(float x) {
-        Float b = getBalance() + x;
-        balance = b;
+        balance = balance + x;
     }
 
     public int getId() {
@@ -41,7 +40,7 @@ public abstract class AbstractAccount implements Account, Serializable {
         if (x > balance) {
             throw new NotEnoughFundsException();
         } else {
-            Float b = balance - x;
+            float b = balance - x;
             balance = b;
         }
     }

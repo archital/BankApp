@@ -20,6 +20,12 @@ public class InputOutput {
 		isStandard = false;
 	}
 
+    public InputOutput() {
+        standardOut = System.out;
+        standardIn = new BufferedReader(new InputStreamReader(System.in));
+        isStandard = true;
+    }
+
 
 
 	public void println(Object object) {
@@ -56,3 +62,7 @@ public class InputOutput {
 	}
 
 }
+
+
+
+

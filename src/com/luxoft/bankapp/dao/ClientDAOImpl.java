@@ -10,9 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SCJP on 27.01.2015.
@@ -55,10 +53,13 @@ public class ClientDAOImpl implements ClientDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Client client = new Client(name);
 
+        Client client = null;
         try {
             while (resultSet.next()) {
+
+               client = new Client(name);
+
                 int id = resultSet.getInt(1);
                 client.setId(id);
                 String gender = resultSet.getString(2);
@@ -237,7 +238,7 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public List<Client> getAllClients(Bank bank) throws SQLException {
+    public Set<Client> getAllClients(Bank bank) throws SQLException {
 
 
         BaseDAO baseDAO = new BaseDAOImpl();
@@ -247,7 +248,7 @@ public class ClientDAOImpl implements ClientDAO {
 
 
 
-        String sql = "SELECT DISTINCT c.ID, c.CLIENT_NAME, c.GENDER , c.TELEPHONE, " +
+        String sql = "SELECT  c.ID, c.CLIENT_NAME, c.GENDER , c.TELEPHONE, " +
                 "c.EMAIL,  c.INITIAL_OVERDRAFT,  c.CITY  " +
                 " FROM CLIENT c " +
                 " WHERE c.BANK_ID = ?";
@@ -257,7 +258,7 @@ public class ClientDAOImpl implements ClientDAO {
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        List<Client> clients = new ArrayList<Client>();
+       Set<Client> clients = new HashSet<Client>();
 
         while (resultSet.next()) {
 
@@ -291,9 +292,8 @@ public class ClientDAOImpl implements ClientDAO {
             client.setInitialOverdraft(initialOverdraft);
             client.setCity(city);
 
-            clients.add(client);
 
-            //////////////////////////////
+
 
             String sql4 = "SELECT OVERDRAFT , BALANCE " +
                     "FROM ACCOUNT " +
@@ -327,8 +327,15 @@ public class ClientDAOImpl implements ClientDAO {
             }
 
             clients.add(client);
+            try {
+                bank.addClient(client);
+            } catch (ClientExistsException e) {
+                e.printStackTrace();
+            }
 
         }
+
+        bank.setClients(clients);
 
         baseDAO.closeConnection();
          return clients;
@@ -342,21 +349,7 @@ public class ClientDAOImpl implements ClientDAO {
         Connection conn = baseDAO.openConnection();
 
 
-
-        String sql5 = "SELECT ID "+
-                " FROM CLIENT " +
-                "WHERE ID = ? ";
-
-
-        PreparedStatement preparedStatement = conn.prepareStatement(sql5);
-        preparedStatement.setInt(1, client.getId());
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-
-
-            if (client.getId() == resultSet.getInt(1)) {
+            if (client.getId() != 0 ) {
                 String sql = "UPDATE CLIENT SET   BANK_ID = ? ,\n" +
                         " \tCLIENT_NAME= ?,\n" +
                         " \tGENDER = ?,\n" +
@@ -390,12 +383,8 @@ public class ClientDAOImpl implements ClientDAO {
 
             }
 
-        }
 
-
-            if(resultSet.wasNull()) {
-
-
+            if (client.getId() == 0) {
 
 
                 String sql4 = "INSERT INTO CLIENT(\n" +
@@ -424,6 +413,8 @@ public class ClientDAOImpl implements ClientDAO {
                 AccountDAO accountDAO = new AccountDAOImpl();
                 accountDAO.save(client.getActiveAccount(), client);
             }
+
+
 
         baseDAO.closeConnection();
         }

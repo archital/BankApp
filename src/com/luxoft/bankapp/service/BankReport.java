@@ -19,7 +19,7 @@ public class BankReport {
         for (Client c : bank.getClients()) {
             l++;
         }
-        System.out.println("Number of clients " + l);
+
         return l;
     }
 
@@ -30,11 +30,11 @@ public class BankReport {
                 l++;
             }
         }
-        System.out.println("Number of Accounts " + l);
+
         return l;
     }
 
-    public String getClientsSorted(Bank bank) {
+    public Set<Client>  getClientsSorted(Bank bank) {
 
 
         Set<Client> clients = new TreeSet<Client>(new Comparator<Client>() { // ASC
@@ -58,11 +58,11 @@ public class BankReport {
         }
 
         for (Client c : clients) {
-            System.out.println("Client :" + c.toString());
-            return "Client"+ c.toString();
+
+
         }
 
-        return null;
+        return clients;
     }
 
     public float getBankCreditSum(Bank bank) {
@@ -74,7 +74,7 @@ public class BankReport {
                 }
             }
         }
-        System.out.println("Total sum that client's get more than limit is: " + resultSum);
+
         return resultSum;
     }
 
@@ -91,7 +91,7 @@ public class BankReport {
             clientList.add(client);
             listMap.put(client.getCity(), clientList);
         }
-        System.out.println(listMap.toString());
+
         return listMap;
     }
 

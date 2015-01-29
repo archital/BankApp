@@ -23,7 +23,7 @@ public class SavingAccount extends AbstractAccount implements Serializable {
     }
 
     public SavingAccount(float balance) {
-        setBalance(balance);
+      this.balance = balance;
 
     }
 

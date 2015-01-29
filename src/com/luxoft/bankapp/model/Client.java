@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class Client implements Report, Serializable {
 
-    private int id;
+    private int id = 0;
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class Client implements Report, Serializable {
 
 
     @Override
-    public void printReport() {  //Вывести информацию о клиентах и всех его считать
+    public void printReport() {
         System.out.println("Client " +
                 "name='" + this.gender.getGenderPrefix() + this.name + " email address : " + this.getEmail() + " telephone: " +
                 this.getTelephoneNumber() +
@@ -38,7 +38,7 @@ public class Client implements Report, Serializable {
         for (Report account : accounts) {
             account.printReport();
         }
-        ;
+
         System.out.println("Total balance =" + getBalance() + ", Active Account balance=" + activeAccount.getBalance());
 
 
@@ -68,18 +68,12 @@ public class Client implements Report, Serializable {
             setGender(Gender.FEMALE);
         }
 
-        /**
-         * This method should read all account info from the feed.
-         * There will be different implementations for
-         * CheckingAccount and SavingAccount.
-         */
+
         acc.parseFeed(feed);
 
     }
 
-    /**
-     * This method finds account by its type or create a new one
-     */
+
     private Account findAccountByItsType(String accountType) throws FeedException {
         for (Account acc : accounts) {
 
@@ -96,9 +90,7 @@ public class Client implements Report, Serializable {
     }
 
 
-    /**
-     * This method creates account by its type
-     */
+
     public Account createAccountWithOnlyType(String accountType) throws FeedException {
         Account acc;
         if ("s".equals(accountType)) {
@@ -194,7 +186,7 @@ public class Client implements Report, Serializable {
 
 
     public Client(String name, float initialOverdraft, Gender gender) {
-        super();
+
         this.name = name;
         this.initialOverdraft = initialOverdraft;
         this.gender = gender;

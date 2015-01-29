@@ -23,7 +23,7 @@ public class BaseDAOImpl implements BaseDAO {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-       conn = DriverManager.getConnection("jdbc:h2:~/" + db_name,
+       conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/" + db_name,
                 "sa", // login
                 "" // password
         );
