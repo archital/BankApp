@@ -1,8 +1,8 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.FeedException;
 
 
 import java.util.*;

@@ -4,14 +4,8 @@ package com.luxoft.bankapp.service;
  * Created by SCJP on 15.01.2015.
  */
 
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.model.Client;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public interface BankService {

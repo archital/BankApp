@@ -2,9 +2,9 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.dao.AccountDAO;
 import com.luxoft.bankapp.dao.AccountDAOImpl;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
-import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
+import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;

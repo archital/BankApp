@@ -1,16 +1,10 @@
 package com.luxoft.bankapp.main;
 
-import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Created by SCJP on 14.01.2015.

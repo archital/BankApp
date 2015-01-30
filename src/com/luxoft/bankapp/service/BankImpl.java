@@ -6,15 +6,9 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.dao.BankDAO;
 import com.luxoft.bankapp.dao.BankDAOImpl;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.model.Client;
 
-import java.io.*;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.Map;
 
 public class BankImpl implements BankService {
 

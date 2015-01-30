@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.expeption;
+package com.luxoft.bankapp.exception;
 
 /**
  * Created by SCJP on 15.01.2015.

@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.model;
 
-import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
+import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
 
 import java.io.Serializable;
 import java.util.Map;

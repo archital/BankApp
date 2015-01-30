@@ -1,18 +1,12 @@
 package com.luxoft.bankapp.dao;
 
-import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankInfo;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by SCJP on 27.01.2015.

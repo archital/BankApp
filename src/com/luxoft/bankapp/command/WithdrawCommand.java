@@ -1,20 +1,12 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.dao.AccountDAO;
-import com.luxoft.bankapp.dao.AccountDAOImpl;
-import com.luxoft.bankapp.dao.ClientDAO;
-import com.luxoft.bankapp.dao.ClientDAOImpl;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
-import com.luxoft.bankapp.main.BankCommander;
-import com.luxoft.bankapp.model.AbstractAccount;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.AccountImpl;
 import com.luxoft.bankapp.service.AccountService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
 
 import java.sql.SQLException;
 import java.util.List;

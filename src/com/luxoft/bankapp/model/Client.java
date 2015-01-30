@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.model;
 
-import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.exception.FeedException;
 
 import java.io.Serializable;
 import java.util.HashSet;

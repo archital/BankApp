@@ -1,8 +1,8 @@
 package com.luxoft.bankapp.server;
 
 
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.FeedException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;

@@ -1,11 +1,10 @@
 package com.luxoft.bankapp.service;
 
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
+import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
-import javax.xml.transform.sax.SAXSource;
 import java.sql.SQLException;
 import java.util.*;
 

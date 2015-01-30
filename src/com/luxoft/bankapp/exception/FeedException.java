@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.expeption;
+package com.luxoft.bankapp.exception;
 
 /**
  * Created by acer on 19.01.2015.

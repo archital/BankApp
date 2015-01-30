@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.service;
 
-import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.exception.FeedException;
 import com.luxoft.bankapp.model.Bank;
 
 import java.io.*;
