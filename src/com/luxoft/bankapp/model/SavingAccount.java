@@ -27,24 +27,33 @@ public class SavingAccount extends AbstractAccount implements Serializable {
 
     }
 
+    public SavingAccount(float balance, Integer id) {
+        this.balance = balance;
+        this.id = id;
+
+    }
+
+
+
 
     @Override
     public void printReport() {
         System.out.print("Saving account ");
-        System.out.println("Balance: " + getBalance() + " }");
+        System.out.println("Balance: " + balance + " }");
     }
 
 
     @Override
     public String toString() {
         return "Saving Account{ " +
-                " Saving account Balance " + getBalance() +
+                " ID " + id +
+                " Saving account Balance " + balance +
                 '}';
     }
 
     @Override
     public float decimalValue() {
-        float res = (float) (Math.rint(100.0 * getBalance()) / 100.0);
+        float res = (float) (Math.rint(100.0 * balance) / 100.0);
 
         return res;
     }

@@ -1,7 +1,5 @@
 package com.luxoft.bankapp.dao;
 
-import com.luxoft.bankapp.BankApplication;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

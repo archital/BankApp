@@ -5,15 +5,15 @@
 
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.dao.ClientDAO;
-import com.luxoft.bankapp.dao.ClientDAOImpl;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
-import com.luxoft.bankapp.model.Account;
+import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.Gender;
+import com.luxoft.bankapp.model.Gender;
+import com.luxoft.bankapp.server.CommanderServer;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -41,11 +41,13 @@ public class AddClientCommand implements Command {
     public void execute() throws ClientExistsException {
 
 
-        ClientDAO clientDAO = new ClientDAOImpl();
+
+        ClientService clientService = new ClientImpl();
         if (currentBank == null) {
             inOut.println("Error!!! Current bank is undefined");
             return;
         }
+
         inOut.println("Input client name: ");
 
         String name = inOut.readln();
@@ -54,7 +56,7 @@ public class AddClientCommand implements Command {
 
 
         try {
-            currentClient = clientDAO.findClientByName(currentBank, name);
+            currentClient = clientService.findClientInDB(currentBank, name);
         } catch (ClientNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -114,7 +116,7 @@ public class AddClientCommand implements Command {
             inOut.println("Input client e-mail: ");
 
 
-        pattern = Pattern.compile("([a-zA-Z][\\w]*)@([a-zA-Z][\\w]*[.])*((net)|(com)|(org))");
+        pattern = Pattern.compile("([a-zA-Z][\\w]*)@([a-zA-Z][\\w]*[.])*((net)|(com)|(org)|(ru) )");
 
         String email = inOut.readln().trim();
         matcher = pattern.matcher(email);
@@ -135,12 +137,15 @@ public class AddClientCommand implements Command {
         client.setEmail(email);
         client.setCity(city);
 
-        BankCommander.currentClient  = client;
-        System.out.println("Client is selected: ");
-      //  inOut.println("Client is added and selected as 'current client': " + client.toString()+"\n enter 'back'/ 'exit' or 'bye'" );
-        inOut.println("Client is added and selected as 'current client': " + client.toString()+"\n enter new command ");
+
         try {
-            clientDAO.save(BankCommander.currentClient, currentBank.getId());
+            clientService.addClient(currentBank, client);
+
+            BankCommander.currentClient  = client;
+            CommanderServer.currentClient = client;
+
+            inOut.println("Client is added and selected as 'current client': " + client.toString()+"\n you can select new command\n" +
+                    "press 'Enter' for CommanderServer ");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public abstract class AbstractAccount implements Account, Serializable {
 
-    private int id= 0;
+    protected Integer id= null;
     protected float balance = 0;
 
 
@@ -27,11 +27,11 @@ public abstract class AbstractAccount implements Account, Serializable {
         balance = balance + x;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

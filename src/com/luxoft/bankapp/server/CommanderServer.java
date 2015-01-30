@@ -7,29 +7,33 @@ package com.luxoft.bankapp.server;
 
 import com.luxoft.bankapp.command.*;
 import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.expeption.ClientNotFoundException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;
-
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.*;
 
 
-public class CommanderServer extends AbstractServer{
+public class CommanderServer {
 
 
 	public static Bank currentBank = null;
 	public static Client currentClient = null;
-	public static BankService service = new BankImpl();
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	ServerSocket serverSocket;
 	Socket connection = null;
 	String message = null;
+    static String bankName = "My Bank";
+    static  String clientName = "";
 
 
 
@@ -54,14 +58,14 @@ public class CommanderServer extends AbstractServer{
 		try {
 			// 1. creating a server socket
 			try {
-				providerSocket = new ServerSocket(2004, 10);
+                serverSocket = new ServerSocket(2004, 10);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			// 2. Wait for connection
 			System.out.println("Waiting for connection");
 			try {
-				connection = providerSocket.accept();
+				connection = serverSocket.accept();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -84,79 +88,104 @@ public class CommanderServer extends AbstractServer{
 				e.printStackTrace();
 			}
 
-			InputOutput inputOutput = new InputOutput(in, out);
+			final InputOutput inputOutput = new InputOutput(in, out);
 
 
-			commandMap.put("find", new FindClientCommand(inputOutput, currentBank));
-			commandMap.put("balance", new GetAccountsCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("withdraw", new WithdrawCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("deposit", new DepositCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("transfer", new TransferCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("add", new AddClientCommand(inputOutput,currentBank));
-			commandMap.put("remove", new RemoveCommand(inputOutput, currentBank));
-
-
-
-			Iterator iterator = commandMap.entrySet().iterator();
-
-
-			do {
-
-					sendMessage("Enter the name of the client with whom you want to work\n");
-					String	name= (String) in.readObject();
-
-				currentClient = service.findClient(currentBank, name);
-
-				if(currentClient == null){
-
-						sendMessage("bye");
-						message = "bye";
-
+			commandMap.put("0", new FindClientCommand(inputOutput, currentBank));
+			commandMap.put("1", new GetAccountsCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("2", new WithdrawCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("3", new DepositCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("4", new TransferCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("5", new AddClientCommand(inputOutput,currentBank));
+			commandMap.put("6", new RemoveCommand(inputOutput, currentBank));
+			commandMap.put("7", new Command() { // 7 - Exit Command
+				public void execute() {
+					sendMessage("bye");
+					System.exit(0);
 				}
 
-					sendMessage("Yo select "+
-							currentClient.toString()+ "Chose command you need: \n" + "'find'\n " +
-						"'deposit'\n" +"'balance'\n" + "'add'\n" + "'remove'\n" + "'transfer'\n" +
-						"'bye'\n");
-
-				message = (String) in.readObject();
-
-							if (message.equals("find")) {
-					new FindClientCommand(inputOutput, currentBank).execute();
-					message = (String) in.readObject();
-
-				} else if (message.equals("add")) {
-					new AddClientCommand(inputOutput, currentBank).execute();
-					message = (String) in.readObject();
-
-				} else if (message.equals("deposit")) {
-					new DepositCommand(inputOutput, currentBank, currentClient).execute();
-					message = (String) in.readObject();
-
-				} else if (message.equals("withdraw")) {
-					new WithdrawCommand(inputOutput, currentBank, currentClient).execute();
-					message = (String) in.readObject();
-
-				} else if (message.equals("transfer")) {
-					new TransferCommand(inputOutput, currentBank, currentClient).execute();
-					message = (String) in.readObject();
-
-				} else if (message.equals("balance")) {
-					new GetAccountsCommand(inputOutput, currentBank, currentClient).execute();
-					message = (String) in.readObject();
-
-				} else if (message.equals("remove")) {
-								new RemoveCommand(inputOutput, currentBank).execute();
-								message = (String) in.readObject();
-
-							} else if (message.equals("bye")) {
-					sendMessage("bye");
-
-				} else {
-
-					sendMessage("bye");
-
+				public void printCommandInfo() {
+					inputOutput.println("Exit");
 				}
+			});
+
+
+            ClientService clientService = new ClientImpl();
+
+            sendMessage("Input current client name: ");
+            clientName =  (String) in.readObject();
+
+
+            try {
+                currentClient = clientService.findClientInDB(currentBank, clientName);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClientNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            if(currentClient == null){
+
+                sendMessage("bye");
+                message = "bye";
+            }
+
+
+
+            do {
+
+	            sendMessage("You select "+
+			            currentClient.toString()+ "Chose command you need: \n" + " to find client press => '0'\n " +
+			            " to get Accounts and balances press => '1'\n " +
+			            " to make Withdraw press => '2'\n " +
+			            " to make Deposit press => '3'\n " +
+			            " to make Transfer press => '4'\n " +
+			            " to add Client press => '5'\n " +
+			            " to remove Client press => '6'\n " +
+			            "to exit  press => '7' or 'bye'");
+
+	            message = (String) in.readObject();
+                if (message.equals("0")) {
+                    new FindClientCommand(inputOutput, currentBank).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("5")) {
+                    new AddClientCommand(inputOutput, currentBank).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("3")) {
+                    new DepositCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("2")) {
+                    new WithdrawCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("4")) {
+                    new TransferCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("1")) {
+                    new GetAccountsCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("6")) {
+                    new RemoveCommand(inputOutput, currentBank).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("7")) {
+                    sendMessage("bye");
+
+                } else {
+                    sendMessage("Error! wrong command: ");
+                    message = (String) in.readObject();
+
+                }
+
+	             if (message.equals("bye")) {
+					sendMessage("bye"); }
+
         } while (!message.equals("bye"));
 
 
@@ -182,9 +211,16 @@ public class CommanderServer extends AbstractServer{
 
 	public static void main (String args[]) {
 
-		AbstractServer abstractServer = new AbstractServer();
-		abstractServer.initialize();           //initialized server with data
-		currentBank = abstractServer.getCurrentBank();
+        BankService bankService = new BankImpl();
+
+
+        try {
+            currentBank = bankService.getBankByName(bankName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
 		CommanderServer server = new CommanderServer();
 		while (true) {
 

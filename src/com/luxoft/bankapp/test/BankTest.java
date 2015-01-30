@@ -4,9 +4,9 @@ package com.luxoft.bankapp.test;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import junit.framework.*;
 import org.junit.Before;
 import org.junit.Test;
+
 
 import java.util.HashSet;
 import java.util.Set;

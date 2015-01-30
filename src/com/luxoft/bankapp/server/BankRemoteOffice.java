@@ -7,26 +7,31 @@ import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.Gender;
+import com.luxoft.bankapp.model.Gender;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by SCJP on 21.01.2015.
  */
-public class BankRemoteOffice extends AbstractServer {
+public class BankRemoteOffice {
 
 	ServerSocket providerSocket;
 	Socket connection = null;
 	ObjectOutputStream out;
 	ObjectInputStream in;
 	String message;
+    static String bankName = "My Bank";
 
 
 
@@ -103,11 +108,11 @@ public class BankRemoteOffice extends AbstractServer {
 						System.out.println("client> " + message);
 
 						currentClient = null;
-						BankImpl bankImp = new BankImpl();
+                        ClientService clientService = new ClientImpl();
 
 
 						try {
-							currentClient = bankImp.getClient(currentBank, message);
+							currentClient = clientService.getClient(currentBank, message);
 						} catch (ClientExistsException e) {
 							e.printStackTrace();
 						}
@@ -120,8 +125,12 @@ public class BankRemoteOffice extends AbstractServer {
 							return;
 						}
 
-						bankImp.removeClient(currentBank, currentClient);
-						sendMessage(" Client removed!!  enter new command: ");
+                        try {
+                            clientService.removeClient(currentClient, currentBank);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        sendMessage(" Client removed!!  enter new command: ");
 
 						try {
 							message = (String) in.readObject();
@@ -157,11 +166,11 @@ public class BankRemoteOffice extends AbstractServer {
 						System.out.println("client> " + message);
 
 						currentClient = null;
-						BankImpl bankImp = new BankImpl();
+						ClientService clientService = new ClientImpl();
 
 
 						try {
-							currentClient = bankImp.getClient(currentBank, message);
+							currentClient = clientService.getClient(currentBank, message);
 						} catch (ClientExistsException e) {
 							e.printStackTrace();
 						}
@@ -402,11 +411,18 @@ public class BankRemoteOffice extends AbstractServer {
 	public static void main (final String args[]) {
 
 
-		BankRemoteOffice bankRemoteOffice = new BankRemoteOffice();
-		AbstractServer abstractServer = new AbstractServer();
+        BankService bankService = new BankImpl();
 
-		abstractServer.initialize();
-		currentBank = abstractServer.getCurrentBank();
+
+        try {
+            currentBank = bankService.getBankByName(bankName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+		BankRemoteOffice bankRemoteOffice = new BankRemoteOffice();
+
 
 		while (true) {
 

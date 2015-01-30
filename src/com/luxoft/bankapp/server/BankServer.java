@@ -1,19 +1,23 @@
 package com.luxoft.bankapp.server;
 
-import com.luxoft.bankapp.BankApplication;
+import com.luxoft.bankapp.main.BankApplication;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
-public class BankServer extends  AbstractServer{
+public class BankServer {
 	ServerSocket providerSocket;
 	Socket connection = null;
 	ObjectOutputStream out;
@@ -24,6 +28,7 @@ public class BankServer extends  AbstractServer{
 	public static Client currentClient = null;
 	public static BankApplication bankApplication = new BankApplication();
 	public static float amount;
+    static String bankName = "My Bank";
 
 
 
@@ -81,11 +86,12 @@ public class BankServer extends  AbstractServer{
 					sendMessage("bye");
 				}
 				currentClient = null;
-				BankImpl bankImp = new BankImpl();
+
+                ClientService clientService = new ClientImpl();
 
 
 				try {
-					currentClient = bankImp.getClient(currentBank, message);
+					currentClient = clientService.getClient(currentBank, message);
 				} catch (ClientExistsException e) {
 					e.printStackTrace();
 				}
@@ -238,9 +244,20 @@ public class BankServer extends  AbstractServer{
 
 	public static void main (final String args[]) {
 
-		AbstractServer abstractServer = new AbstractServer();
-		abstractServer.initialize();           //initialized server with data
-		currentBank = abstractServer.getCurrentBank();
+	//	AbstractServer abstractServer = new AbstractServer();
+	//	abstractServer.initialize();           //initialized server with data
+
+
+
+        BankService bankService = new BankImpl();
+
+
+        try {
+            currentBank = bankService.getBankByName(bankName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 		BankServer server = new BankServer();
 
 
