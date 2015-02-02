@@ -2,10 +2,11 @@ package com.luxoft.bankapp.dao;
 
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
+import com.luxoft.bankapp.expeption.DAOException;
 import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.service.Gender;
+import com.luxoft.bankapp.model.Gender;
+import com.luxoft.bankapp.service.ClientService;
 
-import  java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,9 +28,6 @@ public class ClientDAOImpl implements ClientDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
 
         String sql = "SELECT ID, GENDER , TELEPHONE, EMAIL,  INITIAL_OVERDRAFT,  CITY " +
                 "              FROM CLIENT  " +
@@ -60,7 +58,7 @@ public class ClientDAOImpl implements ClientDAO {
 
                client = new Client(name);
 
-                int id = resultSet.getInt(1);
+                Integer id = resultSet.getInt(1);
                 client.setId(id);
                 String gender = resultSet.getString(2);
                 if (gender.equals("m") || gender.equals("M")){
@@ -84,7 +82,7 @@ public class ClientDAOImpl implements ClientDAO {
                 client.setCity(city);
 
 
-                String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE " +
+                String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE , acc.ID " +
                         "                 FROM  ACCOUNT acc" +
                         "              WHERE acc.client_id= ?";
 
@@ -114,15 +112,17 @@ public class ClientDAOImpl implements ClientDAO {
 
                         float balance = resultSet2.getFloat(2);
                         float overdraft = resultSet2.getFloat(1);
+                        Integer accId = resultSet2.getInt(3);
 
 
                         if (overdraft == 0){
 
-                            account = new SavingAccount(balance);
+                            account = new SavingAccount(balance, accId);
+
                             client.addAccount(account);
                             client.setActiveAccount(account);
                         } else if (overdraft != 0 ) {
-                            account = new CheckingAccount(overdraft, balance);
+                            account = new CheckingAccount(overdraft, balance, accId);
                             client.addAccount(account);
                             client.setActiveAccount(account);
                         }
@@ -142,12 +142,8 @@ public class ClientDAOImpl implements ClientDAO {
         }
 
 
-
-
-
-
     @Override
-    public Client findClientById(int clientId) throws ClientNotFoundException, SQLException, ClientExistsException {
+    public Client findClientById(Integer clientId) throws ClientNotFoundException, SQLException, ClientExistsException {
 
 
         BaseDAO baseDAO = new BaseDAOImpl();
@@ -195,7 +191,7 @@ public class ClientDAOImpl implements ClientDAO {
             client.setCity(city);
 
 
-            String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE" +
+            String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE, acc.ID" +
                     "                 FROM ACCOUNT acc " +
                     "              WHERE acc.CLIENT_ID = ?";
 
@@ -210,16 +206,16 @@ public class ClientDAOImpl implements ClientDAO {
 
                 float overdraft = resultSet2.getFloat(1);
                 float balance = resultSet2.getFloat(2);
-
+                Integer accId = resultSet2.getInt(3);
 
 
                 if (overdraft == 0) {
 
-                    account = new SavingAccount(balance);
+                    account = new SavingAccount(balance, accId);
                     client.addAccount(account);
                     client.setActiveAccount(account);
                 } else if (overdraft != 0) {
-                    account = new CheckingAccount(overdraft, balance);
+                    account = new CheckingAccount(overdraft, balance, accId);
                     client.addAccount(account);
                     client.setActiveAccount(account);
                 }
@@ -295,7 +291,7 @@ public class ClientDAOImpl implements ClientDAO {
 
 
 
-            String sql4 = "SELECT OVERDRAFT , BALANCE " +
+            String sql4 = "SELECT OVERDRAFT , BALANCE, ID " +
                     "FROM ACCOUNT " +
                     "              WHERE CLIENT_ID = ?";
 
@@ -310,16 +306,15 @@ public class ClientDAOImpl implements ClientDAO {
 
                 float overdraft = resultSet2.getFloat(1);
                 float balance = resultSet2.getFloat(2);
-
-
+                Integer accId = resultSet2.getInt(3);
 
                 if (overdraft == 0) {
 
-                    account = new SavingAccount(balance);
+                    account = new SavingAccount(balance, accId);
                     client.addAccount(account);
                     client.setActiveAccount(account);
                 } else if (overdraft != 0) {
-                    account = new CheckingAccount(overdraft, balance);
+                    account = new CheckingAccount(overdraft, balance, accId);
                     client.addAccount(account);
                     client.setActiveAccount(account);
                 }
@@ -327,11 +322,6 @@ public class ClientDAOImpl implements ClientDAO {
             }
 
             clients.add(client);
-            try {
-                bank.addClient(client);
-            } catch (ClientExistsException e) {
-                e.printStackTrace();
-            }
 
         }
 
@@ -343,13 +333,13 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public void save(Client client, int bankId) throws SQLException {
+    public void save(Client client, Integer bankId) throws SQLException, DAOException {
 
         BaseDAO baseDAO = new BaseDAOImpl();
         Connection conn = baseDAO.openConnection();
 
 
-            if (client.getId() != 0 ) {
+            if (client.getId() != null ) {
                 String sql = "UPDATE CLIENT SET   BANK_ID = ? ,\n" +
                         " \tCLIENT_NAME= ?,\n" +
                         " \tGENDER = ?,\n" +
@@ -384,7 +374,7 @@ public class ClientDAOImpl implements ClientDAO {
             }
 
 
-            if (client.getId() == 0) {
+            if (client.getId() == null) {
 
 
                 String sql4 = "INSERT INTO CLIENT(\n" +
@@ -410,11 +400,22 @@ public class ClientDAOImpl implements ClientDAO {
 
                 preparedStatement2.executeUpdate();
 
+              ResultSet resultSet =  preparedStatement2.getGeneratedKeys();
+
+
+
+                if ( resultSet == null || ! resultSet.next()) {
+                    throw new DAOException("Impossible to save in DB. Can't get clientID.");
+                }
+                Integer clientId = resultSet.getInt(1);
+                client.setId(clientId);
+
                 AccountDAO accountDAO = new AccountDAOImpl();
-                accountDAO.save(client.getActiveAccount(), client);
+                if(!(client.getAccounts().isEmpty())) {
+
+                    accountDAO.save(client.getActiveAccount(), client);
+                }
             }
-
-
 
         baseDAO.closeConnection();
         }
@@ -429,13 +430,14 @@ public class ClientDAOImpl implements ClientDAO {
         Connection conn = baseDAO.openConnection();
 
         AccountDAO accountDAO = new AccountDAOImpl();
-        accountDAO.removeByClientId(client.getId());
+       accountDAO.removeByClientId(client.getId());
 
         String sql = "DELETE FROM CLIENT WHERE CLIENT.ID = ?";
 
         PreparedStatement preparedStatement3 = conn.prepareStatement(sql);
         preparedStatement3.setInt(1, client.getId());
         preparedStatement3.executeUpdate();
+
 
 
         baseDAO.closeConnection();

@@ -2,10 +2,14 @@ package com.luxoft.bankapp.command;
 
 import com.luxoft.bankapp.dao.AccountDAO;
 import com.luxoft.bankapp.dao.AccountDAOImpl;
+import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.model.Report;
+import com.luxoft.bankapp.service.AccountImpl;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -36,7 +40,6 @@ public class GetAccountsCommand implements Command {
     @Override
     public void execute() {
 
-        currentClient = BankCommander.currentClient;
 
         if (currentBank == null) {
            inOut.println("Error!!! Current bank is undefined.");
@@ -48,9 +51,11 @@ public class GetAccountsCommand implements Command {
                 return;
             }
 
-        AccountDAO accountDAO = new AccountDAOImpl();
+        ClientService clientService = new ClientImpl();
+        AccountService accountService = new AccountImpl();
+
         try {
-            if (accountDAO.getClientAccounts(currentClient.getId()).isEmpty()) {
+            if (accountService.getClientAccounts(currentClient.getId()).isEmpty()) {
                 inOut.println("Client: " + currentClient.getGender().getGenderPrefix() + currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
                 return;
             } else {
@@ -58,12 +63,13 @@ public class GetAccountsCommand implements Command {
                 StringBuilder stringBuilder = new StringBuilder();
 
 
-                List<Account> accounts = accountDAO.getClientAccounts(currentClient.getId());
+                List<Account> accounts = accountService.getClientAccounts(currentClient.getId());
                 for (Account account : accounts) {
                 stringBuilder.append(account.toString());
                 }
-              //  inOut.println(stringBuilder.toString()+ "\n enter 'back'/ 'exit' or 'bye'");
-                inOut.println(stringBuilder.toString()+ "\n enter new command");
+
+                inOut.println(stringBuilder.toString()+ "\n you can select new command +\n" +
+                        "press 'Enter' for CommanderServer ");
             }
         } catch (SQLException e) {
             e.printStackTrace();

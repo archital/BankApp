@@ -1,13 +1,16 @@
 package com.luxoft.bankapp.command;
 
 import com.luxoft.bankapp.dao.*;
-import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
+import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.server.CommanderServer;
-import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.AccountImpl;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,6 +22,8 @@ public class FindClientCommand implements Command {
 
     private InputOutput ioStreams;
     private Bank currentBank;
+    private Integer accId;
+    private Account currentAccount;
 
 
     public FindClientCommand(InputOutput inputOutput, Bank currentBank) {
@@ -34,6 +39,7 @@ public class FindClientCommand implements Command {
 
     @Override
     public void execute() {
+
         if (currentBank == null) {
             ioStreams.println("Error!!! Current bank is undefined.");
             return;
@@ -44,12 +50,12 @@ public class FindClientCommand implements Command {
 
 
         Client client = null;
-        ClientDAO clientDAO = new ClientDAOImpl();
-        AccountDAO accountDAO = new AccountDAOImpl();
+        ClientService clientService = new ClientImpl();
+        AccountService accountService = new AccountImpl();
 
 
         try {
-            client = clientDAO.findClientByName(currentBank, name);
+            client = clientService.findClientInDB(currentBank, name);
 
 
         } catch (ClientNotFoundException e) {
@@ -64,21 +70,30 @@ public class FindClientCommand implements Command {
 
 
         try {
-           List<Account> accounts = accountDAO.getClientAccounts(client.getId()); //set active account to CurrentClient
+            List<Account> accountList =  accountService.getClientAccounts(client.getId());
 
-             client.setActiveAccount(accounts.get(accounts.size()-1));
+            ioStreams.println("Enter account ID to make this account 'current': \n" +
+                    accountList.toString());
 
-            CommanderServer.currentClient = client;
+
+            accId = Integer.parseInt(ioStreams.readln());
+            currentAccount = accountService.getAccountById(accId);
+
+
+            client.setActiveAccount(currentAccount);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         BankCommander.currentClient = client; // set currentClient to BankCommander
+        CommanderServer.currentClient = client;
 
-        System.out.println("Client is selected: ");
-    //    ioStreams.println(client.toString() + "\n enter new command 'back'/ 'exit' or 'bye'"); for CommanderServer
-        ioStreams.println(client.toString() + "\n enter new command");
+
+        ioStreams.println("Current client "+client.toString() + "\n you can select new command " +
+                "Current account is selected:\n " +
+                currentAccount.toString() +
+                "\npress 'Enter' for CommanderServer ");
     }
 
     @Override

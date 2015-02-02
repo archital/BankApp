@@ -41,7 +41,7 @@ public class BankDAOImpl implements BankDAO {
          bank1 = new Bank();
 
         while (resultSet.next()) {
-            int id = resultSet.getInt(1);
+            Integer id = resultSet.getInt(1);
             bank1.setId(id);
             String bankName = resultSet.getString(2);
 
@@ -89,9 +89,6 @@ public class BankDAOImpl implements BankDAO {
         BankInfo bankInfo = new BankInfo(bank);
         bankInfo.setNumberOfClients(numberOfClients);
         bankInfo.setTotalAccountSum(totalAccountSum);
-
-
-
 
 
         baseDAO.closeConnection();

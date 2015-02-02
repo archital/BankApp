@@ -2,6 +2,7 @@ package com.luxoft.bankapp.dao;
 
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
+import com.luxoft.bankapp.expeption.DAOException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
@@ -14,8 +15,8 @@ import java.util.Set;
  */
 public interface ClientDAO {
     Client findClientByName(Bank bank, String name) throws ClientNotFoundException, SQLException;
-    Client findClientById(int clientId) throws ClientNotFoundException, SQLException, ClientExistsException;
+    Client findClientById(Integer clientId) throws ClientNotFoundException, SQLException, ClientExistsException;
     Set<Client> getAllClients(Bank bank) throws SQLException;
-    void save(Client client, int bankId) throws SQLException;
+    void save(Client client, Integer bankId) throws SQLException, DAOException;
     void remove(Client client) throws SQLException;
 }

@@ -1,10 +1,14 @@
-package com.luxoft.bankapp.command;
+package com.luxoft.bankapp.main;
 
+import com.luxoft.bankapp.command.*;
 import com.luxoft.bankapp.dao.*;
 import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.expeption.ClientNotFoundException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -17,11 +21,9 @@ public class BankCommander {
     public static Client currentClient = null;
     public static BankService service = new BankImpl();
     static String bankName = "My Bank";
+    static  String clientName = "";
 
-
-
-
-    public void registerCommand(String name, Command command) {
+   public void registerCommand(String name, Command command) {
 
         Iterator iterator = commandMap.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -36,9 +38,6 @@ public class BankCommander {
         }
 
     }
-
-
-
     public void removeCommand(String name) {
 
         Iterator iterator = commandMap.entrySet().iterator();
@@ -55,26 +54,47 @@ public class BankCommander {
 
     }
 
-
     static Map<String, Command> commandMap = new HashMap<String, Command>();
 
 
     public static void main(String args[]) {
         InputOutput io = new InputOutput();
 
-        BankDAO bankDAO = new BankDAOImpl();
+      BankService bankService = new BankImpl();
+        ClientService clientService = new ClientImpl();
+
+
         try {
-            currentBank = bankDAO.getBankByName(bankName);
+            currentBank = bankService.getBankByName(bankName);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
-
         System.out.println(currentBank.toString());
 
 
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
 
+        System.out.println("Input current client name: ");
+        sb.append(scanner.nextLine().trim());
+
+
+        clientName = sb.toString();
+        try {
+            currentClient = clientService.findClientInDB(currentBank, clientName);
+            if(currentClient == null) {
+                System.out.println("There is no client with such name");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClientNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println(currentClient.toString());
 
         commandMap.put("0", new FindClientCommand(io, currentBank));
         commandMap.put("1", new GetAccountsCommand(io, currentBank, currentClient));
@@ -84,7 +104,7 @@ public class BankCommander {
         commandMap.put("5", new AddClientCommand(io, currentBank));
         commandMap.put("6", new ReportCommander(io, currentBank));
         commandMap.put("7", new RemoveCommand(io, currentBank));
-        commandMap.put("8", new Command() { // 6 - Exit Command
+        commandMap.put("8", new Command() { // 8 - Exit Command
             public void execute() {
                 System.exit(0);
             }
@@ -95,18 +115,17 @@ public class BankCommander {
         });
 
 
-        Scanner scanner = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
+
 
 
         Iterator iterator = commandMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, Command> printMap = (Map.Entry<String, Command>) iterator.next();
-            System.out.println();
             printMap.getValue().printCommandInfo();
-            System.out.print("  press => ");
-            System.out.print(printMap.getKey());
-            System.out.println();
+            System.out.print(" press => ");
+            System.out.print("'"+ printMap.getKey()+"'");
+            System.out.println("");
+
 
 
         }
@@ -114,6 +133,9 @@ public class BankCommander {
         String command;
 
         while (true) {
+
+            System.out.println("");
+
             while (sb.length() == 0) {
                 System.out.println();
                 System.out.println("Input command number: ");
@@ -134,7 +156,7 @@ public class BankCommander {
                 if (printMapIt.getKey().equals(command)) {
 
                     printMapIt.getValue().printCommandInfo();
-                    System.out.print("...\n\n");
+                    System.out.print("......");
                     try {
                         printMapIt.getValue().execute(); //start working command
                     } catch (ClientExistsException e) {

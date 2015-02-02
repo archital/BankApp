@@ -440,14 +440,14 @@ public class BankClient {
 		client.runCommander(); // This method run connection to CommanderServer
 		//you can enter and run command:
 
-		// "remove" = to remove client
-		// "add" = to add client
-		// "bye" = to exit
-		// "find" =
-		// "balance" = to get information about all accounts and total balance
-		// "transfer" = to take money from one account to another
-		// "withdraw" = to take money from account
-		// "deposit" = to put money to active account
+//        to find client press => '0'
+//        to get Accounts and balances press => '1'
+//        to make Withdraw press => '2'
+//        to make Deposit press => '3'
+//        to make Transfer press => '4'
+//        to add Client press => '5'
+//        to remove Client press => '6'
+//        to exit  press => '7' or 'bye'
 	}
 
 }

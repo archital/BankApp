@@ -11,6 +11,9 @@ import java.util.List;
  */
 public interface AccountDAO {
     public void save(Account account,Client client) throws SQLException;
-    public void removeByClientId(int id) throws SQLException;
-    public List<Account> getClientAccounts(int id) throws SQLException;
+    public void removeByClientId(Integer id) throws SQLException;
+    public void removeByClientName(String name) throws SQLException;
+    public List<Account> getClientAccounts(Integer id) throws SQLException;
+    public Account getAccountById(Integer id) throws SQLException;
+    public void transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount ) throws SQLException;
 }

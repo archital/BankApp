@@ -3,8 +3,13 @@ package com.luxoft.bankapp.model;
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.service.TestService;
 
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.*;
 
 /**
@@ -12,17 +17,26 @@ import java.util.*;
  */
 public class Bank {
 
-    private int id;
+
+
+    @NoDB (name = "bank id")  private Integer id = null;
+
     private String name;
 
-
-    public List<ClientRegistrationListener> listeners = new ArrayList();
-
-    private Set<Client> clients = new HashSet<Client>();
-
-    private Map<String, Client> clientMap = new HashMap<String, Client>();
+    @NoDB(name = "listeners") public List<ClientRegistrationListener> listeners = new ArrayList();
 
 
+    @NoDB(name = "clients")    private Set<Client> clients = new HashSet<Client>();
+
+
+    @NoDB(name = "client Map")  private Map<String, Client> clientMap = new HashMap<String, Client>();
+
+
+    @Target (ElementType.FIELD)
+    @Retention (RetentionPolicy.RUNTIME)
+    public @interface NoDB {
+        String name() default "";
+    }
 
     public Set<Client> getClients() {
         return clients;
@@ -74,7 +88,6 @@ public class Bank {
         listeners.add(registrationListener);
     }
 
-    ;
 
     public void printReport() {
         System.out.println( " report: ");
@@ -84,11 +97,11 @@ public class Bank {
         }
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -126,6 +139,8 @@ public class Bank {
             System.out.println("Notification email for client " + c.getGender().getGenderPrefix() + " " + c.getName() + "to be sent");
         }
     }
+
+
 
 
     @Override

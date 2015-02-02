@@ -1,7 +1,6 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.expeption.FeedException;
-import com.luxoft.bankapp.service.Gender;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,16 +13,16 @@ import java.util.Set;
  */
 public class Client implements Report, Serializable {
 
-    private int id = 0;
+    @Bank.NoDB (name = "client id")   private Integer id = null;
 
-    private static final long serialVersionUID = 1L;
+    @Bank.NoDB(name = "client serial versionUID") private static final long serialVersionUID = 1L;
 
 
     private Gender gender;
     private String name = "";
     private String telephoneNumber = "";
     private String email = "";
-    private Set<Account> accounts = new HashSet<Account>();
+    @Bank.NoDB( name = "accounts")    private Set<Account> accounts = new HashSet<Account>();
     private float initialOverdraft;
     private Account activeAccount;
     private String city = "";
@@ -44,11 +43,11 @@ public class Client implements Report, Serializable {
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -227,7 +226,9 @@ public class Client implements Report, Serializable {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Client name: ");
+        stringBuilder.append("ID ");
+        stringBuilder.append(getId());
+        stringBuilder.append(" name: ");
         stringBuilder.append(getGender().getGenderPrefix());
         stringBuilder.append(getName());
         stringBuilder.append(" email address :");

@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.service;
+package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.model.CheckingAccount;
 

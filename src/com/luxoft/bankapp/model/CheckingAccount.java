@@ -20,6 +20,13 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
         this.balance = balance;
     }
 
+
+    public CheckingAccount(float overdraft, float balance, Integer id) {
+        this.overdraft = overdraft;
+        this.balance = balance;
+        this.id = id;
+    }
+
     public void parseFeed(Map<String, String> feed) {
         float overdraft = Float.parseFloat(feed.get("overdraft"));
         float balance = Float.parseFloat(feed.get("balance"));
@@ -41,6 +48,8 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     public CheckingAccount() {
     }
 
+
+
     @Override
     public void withdraw(float x) throws OverDraftLimitExceededException {
         if (x > getBalance()) {
@@ -59,7 +68,7 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     @Override
     public float decimalValue() {
 
-       float res = (float) (Math.rint(100.0 * getBalance()) / 100.0);
+       float res = (float) (Math.rint(100.0 * balance) / 100.0);
 
         return res;
     }
@@ -67,15 +76,16 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     @Override
     public void printReport() {
         System.out.print("Checking Account");
-        System.out.println("Balance: " + getBalance() + "} ");
+        System.out.println("Balance: " + balance + "} ");
     }
 
 
     @Override
     public String toString() {
         return "Checking Account{ " +
-                "overdraft = " + overdraft +
-                " Checking account Balance " + getBalance() +
+                " ID " + id +
+                " overdraft = " + overdraft +
+                " Checking account Balance " + balance +
                 '}';
     }
 }
