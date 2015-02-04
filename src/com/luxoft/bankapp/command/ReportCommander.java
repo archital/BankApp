@@ -1,13 +1,18 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.dao.*;
-import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
+<<<<<<< HEAD
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankInfo;
 import com.luxoft.bankapp.service.BankService;
 import com.luxoft.bankapp.service.ServiceFactory;
+=======
+import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.BankInfo;
+import com.luxoft.bankapp.service.BankService;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.sql.SQLException;
 
@@ -38,7 +43,11 @@ public class ReportCommander implements Command {
 			return;
 		}
 
+<<<<<<< HEAD
         BankService bankService = ServiceFactory.getBankImpl();
+=======
+        BankService bankService = new BankImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         BankInfo bankInfo = null;
         try {
             bankInfo = bankService.getBankInfo(currentBank);

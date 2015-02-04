@@ -1,7 +1,11 @@
 package com.luxoft.bankapp.model;
 
+<<<<<<< HEAD
 import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
+=======
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.io.Serializable;
 
@@ -10,7 +14,11 @@ import java.io.Serializable;
  */
 public abstract class AbstractAccount implements Account, Serializable {
 
+<<<<<<< HEAD
     @annotation.NoDB    protected Integer id= null;
+=======
+    protected Integer id= null;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
     protected float balance = 0;
 
 

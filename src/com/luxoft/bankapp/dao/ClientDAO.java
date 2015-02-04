@@ -1,13 +1,18 @@
 package com.luxoft.bankapp.dao;
 
+<<<<<<< HEAD
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
 import com.luxoft.bankapp.expeption.DAOException;
+=======
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.ClientNotFoundException;
+import com.luxoft.bankapp.exception.DAOException;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Set;
 
 /**

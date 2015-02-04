@@ -1,9 +1,14 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
+<<<<<<< HEAD
 import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.FeedException;
+=======
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.FeedException;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.util.*;
 
@@ -12,10 +17,14 @@ import java.util.*;
  */
 public class Bank {
 
+<<<<<<< HEAD
 
 
    @annotation.NoDB private Integer id = null;
 
+=======
+    private Integer id = null;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
     private String name;
 
     @annotation.NoDB public List<ClientRegistrationListener> listeners = new ArrayList();

@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.test;
 
-import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
+import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
 import com.luxoft.bankapp.model.CheckingAccount;
 import org.junit.Before;
 import org.junit.Test;

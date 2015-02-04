@@ -1,13 +1,24 @@
 package com.luxoft.bankapp.command;
 
+<<<<<<< HEAD
 import com.luxoft.bankapp.dao.*;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
+=======
+import com.luxoft.bankapp.exception.ClientNotFoundException;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.server.CommanderServer;
+<<<<<<< HEAD
 import com.luxoft.bankapp.service.*;
+=======
+import com.luxoft.bankapp.service.AccountImpl;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.sql.SQLException;
 import java.util.List;
@@ -47,8 +58,13 @@ public class FindClientCommand implements Command {
 
 
         Client client = null;
+<<<<<<< HEAD
         ClientService clientService = ServiceFactory.getClientImpl();
         AccountService accountService = ServiceFactory.getAccountImpl();
+=======
+        ClientService clientService = new ClientImpl();
+        AccountService accountService = new AccountImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         try {
@@ -71,11 +87,19 @@ public class FindClientCommand implements Command {
 
             ioStreams.println("Enter account ID to make this account 'current': \n" +
                     accountList.toString());
+<<<<<<< HEAD
 
 
             accId = Integer.parseInt(ioStreams.readln());
             currentAccount = accountService.getAccountById(accId);
 
+=======
+
+
+            accId = Integer.parseInt(ioStreams.readln());
+            currentAccount = accountService.getAccountById(accId);
+
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
             client.setActiveAccount(currentAccount);
 

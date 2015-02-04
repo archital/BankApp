@@ -1,7 +1,11 @@
 package com.luxoft.bankapp.model;
 
+<<<<<<< HEAD
 import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.expeption.FeedException;
+=======
+import com.luxoft.bankapp.exception.FeedException;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,7 +18,11 @@ import java.util.Set;
  */
 public class Client implements Report, Serializable {
 
+<<<<<<< HEAD
     @annotation.NoDB    private Integer id = null;
+=======
+    private Integer id = null;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
     @annotation.NoDB private static final long serialVersionUID = 1L;
 

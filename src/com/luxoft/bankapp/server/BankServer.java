@@ -1,11 +1,22 @@
 package com.luxoft.bankapp.server;
 
 import com.luxoft.bankapp.main.BankApplication;
+<<<<<<< HEAD
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.*;
+=======
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
+import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -84,7 +95,11 @@ public class BankServer {
 				}
 				currentClient = null;
 
+<<<<<<< HEAD
                 ClientService clientService = ServiceFactory.getClientImpl();
+=======
+                ClientService clientService = new ClientImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
 				try {
@@ -246,7 +261,11 @@ public class BankServer {
 
 
 
+<<<<<<< HEAD
         BankService bankService = ServiceFactory.getBankImpl();
+=======
+        BankService bankService = new BankImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         try {

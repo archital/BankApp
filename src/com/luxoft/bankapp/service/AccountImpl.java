@@ -2,11 +2,17 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.dao.AccountDAO;
 import com.luxoft.bankapp.dao.AccountDAOImpl;
+<<<<<<< HEAD
 import com.luxoft.bankapp.dao.DAOFactory;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.DAOException;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
+=======
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
+import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
@@ -20,6 +26,7 @@ import java.util.List;
  */
 public class AccountImpl implements  AccountService{
 
+<<<<<<< HEAD
     private static AccountImpl instance;
 
     private AccountImpl() {
@@ -41,12 +48,23 @@ public class AccountImpl implements  AccountService{
         } catch (DAOException e) {
             e.printStackTrace();
         }
+=======
+    @Override
+    public void addAccount(Client client, Account account) throws ClientExistsException, SQLException {
+        AccountDAO accountDAO = new AccountDAOImpl();
+
+        accountDAO.save(account, client);
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
     }
 
     @Override
     public List<Account> getClientAccounts(Integer id) throws SQLException {
+<<<<<<< HEAD
         AccountDAO accountDAO = DAOFactory.getAccountDAO();
+=======
+        AccountDAO accountDAO = new AccountDAOImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         List<Account> accounts = accountDAO.getClientAccounts(id);
 
@@ -64,7 +82,11 @@ public class AccountImpl implements  AccountService{
     }
 
     @Override
+<<<<<<< HEAD
     public void withdraw(float x , Account account) throws NotEnoughFundsException,  OverDraftLimitExceededException{
+=======
+    public void withdraw(float x , Account account) throws NotEnoughFundsException {
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         if(account instanceof SavingAccount) {
         if (x > account.getBalance()) {
@@ -100,7 +122,11 @@ public class AccountImpl implements  AccountService{
     @Override
     public Account getAccountById (Integer id) {
 
+<<<<<<< HEAD
 AccountDAO accountDAO = DAOFactory.getAccountDAO();
+=======
+AccountDAO accountDAO = new AccountDAOImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         Account account = null;
         try {
             account = accountDAO.getAccountById(id);
@@ -115,7 +141,11 @@ AccountDAO accountDAO = DAOFactory.getAccountDAO();
     public void Transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount) {
 
 
+<<<<<<< HEAD
        AccountDAO accountDAO = DAOFactory.getAccountDAO();
+=======
+       AccountDAO accountDAO = new AccountDAOImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         try {
             accountDAO.transfer(accIdWithdraw, accIdDeposit , clIdWithdraw , clIdDeposit, amount);
         } catch (SQLException e) {

@@ -1,13 +1,21 @@
 package com.luxoft.bankapp.server;
 
 
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.FeedException;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.FeedException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
+<<<<<<< HEAD
 import com.luxoft.bankapp.service.*;
 import com.luxoft.bankapp.model.Gender;
+=======
+import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.model.Gender;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.service.ClientService;
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -105,7 +113,11 @@ public class BankRemoteOffice {
 						System.out.println("client> " + message);
 
 						currentClient = null;
+<<<<<<< HEAD
                         ClientService clientService = ServiceFactory.getClientImpl();
+=======
+                        ClientService clientService = new ClientImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
 						try {
@@ -163,7 +175,11 @@ public class BankRemoteOffice {
 						System.out.println("client> " + message);
 
 						currentClient = null;
+<<<<<<< HEAD
 						ClientService clientService = ServiceFactory.getClientImpl();
+=======
+						ClientService clientService = new ClientImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
 						try {
@@ -408,7 +424,11 @@ public class BankRemoteOffice {
 	public static void main (final String args[]) {
 
 
+<<<<<<< HEAD
         BankService bankService = ServiceFactory.getBankImpl();
+=======
+        BankService bankService = new BankImpl();
+>>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         try {
