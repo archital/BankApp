@@ -1,8 +1,8 @@
 package com.luxoft.bankapp.test;
 
 import com.luxoft.bankapp.dao.AccountDAO;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
-import com.luxoft.bankapp.expeption.OverDraftLimitExceededException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
+import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.ServiceFactory;
 import org.junit.Before;

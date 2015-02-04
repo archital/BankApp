@@ -2,16 +2,10 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.dao.ClientDAO;
 import com.luxoft.bankapp.dao.ClientDAOImpl;
-<<<<<<< HEAD
 import com.luxoft.bankapp.dao.DAOFactory;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-import com.luxoft.bankapp.expeption.DAOException;
-=======
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.exception.DAOException;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
@@ -28,7 +22,6 @@ import java.util.Set;
 public class ClientImpl implements ClientService{
 
 
-<<<<<<< HEAD
     private static ClientImpl instance;
 
     private ClientImpl() {
@@ -46,17 +39,10 @@ public class ClientImpl implements ClientService{
     @Override
     public void addClient(Bank bank, Client client) throws SQLException, ClientExistsException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
-=======
-    @Override
-    public void addClient(Bank bank, Client client) throws SQLException, ClientExistsException {
-        ClientDAO clientDAO = new ClientDAOImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         try {
             clientDAO.save(client, bank.getId());
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (DAOException e) {
             e.printStackTrace();
         }
 
@@ -71,22 +57,14 @@ public class ClientImpl implements ClientService{
 
     @Override
     public void removeClient(Client client, Bank bank) throws SQLException {
-<<<<<<< HEAD
         ClientDAO clientDAO = DAOFactory.getClientDAO();
-=======
-        ClientDAO clientDAO = new ClientDAOImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         clientDAO.remove(client);
             bank.removeClient(client);
     }
 
     @Override
     public Client findClientInDB(Bank bank, String name) throws SQLException, ClientNotFoundException {
-<<<<<<< HEAD
         ClientDAO clientDAO = DAOFactory.getClientDAO();
-=======
-        ClientDAO clientDAO = new ClientDAOImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         Client   client =  clientDAO.findClientByName(bank, name);
         return client;
     }
@@ -167,11 +145,7 @@ public class ClientImpl implements ClientService{
 
     @Override
     public Set<Client> getAllClients (Bank bank) throws SQLException, ClientNotFoundException {
-<<<<<<< HEAD
         ClientDAO clientDAO = DAOFactory.getClientDAO();
-=======
-        ClientDAO clientDAO = new ClientDAOImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
        Set<Client> clients = clientDAO.getAllClients(bank);
         return clients;
     }

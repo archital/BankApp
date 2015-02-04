@@ -1,19 +1,11 @@
 package com.luxoft.bankapp.dao;
 
-<<<<<<< HEAD
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-import com.luxoft.bankapp.expeption.DAOException;
-import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.model.Gender;
-import com.luxoft.bankapp.service.ClientService;
-=======
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.model.Gender;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
+import com.luxoft.bankapp.service.ClientService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -170,12 +162,7 @@ public class ClientDAOImpl implements ClientDAO {
 
 
     @Override
-<<<<<<< HEAD
     public Client findClientById(Integer clientId) throws ClientNotFoundException, ClientExistsException {
-=======
-    public Client findClientById(Integer clientId) throws ClientNotFoundException, SQLException, ClientExistsException {
-
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
@@ -242,15 +229,9 @@ public class ClientDAOImpl implements ClientDAO {
                 client.setCity(city);
 
 
-<<<<<<< HEAD
                 String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE, acc.ID" +
                         "                 FROM ACCOUNT acc " +
                         "              WHERE acc.CLIENT_ID = ?";
-=======
-            String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE, acc.ID" +
-                    "                 FROM ACCOUNT acc " +
-                    "              WHERE acc.CLIENT_ID = ?";
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
                 PreparedStatement preparedStatement2 = conn.prepareStatement(sql2);
 
@@ -261,16 +242,10 @@ public class ClientDAOImpl implements ClientDAO {
                 Account account;
                 while (resultSet2.next()) {
 
-<<<<<<< HEAD
                     float overdraft = resultSet2.getFloat(1);
                     float balance = resultSet2.getFloat(2);
                     Integer accId = resultSet2.getInt(3);
 
-=======
-                float overdraft = resultSet2.getFloat(1);
-                float balance = resultSet2.getFloat(2);
-                Integer accId = resultSet2.getInt(3);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
                     if (overdraft == 0) {
 
@@ -283,16 +258,6 @@ public class ClientDAOImpl implements ClientDAO {
                         client.setActiveAccount(account);
                     }
 
-<<<<<<< HEAD
-=======
-                    account = new SavingAccount(balance, accId);
-                    client.addAccount(account);
-                    client.setActiveAccount(account);
-                } else if (overdraft != 0) {
-                    account = new CheckingAccount(overdraft, balance, accId);
-                    client.addAccount(account);
-                    client.setActiveAccount(account);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
                 }
 
 
@@ -385,13 +350,7 @@ public class ClientDAOImpl implements ClientDAO {
                         "FROM ACCOUNT " +
                         "              WHERE CLIENT_ID = ?";
 
-<<<<<<< HEAD
                 PreparedStatement preparedStatement2 = conn.prepareStatement(sql4);
-=======
-            String sql4 = "SELECT OVERDRAFT , BALANCE, ID " +
-                    "FROM ACCOUNT " +
-                    "              WHERE CLIENT_ID = ?";
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
                 preparedStatement2.setInt(1, client.getId());
 
@@ -404,7 +363,6 @@ public class ClientDAOImpl implements ClientDAO {
                     float balance = resultSet2.getFloat(2);
                     Integer accId = resultSet2.getInt(3);
 
-<<<<<<< HEAD
                     if (overdraft == 0) {
 
                         account = new SavingAccount(balance, accId);
@@ -413,36 +371,16 @@ public class ClientDAOImpl implements ClientDAO {
                     } else if (overdraft != 0) {
                         account = new CheckingAccount(overdraft, balance, accId);
                         client.addAccount(account);
-=======
-                float overdraft = resultSet2.getFloat(1);
-                float balance = resultSet2.getFloat(2);
-                Integer accId = resultSet2.getInt(3);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
                     }
 
-<<<<<<< HEAD
-=======
-                    account = new SavingAccount(balance, accId);
-                    client.addAccount(account);
-                    client.setActiveAccount(account);
-                } else if (overdraft != 0) {
-                    account = new CheckingAccount(overdraft, balance, accId);
-                    client.addAccount(account);
-                    client.setActiveAccount(account);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
                 }
 
                 clients.add(client);
 
-<<<<<<< HEAD
             }
         } catch (SQLException e) {
             e.printStackTrace();
-=======
-            clients.add(client);
-
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         }
 
 //        bank.setClients(clients);
@@ -453,11 +391,7 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-<<<<<<< HEAD
     public void save(Client client, Integer bankId){
-=======
-    public void save(Client client, Integer bankId) throws SQLException, DAOException {
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -468,11 +402,7 @@ public class ClientDAOImpl implements ClientDAO {
         }
 
 
-<<<<<<< HEAD
         if (client.getId() != null ) {
-=======
-            if (client.getId() != null ) {
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
                 String sql = "UPDATE CLIENT SET   BANK_ID = ? ,\n" +
                         " \tCLIENT_NAME= ?,\n" +
                         " \tGENDER = ?,\n" +
@@ -631,16 +561,12 @@ public class ClientDAOImpl implements ClientDAO {
                     e.printStackTrace();
                 }
 
-<<<<<<< HEAD
                 ResultSet resultSet = null;
                 try {
                     resultSet = preparedStatement2.getGeneratedKeys();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-=======
-              ResultSet resultSet =  preparedStatement2.getGeneratedKeys();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
                 try {
@@ -674,19 +600,6 @@ public class ClientDAOImpl implements ClientDAO {
                 }
             }
 
-                if ( resultSet == null || ! resultSet.next()) {
-                    throw new DAOException("Impossible to save in DB. Can't get clientID.");
-                }
-                Integer clientId = resultSet.getInt(1);
-                client.setId(clientId);
-
-                AccountDAO accountDAO = new AccountDAOImpl();
-                if(!(client.getAccounts().isEmpty())) {
-
-                    accountDAO.save(client.getActiveAccount(), client);
-                }
-            }
-
         baseDAO.closeConnection();
         }
 
@@ -704,17 +617,12 @@ public class ClientDAOImpl implements ClientDAO {
             e.printStackTrace();
         }
 
-<<<<<<< HEAD
         AccountDAO accountDAO = DAOFactory.getAccountDAO();
         try {
             accountDAO.removeByClientId(client.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-=======
-        AccountDAO accountDAO = new AccountDAOImpl();
-       accountDAO.removeByClientId(client.getId());
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         String sql = "DELETE FROM CLIENT WHERE CLIENT.ID = ?";
 
@@ -734,7 +642,6 @@ public class ClientDAOImpl implements ClientDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
 
         baseDAO.closeConnection();

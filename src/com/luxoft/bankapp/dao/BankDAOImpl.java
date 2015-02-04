@@ -1,21 +1,18 @@
 package com.luxoft.bankapp.dao;
 
-<<<<<<< HEAD
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.DAOException;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.BankInfo;
 
 
-=======
-import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.service.BankInfo;
-
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by SCJP on 27.01.2015.
@@ -64,13 +61,6 @@ public class BankDAOImpl implements BankDAO {
             e.printStackTrace();
         }
 
-<<<<<<< HEAD
-=======
-        while (resultSet.next()) {
-            Integer id = resultSet.getInt(1);
-            bank1.setId(id);
-            String bankName = resultSet.getString(2);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         ResultSet resultSet = null;
         try {
@@ -162,7 +152,6 @@ public class BankDAOImpl implements BankDAO {
         bankInfo.setTotalAccountSum(totalAccountSum);
 
 
-<<<<<<< HEAD
         baseDAO.closeConnection();
         return bankInfo;
 
@@ -211,12 +200,8 @@ public class BankDAOImpl implements BankDAO {
             if(!(bank.getClients().isEmpty())) {
                 for (Client c : bank.getClients()) {
                     try {
-                        try {
-                            clientDAO.save(c, bank.getId());
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (DAOException e) {
+                        clientDAO.save(c, bank.getId());
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -275,12 +260,8 @@ public class BankDAOImpl implements BankDAO {
 
                 for (Client c : bank.getClients()) {
                     try {
-                        try {
-                            clientDAO.save(c, bank.getId());
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (DAOException e) {
+                        clientDAO.save(c, bank.getId());
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -347,8 +328,6 @@ public class BankDAOImpl implements BankDAO {
         }
         bank.setClients(clients);
 
-=======
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         baseDAO.closeConnection();
         return bank;
 

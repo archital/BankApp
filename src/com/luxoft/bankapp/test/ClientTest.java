@@ -1,15 +1,20 @@
 package com.luxoft.bankapp.test;
 
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Account;
+import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.model.SavingAccount;
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.*;
 
 public class ClientTest {
 

@@ -1,14 +1,9 @@
 package com.luxoft.bankapp.command;
 
-<<<<<<< HEAD
 import com.luxoft.bankapp.dao.ClientDAO;
 import com.luxoft.bankapp.dao.ClientDAOImpl;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-=======
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
@@ -44,11 +39,7 @@ public class RemoveCommand implements Command {
     }
 
 	@Override
-<<<<<<< HEAD
 	public void execute () {
-=======
-	public void execute () throws ClientExistsException {
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         BankCommander.currentBank = currentBank;
 
@@ -61,11 +52,7 @@ public class RemoveCommand implements Command {
 		String name = inOut.readln();
 
 		Client currentClient = null;
-<<<<<<< HEAD
         ClientService clientService = ServiceFactory.getClientImpl();
-=======
-        ClientService clientService = new ClientImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         try {
@@ -92,22 +79,14 @@ public class RemoveCommand implements Command {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClientNotFoundException e) {
-<<<<<<< HEAD
             inOut.println("Client with that name was not found");
-=======
-            e.printStackTrace();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         }
 
         if (newCurrentClient == null) {
             inOut.println("Error!!! Client with such name was not found.");
             return;
         }
-<<<<<<< HEAD
         AccountService accountService = ServiceFactory.getAccountImpl();
-=======
-        AccountService accountService = new AccountImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         try {
             if (accountService.getClientAccounts(newCurrentClient.getId()).isEmpty()) {

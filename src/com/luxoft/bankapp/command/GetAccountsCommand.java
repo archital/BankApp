@@ -6,14 +6,7 @@ import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-<<<<<<< HEAD
 import com.luxoft.bankapp.service.*;
-=======
-import com.luxoft.bankapp.service.AccountImpl;
-import com.luxoft.bankapp.service.AccountService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.sql.SQLException;
 import java.util.List;
@@ -55,13 +48,8 @@ public class GetAccountsCommand implements Command {
                 return;
             }
 
-<<<<<<< HEAD
 
         AccountService accountService = ServiceFactory.getAccountImpl();
-=======
-        ClientService clientService = new ClientImpl();
-        AccountService accountService = new AccountImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
         try {
             if (accountService.getClientAccounts(currentClient.getId()).isEmpty()) {

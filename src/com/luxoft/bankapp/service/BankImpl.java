@@ -6,16 +6,13 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.dao.BankDAO;
 import com.luxoft.bankapp.dao.BankDAOImpl;
-<<<<<<< HEAD
 import com.luxoft.bankapp.dao.DAOFactory;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.DAOException;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.model.Account;
-=======
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.Client;
 
-<<<<<<< HEAD
 import java.io.*;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -58,27 +55,6 @@ public class BankImpl implements BankService {
 
           bankDAO.save(bank);
 
-=======
-import java.sql.SQLException;
-
-public class BankImpl implements BankService {
-
-
-    @Override
-    public Bank getBankByName(String name) throws SQLException {
-
-        BankDAO bankDAO = new BankDAOImpl();
-      return   bankDAO.getBankByName(name);
-
-    }
-
-    @Override
-    public BankInfo getBankInfo(Bank bank) throws SQLException {
-        BankDAO bankDAO = new BankDAOImpl();
-
-            BankInfo bankInfo =  bankDAO.getBankInfo(bank);
-        return bankInfo;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
     }
 
 }

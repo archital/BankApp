@@ -5,13 +5,8 @@
 
 package com.luxoft.bankapp.command;
 
-<<<<<<< HEAD
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-=======
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
@@ -19,10 +14,7 @@ import com.luxoft.bankapp.model.Gender;
 import com.luxoft.bankapp.server.CommanderServer;
 import com.luxoft.bankapp.service.ClientImpl;
 import com.luxoft.bankapp.service.ClientService;
-<<<<<<< HEAD
 import com.luxoft.bankapp.service.ServiceFactory;
-=======
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -51,11 +43,7 @@ public class AddClientCommand implements Command {
 
 
 
-<<<<<<< HEAD
         ClientService clientService = ServiceFactory.getClientImpl();
-=======
-        ClientService clientService = new ClientImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
         if (currentBank == null) {
             inOut.println("Error!!! Current bank is undefined");
             return;
@@ -152,15 +140,11 @@ public class AddClientCommand implements Command {
 
 
         try {
-<<<<<<< HEAD
             try {
                 clientService.addClient(currentBank, client);
             } catch (ClientExistsException e) {
                 inOut.println("Client with such name already exists");
             }
-=======
-            clientService.addClient(currentBank, client);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
             BankCommander.currentClient  = client;
             CommanderServer.currentClient = client;

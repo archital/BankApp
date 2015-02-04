@@ -20,4 +20,8 @@ public class ServiceFactory {
     public static AccountImpl getAccountImpl() {
         return AccountImpl.getInstance();
     }
+
+    public static BankFeedService getBankFeedService() {
+        return BankFeedService.getInstance().getInstance();
+    }
 }

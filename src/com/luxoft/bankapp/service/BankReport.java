@@ -1,18 +1,11 @@
 package com.luxoft.bankapp.service;
 
-<<<<<<< HEAD
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-=======
 import com.luxoft.bankapp.exception.ClientNotFoundException;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
-<<<<<<< HEAD
 import javax.xml.transform.sax.SAXSource;
-=======
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 import java.sql.SQLException;
 import java.util.*;
 
@@ -92,19 +85,13 @@ public class BankReport {
 
         Map<String, List<Client>> listMap = new TreeMap();
 
-<<<<<<< HEAD
         ClientService clientService = ServiceFactory.getClientImpl();
-=======
-        ClientService clientService = new ClientImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         Set<Client> clients = null;
         try {
             clients = clientService.getAllClients(bank);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClientNotFoundException e) {
             e.printStackTrace();
         }
         for (Client client : clients) {

@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.test;
 
-import com.luxoft.bankapp.expeption.ClientExistsException;
+import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.ServiceFactory;
 import org.junit.Before;

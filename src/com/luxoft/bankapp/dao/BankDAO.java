@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.dao;
 
-import com.luxoft.bankapp.expeption.DAOException;
+import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.service.BankInfo;
 

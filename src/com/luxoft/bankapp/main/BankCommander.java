@@ -1,21 +1,11 @@
 package com.luxoft.bankapp.main;
 
 import com.luxoft.bankapp.command.*;
-<<<<<<< HEAD:src/com/luxoft/bankapp/main/BankCommander.java
 import com.luxoft.bankapp.dao.*;
-import com.luxoft.bankapp.expeption.ClientExistsException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.service.*;
-=======
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3:src/com/luxoft/bankapp/main/BankCommander.java
+import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -67,13 +57,8 @@ public class BankCommander {
     public static void main(String args[]) {
         InputOutput io = new InputOutput();
 
-<<<<<<< HEAD:src/com/luxoft/bankapp/main/BankCommander.java
       BankService bankService = ServiceFactory.getBankImpl();
         ClientService clientService = ServiceFactory.getClientImpl();
-=======
-      BankService bankService = new BankImpl();
-        ClientService clientService = new ClientImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3:src/com/luxoft/bankapp/main/BankCommander.java
 
 
         try {
@@ -169,11 +154,7 @@ public class BankCommander {
 
                     printMapIt.getValue().printCommandInfo();
                     System.out.print("......");
-                    try {
-                        printMapIt.getValue().execute(); //start working command
-                    } catch (ClientExistsException e) {
-                        e.printStackTrace();
-                    }
+                    printMapIt.getValue().execute(); //start working command
                 }
 
             }

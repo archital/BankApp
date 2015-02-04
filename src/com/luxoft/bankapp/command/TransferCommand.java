@@ -1,23 +1,12 @@
 package com.luxoft.bankapp.command;
 
-<<<<<<< HEAD
 import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
-import com.luxoft.bankapp.expeption.ClientNotFoundException;
-import com.luxoft.bankapp.expeption.NotEnoughFundsException;
+import com.luxoft.bankapp.exception.ClientNotFoundException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.*;
-=======
-import com.luxoft.bankapp.exception.ClientNotFoundException;
-import com.luxoft.bankapp.model.Account;
-import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.AccountImpl;
-import com.luxoft.bankapp.service.AccountService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 import java.sql.SQLException;
 import java.util.List;
@@ -53,13 +42,8 @@ public class TransferCommand implements Command {
     public void execute() {
 
 
-<<<<<<< HEAD
         ClientService clientService = ServiceFactory.getClientImpl();
         AccountService accountService = ServiceFactory.getAccountImpl();
-=======
-        ClientService clientService = new ClientImpl();
-        AccountService accountService = new AccountImpl();
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
 
         if (currentBank == null) {
@@ -122,17 +106,11 @@ public class TransferCommand implements Command {
                     accIdDeposit = Integer.parseInt(inOut.readln());
                     currentAccountDeposit = accountService.getAccountById(accIdDeposit);
                     clientDeposit.setActiveAccount(currentAccountDeposit);
-<<<<<<< HEAD
                     try {
                         accountService.Transfer(accId, accIdDeposit, currentClient.getId(), clientDeposit.getId(), amount);
-                    } catch (NotEnoughFundsException e) {
-                        inOut.println("Not enough money in this account");
-                    } catch (OverDraftLimitExceededException e) {
+                    } catch ( NotEnoughFundsException e) {
                         inOut.println("Not enough money in this account");
                     }
-=======
-                   accountService.Transfer(accId, accIdDeposit, currentClient.getId(), clientDeposit.getId(), amount);
->>>>>>> c5258326ff7a4e2435eefad0db80b4034e1583e3
 
                     inOut.println("Current account is selected:\n "+ currentAccountDeposit.toString()+ "\n"+
                    "Successful transfer, you can select new command" +
