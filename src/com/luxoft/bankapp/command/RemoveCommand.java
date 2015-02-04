@@ -39,7 +39,7 @@ public class RemoveCommand implements Command {
     }
 
 	@Override
-	public void execute () throws ClientExistsException {
+	public void execute () {
 
         BankCommander.currentBank = currentBank;
 
@@ -52,13 +52,13 @@ public class RemoveCommand implements Command {
 		String name = inOut.readln();
 
 		Client currentClient = null;
-        ClientService clientService = new ClientImpl();
+        ClientService clientService = ServiceFactory.getClientImpl();
 
 
         try {
             currentClient = clientService.findClientInDB(currentBank, name);
         } catch (ClientNotFoundException e) {
-            e.printStackTrace();
+            inOut.println("Client with that name was not found");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,14 +79,14 @@ public class RemoveCommand implements Command {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClientNotFoundException e) {
-            e.printStackTrace();
+            inOut.println("Client with that name was not found");
         }
 
         if (newCurrentClient == null) {
             inOut.println("Error!!! Client with such name was not found.");
             return;
         }
-        AccountService accountService = new AccountImpl();
+        AccountService accountService = ServiceFactory.getAccountImpl();
 
         try {
             if (accountService.getClientAccounts(newCurrentClient.getId()).isEmpty()) {

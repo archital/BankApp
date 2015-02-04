@@ -9,10 +9,7 @@ import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.AccountImpl;
-import com.luxoft.bankapp.service.AccountService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
+import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,7 +43,7 @@ public class DepositCommand implements Command {
     @Override
     public void execute() {
 
-        AccountService accountService = new AccountImpl();
+        AccountService accountService = ServiceFactory.getAccountImpl();
 
             if (currentBank == null) {
                 inOut.println("Error!!! Current bank is undefined.");
@@ -84,7 +81,7 @@ public class DepositCommand implements Command {
 
                 accountService.deposit(amount, currentClient.getActiveAccount());
 
-                 //   inOut.println(currentClient.toString() + "\n enter  'back'/ 'exit' or 'bye'");
+
                 inOut.println("Deposit successful! you can select new command" +
                         "\npress 'Enter' for CommanderServer ");
                 }
@@ -92,11 +89,7 @@ public class DepositCommand implements Command {
             e.printStackTrace();
         }
         try {
-            try {
-                accountService.addAccount(currentClient, currentClient.getActiveAccount()); //write update to DB
-            } catch (ClientExistsException e) {
-                e.printStackTrace();
-            }
+            accountService.addAccount(currentClient, currentClient.getActiveAccount()); //write update to DB
         } catch (SQLException e) {
             e.printStackTrace();
         }

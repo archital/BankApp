@@ -7,6 +7,7 @@ import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankInfo;
 import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ServiceFactory;
 
 import java.sql.SQLException;
 
@@ -30,14 +31,14 @@ public class ReportCommander implements Command {
 	}
 
 	@Override
-	public void execute () throws ClientExistsException {
+	public void execute ()  {
 
 		if (currentBank == null) {
 			ioStreams.println("Error!!! Current bank is undefined.");
 			return;
 		}
 
-        BankService bankService = new BankImpl();
+        BankService bankService = ServiceFactory.getBankImpl();
         BankInfo bankInfo = null;
         try {
             bankInfo = bankService.getBankInfo(currentBank);

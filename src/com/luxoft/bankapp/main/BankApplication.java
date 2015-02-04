@@ -51,7 +51,7 @@ public class BankApplication {
     public void printBankReport(String bankName) throws SQLException {
 
 
-        BankService bankService = new BankImpl();
+        BankService bankService = ServiceFactory.getBankImpl();
 
 
 

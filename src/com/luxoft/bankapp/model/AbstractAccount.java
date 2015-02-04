@@ -1,5 +1,6 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.expeption.NotEnoughFundsException;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
  */
 public abstract class AbstractAccount implements Account, Serializable {
 
-    @Bank.NoDB(name = "account id")    protected Integer id= null;
+    @annotation.NoDB    protected Integer id= null;
     protected float balance = 0;
 
 
@@ -43,6 +44,24 @@ public abstract class AbstractAccount implements Account, Serializable {
             float b = balance - x;
             balance = b;
         }
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractAccount abstractAccount = (AbstractAccount) o;
+        if (Float.compare(abstractAccount.balance, balance) != 0) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
+        return result;
     }
 
 

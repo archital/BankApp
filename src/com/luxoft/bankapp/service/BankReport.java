@@ -85,7 +85,7 @@ public class BankReport {
 
         Map<String, List<Client>> listMap = new TreeMap();
 
-        ClientService clientService = new ClientImpl();
+        ClientService clientService = ServiceFactory.getClientImpl();
 
 
         Set<Client> clients = null;

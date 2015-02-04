@@ -33,20 +33,14 @@ public class ClientTest {
     @Test
     public void testCreateAccountWithOnlyType() throws Exception {
 
-
-
-
-      Account account1 =  client.createAccountWithOnlyType("s");
+        Account account1 =  client.createAccountWithOnlyType("s");
       Account account2 =  client.createAccountWithOnlyType("c");
-
-
 
         accounts.add(account1);
         accounts.add(account2);
 
 
         assertEquals(client.getAccounts(), accounts);
-
 
     }
 

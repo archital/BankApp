@@ -2,6 +2,7 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.dao.ClientDAO;
 import com.luxoft.bankapp.dao.ClientDAOImpl;
+import com.luxoft.bankapp.dao.DAOFactory;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
 import com.luxoft.bankapp.expeption.DAOException;
@@ -21,9 +22,23 @@ import java.util.Set;
 public class ClientImpl implements ClientService{
 
 
+    private static ClientImpl instance;
+
+    private ClientImpl() {
+    }
+
+    public static  ClientImpl getInstance() {
+        if (instance == null) {
+            instance = new  ClientImpl();
+        }
+        return instance;
+    }
+
+
+
     @Override
     public void addClient(Bank bank, Client client) throws SQLException, ClientExistsException {
-        ClientDAO clientDAO = new ClientDAOImpl();
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
 
         try {
             clientDAO.save(client, bank.getId());
@@ -44,14 +59,14 @@ public class ClientImpl implements ClientService{
 
     @Override
     public void removeClient(Client client, Bank bank) throws SQLException {
-        ClientDAO clientDAO = new ClientDAOImpl();
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
         clientDAO.remove(client);
             bank.removeClient(client);
     }
 
     @Override
     public Client findClientInDB(Bank bank, String name) throws SQLException, ClientNotFoundException {
-        ClientDAO clientDAO = new ClientDAOImpl();
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
         Client   client =  clientDAO.findClientByName(bank, name);
         return client;
     }
@@ -132,7 +147,7 @@ public class ClientImpl implements ClientService{
 
     @Override
     public Set<Client> getAllClients (Bank bank) throws SQLException, ClientNotFoundException {
-        ClientDAO clientDAO = new ClientDAOImpl();
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
        Set<Client> clients = clientDAO.getAllClients(bank);
         return clients;
     }

@@ -5,10 +5,7 @@ import com.luxoft.bankapp.dao.*;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
 import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
+import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -19,7 +16,7 @@ import java.util.*;
 public class BankCommander {
     public static Bank currentBank;
     public static Client currentClient = null;
-    public static BankService service = new BankImpl();
+    public static BankService service = ServiceFactory.getBankImpl();
     static String bankName = "My Bank";
     static  String clientName = "";
 
@@ -60,8 +57,8 @@ public class BankCommander {
     public static void main(String args[]) {
         InputOutput io = new InputOutput();
 
-      BankService bankService = new BankImpl();
-        ClientService clientService = new ClientImpl();
+      BankService bankService = ServiceFactory.getBankImpl();
+        ClientService clientService = ServiceFactory.getClientImpl();
 
 
         try {

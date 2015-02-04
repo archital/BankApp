@@ -1,15 +1,10 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
+import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.FeedException;
-import com.luxoft.bankapp.service.TestService;
 
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.*;
 
 /**
@@ -19,24 +14,18 @@ public class Bank {
 
 
 
-    @NoDB (name = "bank id")  private Integer id = null;
+   @annotation.NoDB private Integer id = null;
 
     private String name;
 
-    @NoDB(name = "listeners") public List<ClientRegistrationListener> listeners = new ArrayList();
+    @annotation.NoDB public List<ClientRegistrationListener> listeners = new ArrayList();
 
 
-    @NoDB(name = "clients")    private Set<Client> clients = new HashSet<Client>();
+    private Set<Client> clients = new HashSet<Client>();
 
 
-    @NoDB(name = "client Map")  private Map<String, Client> clientMap = new HashMap<String, Client>();
+    @annotation.NoDB  private Map<String, Client> clientMap = new HashMap<String, Client>();
 
-
-    @Target (ElementType.FIELD)
-    @Retention (RetentionPolicy.RUNTIME)
-    public @interface NoDB {
-        String name() default "";
-    }
 
     public Set<Client> getClients() {
         return clients;
@@ -68,7 +57,7 @@ public class Bank {
         }
         clients.add(client);
         for (ClientRegistrationListener listener : listeners) {
-            listener.onClientAdded(client);
+           listener.onClientAdded(client);
         }
     }
 

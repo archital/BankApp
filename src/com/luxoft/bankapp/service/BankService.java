@@ -6,6 +6,7 @@ package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
+import com.luxoft.bankapp.expeption.DAOException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
@@ -18,4 +19,5 @@ public interface BankService {
 
     Bank getBankByName(String name) throws SQLException;
     BankInfo getBankInfo(Bank bank) throws SQLException;
+    public void  save(Bank bank) throws SQLException, ClientExistsException, DAOException;
 }

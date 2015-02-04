@@ -9,10 +9,7 @@ import com.luxoft.bankapp.command.*;
 import com.luxoft.bankapp.expeption.ClientExistsException;
 import com.luxoft.bankapp.expeption.ClientNotFoundException;
 import com.luxoft.bankapp.model.*;
-import com.luxoft.bankapp.service.BankImpl;
-import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
+import com.luxoft.bankapp.service.*;
 
 
 import java.io.*;
@@ -110,7 +107,7 @@ public class CommanderServer {
 			});
 
 
-            ClientService clientService = new ClientImpl();
+            ClientService clientService = ServiceFactory.getClientImpl();
 
             sendMessage("Input current client name: ");
             clientName =  (String) in.readObject();
@@ -176,6 +173,7 @@ public class CommanderServer {
 
                 } else if (message.equals("7")) {
                     sendMessage("bye");
+	                message = "bye";
 
                 } else {
                     sendMessage("Error! wrong command: ");
@@ -191,9 +189,7 @@ public class CommanderServer {
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (ClientExistsException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		}  catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -211,7 +207,7 @@ public class CommanderServer {
 
 	public static void main (String args[]) {
 
-        BankService bankService = new BankImpl();
+        BankService bankService = ServiceFactory.getBankImpl();
 
 
         try {

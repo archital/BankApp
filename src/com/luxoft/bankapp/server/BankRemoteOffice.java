@@ -6,11 +6,8 @@ import com.luxoft.bankapp.expeption.FeedException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.*;
 import com.luxoft.bankapp.model.Gender;
-import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -108,7 +105,7 @@ public class BankRemoteOffice {
 						System.out.println("client> " + message);
 
 						currentClient = null;
-                        ClientService clientService = new ClientImpl();
+                        ClientService clientService = ServiceFactory.getClientImpl();
 
 
 						try {
@@ -166,7 +163,7 @@ public class BankRemoteOffice {
 						System.out.println("client> " + message);
 
 						currentClient = null;
-						ClientService clientService = new ClientImpl();
+						ClientService clientService = ServiceFactory.getClientImpl();
 
 
 						try {
@@ -411,7 +408,7 @@ public class BankRemoteOffice {
 	public static void main (final String args[]) {
 
 
-        BankService bankService = new BankImpl();
+        BankService bankService = ServiceFactory.getBankImpl();
 
 
         try {
