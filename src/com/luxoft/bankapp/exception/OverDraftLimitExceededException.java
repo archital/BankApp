@@ -1,26 +1,27 @@
 package com.luxoft.bankapp.exception;
 
+import com.luxoft.bankapp.model.CheckingAccount;
+
 /**
  * Created by SCJP on 15.01.2015.
  */
 
 public class OverDraftLimitExceededException extends NotEnoughFundsException {
 
+private CheckingAccount checkingAccount;
 
-    private float sumClientThatClientCanTake;
 
-    public float getSumClientThatClientCanTake() {
-        return sumClientThatClientCanTake;
+    public OverDraftLimitExceededException(float amount, CheckingAccount checkingAccount) {
+        super(amount);
+        this.checkingAccount = checkingAccount;
     }
 
-    public OverDraftLimitExceededException(float sumClientWant) {
-
-
-        this.sumClientThatClientCanTake =  sumClientWant;
-
-
+    @Override
+    public String getMessage () {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Yoy cant get more than ");
+        sb.append(checkingAccount.getBalance() + checkingAccount.getOverdraft());
+        return sb.toString();
     }
-
-
 }
 

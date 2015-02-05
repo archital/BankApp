@@ -56,7 +56,7 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
 
             overdraft = overdraft - (x - getBalance());
             if(overdraft < 0 ){
-                throw new OverDraftLimitExceededException(x);
+                throw new OverDraftLimitExceededException(x, this);
             }
 
         } else if ((getBalance() + getOverdraft()) >= x) {

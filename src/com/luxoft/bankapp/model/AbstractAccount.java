@@ -39,7 +39,7 @@ public abstract class AbstractAccount implements Account, Serializable {
     @Override
     public void withdraw(float x) throws NotEnoughFundsException {
         if (x > balance) {
-            throw new NotEnoughFundsException();
+            throw new NotEnoughFundsException(x-balance);
         } else {
             float b = balance - x;
             balance = b;
