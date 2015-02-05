@@ -1,10 +1,16 @@
 package com.luxoft.bankapp.main;
 
+import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
+import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Created by SCJP on 14.01.2015.
@@ -45,7 +51,7 @@ public class BankApplication {
     public void printBankReport(String bankName) throws SQLException {
 
 
-        BankService bankService = new BankImpl();
+        BankService bankService = ServiceFactory.getBankImpl();
 
 
 

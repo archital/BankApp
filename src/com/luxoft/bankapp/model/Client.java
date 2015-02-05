@@ -1,11 +1,15 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.exception.FeedException;
+
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 
 
 /**
@@ -13,9 +17,10 @@ import java.util.Set;
  */
 public class Client implements Report, Serializable {
 
-    private Integer id = null;
+    @annotation.NoDB    private Integer id = null;
 
-    private static final long serialVersionUID = 1L;
+    @annotation.NoDB private static final long serialVersionUID = 1L;
+
 
 
     private Gender gender;
@@ -24,7 +29,7 @@ public class Client implements Report, Serializable {
     private String email = "";
     private Set<Account> accounts = new HashSet<Account>();
     private float initialOverdraft;
-    private Account activeAccount;
+    @annotation.NoDB   private Account activeAccount;
     private String city = "";
 
 
@@ -166,8 +171,9 @@ public class Client implements Report, Serializable {
         return accounts;
     }
 
-
-
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
 
     public float getBalance() {
 
@@ -196,6 +202,7 @@ public class Client implements Report, Serializable {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -205,10 +212,11 @@ public class Client implements Report, Serializable {
 
         if (Float.compare(client.initialOverdraft, initialOverdraft) != 0) return false;
         if (accounts != null ? !accounts.equals(client.accounts) : client.accounts != null) return false;
-        if (activeAccount != null ? !activeAccount.equals(client.activeAccount) : client.activeAccount != null)
-            return false;
         if (gender != client.gender) return false;
-        if (name != null ? !name.equals(client.name) : client.name != null) return false;
+        if (telephoneNumber != client.telephoneNumber) return false;
+        if (city != client.city) return false;
+        if (email != client.email) return false;
+        if (!name.equals(client.name)) return false;
 
         return true;
     }
@@ -220,8 +228,14 @@ public class Client implements Report, Serializable {
         result = 31 * result + (activeAccount != null ? activeAccount.hashCode() : 0);
         result = 31 * result + (initialOverdraft != +0.0f ? Float.floatToIntBits(initialOverdraft) : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
+
+
+
 
     @Override
     public String toString() {

@@ -5,6 +5,7 @@ import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
+import javax.xml.transform.sax.SAXSource;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -84,15 +85,17 @@ public class BankReport {
 
         Map<String, List<Client>> listMap = new TreeMap();
 
-        ClientService clientService = new ClientImpl();
+        ClientService clientService = ServiceFactory.getClientImpl();
 
 
         Set<Client> clients = null;
         try {
-            clients = clientService.getAllClients(bank);
+            try {
+                clients = clientService.getAllClients(bank);
+            } catch (ClientNotFoundException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClientNotFoundException e) {
             e.printStackTrace();
         }
         for (Client client : clients) {

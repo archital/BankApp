@@ -1,10 +1,12 @@
 package com.luxoft.bankapp.command;
 
+import com.luxoft.bankapp.dao.DAOFactory;
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ServiceFactory;
 
 /**
  * Created by acer on 24.01.2015.
@@ -13,7 +15,7 @@ public class AbstractCommand implements Command {
 
 	protected Client currentClient;
 	protected Bank currentBank;
-	protected BankService bankService = new BankImpl();
+	protected BankService bankService = ServiceFactory.getBankImpl();
 	protected InputOutput ioStreams;
 
 
@@ -55,7 +57,7 @@ public class AbstractCommand implements Command {
 
 
 	@Override
-	public void execute () throws ClientExistsException {
+	public void execute ()  {
 
 	}
 

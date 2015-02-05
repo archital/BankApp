@@ -12,6 +12,25 @@ import java.util.Map;
  */
 public class BankFeedService {
 
+
+
+    private static BankFeedService instance;
+
+    private BankFeedService() {
+    }
+
+    public static  BankFeedService getInstance() {
+        if (instance == null) {
+            instance = new  BankFeedService();
+        }
+        return instance;
+    }
+
+
+
+
+
+
     private Bank activeBank;
 
     public Bank getCurrentBank() {

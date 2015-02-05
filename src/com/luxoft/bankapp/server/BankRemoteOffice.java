@@ -6,11 +6,8 @@ import com.luxoft.bankapp.exception.FeedException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.BankImpl;
+import com.luxoft.bankapp.service.*;
 import com.luxoft.bankapp.model.Gender;
-import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.ClientImpl;
-import com.luxoft.bankapp.service.ClientService;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -108,7 +105,7 @@ public class BankRemoteOffice {
 						System.out.println("client> " + message);
 
 						currentClient = null;
-                        ClientService clientService = new ClientImpl();
+                        ClientService clientService = ServiceFactory.getClientImpl();
 
 
 						try {
@@ -166,7 +163,7 @@ public class BankRemoteOffice {
 						System.out.println("client> " + message);
 
 						currentClient = null;
-						ClientService clientService = new ClientImpl();
+						ClientService clientService = ServiceFactory.getClientImpl();
 
 
 						try {
@@ -310,13 +307,13 @@ public class BankRemoteOffice {
 							return;
 						}
 
-						try {
-							currentBank.addClient(client);
-						} catch (ClientExistsException e) {
-							e.printStackTrace();
-						}
+                        try {
+                            currentBank.addClient(client);
+                        } catch (ClientExistsException e) {
+                            e.printStackTrace();
+                        }
 
-						sendMessage("enter what Account TYPE you want to create to client  's' / 'c' " +
+                        sendMessage("enter what Account TYPE you want to create to client  's' / 'c' " +
 								client.getGender().getGenderPrefix() + client.getName());
 
 						try {
@@ -333,20 +330,21 @@ public class BankRemoteOffice {
 
                             try {
                                 client.setActiveAccount(client.createAccountWithOnlyType("s"));
-	                            client.getActiveAccount().setBalance(balance);
                             } catch (FeedException e) {
                                 e.printStackTrace();
                             }
-                        } else if (message.equals("c")) {
+                            client.getActiveAccount().setBalance(balance);
+						} else if (message.equals("c")) {
 
+                            CheckingAccount checkingAccount = null;
                             try {
-	                            CheckingAccount checkingAccount = (CheckingAccount) client.createAccountWithOnlyType("c");
-	                            checkingAccount.setOverdraft(overdraft);
-                                client.setActiveAccount(checkingAccount);
+                                checkingAccount = (CheckingAccount) client.createAccountWithOnlyType("c");
                             } catch (FeedException e) {
                                 e.printStackTrace();
                             }
-                        } else {
+                            checkingAccount.setOverdraft(overdraft);
+							client.setActiveAccount(checkingAccount);
+						} else {
 							message = "bye";
 							sendMessage(message);
 							return;
@@ -411,7 +409,7 @@ public class BankRemoteOffice {
 	public static void main (final String args[]) {
 
 
-        BankService bankService = new BankImpl();
+        BankService bankService = ServiceFactory.getBankImpl();
 
 
         try {

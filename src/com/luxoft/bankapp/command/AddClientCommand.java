@@ -14,6 +14,7 @@ import com.luxoft.bankapp.model.Gender;
 import com.luxoft.bankapp.server.CommanderServer;
 import com.luxoft.bankapp.service.ClientImpl;
 import com.luxoft.bankapp.service.ClientService;
+import com.luxoft.bankapp.service.ServiceFactory;
 
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -38,11 +39,11 @@ public class AddClientCommand implements Command {
     }
 
     @Override
-    public void execute() throws ClientExistsException {
+    public void execute()  {
 
 
 
-        ClientService clientService = new ClientImpl();
+        ClientService clientService = ServiceFactory.getClientImpl();
         if (currentBank == null) {
             inOut.println("Error!!! Current bank is undefined");
             return;
@@ -139,7 +140,11 @@ public class AddClientCommand implements Command {
 
 
         try {
-            clientService.addClient(currentBank, client);
+            try {
+                clientService.addClient(currentBank, client);
+            } catch (ClientExistsException e) {
+                inOut.println("Client with such name already exists");
+            }
 
             BankCommander.currentClient  = client;
             CommanderServer.currentClient = client;

@@ -1,9 +1,9 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.Listeners.ClientRegistrationListener;
+import com.luxoft.bankapp.annotation.annotation;
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.FeedException;
-
 
 import java.util.*;
 
@@ -12,16 +12,19 @@ import java.util.*;
  */
 public class Bank {
 
-    private Integer id = null;
+
+
+   @annotation.NoDB private Integer id = null;
+
     private String name;
 
+    @annotation.NoDB public List<ClientRegistrationListener> listeners = new ArrayList();
 
-    public List<ClientRegistrationListener> listeners = new ArrayList();
 
     private Set<Client> clients = new HashSet<Client>();
 
-    private Map<String, Client> clientMap = new HashMap<String, Client>();
 
+    @annotation.NoDB  private Map<String, Client> clientMap = new HashMap<String, Client>();
 
 
     public Set<Client> getClients() {
@@ -54,7 +57,7 @@ public class Bank {
         }
         clients.add(client);
         for (ClientRegistrationListener listener : listeners) {
-            listener.onClientAdded(client);
+           listener.onClientAdded(client);
         }
     }
 
@@ -74,7 +77,6 @@ public class Bank {
         listeners.add(registrationListener);
     }
 
-    ;
 
     public void printReport() {
         System.out.println( " report: ");
@@ -126,6 +128,8 @@ public class Bank {
             System.out.println("Notification email for client " + c.getGender().getGenderPrefix() + " " + c.getName() + "to be sent");
         }
     }
+
+
 
 
     @Override
