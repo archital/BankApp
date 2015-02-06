@@ -90,7 +90,11 @@ public class BankReport {
 
         Set<Client> clients = null;
         try {
-            clients = clientService.getAllClients(bank);
+            try {
+                clients = clientService.getAllClients(bank);
+            } catch (ClientNotFoundException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

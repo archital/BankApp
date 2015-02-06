@@ -200,7 +200,11 @@ public class BankDAOImpl implements BankDAO {
             if(!(bank.getClients().isEmpty())) {
                 for (Client c : bank.getClients()) {
                     try {
-                        clientDAO.save(c, bank.getId());
+                        try {
+                            clientDAO.save(c, bank.getId());
+                        } catch (DAOException e) {
+                            e.printStackTrace();
+                        }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -260,7 +264,11 @@ public class BankDAOImpl implements BankDAO {
 
                 for (Client c : bank.getClients()) {
                     try {
-                        clientDAO.save(c, bank.getId());
+                        try {
+                            clientDAO.save(c, bank.getId());
+                        } catch (DAOException e) {
+                            e.printStackTrace();
+                        }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

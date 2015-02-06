@@ -41,7 +41,11 @@ public class ClientImpl implements ClientService{
         ClientDAO clientDAO = DAOFactory.getClientDAO();
 
         try {
-            clientDAO.save(client, bank.getId());
+            try {
+                clientDAO.save(client, bank.getId());
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

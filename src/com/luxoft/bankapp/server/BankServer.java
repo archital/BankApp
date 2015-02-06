@@ -177,8 +177,12 @@ public class BankServer {
 								sendMessage("bye");
 								return;
 							}
-							currentClient.getActiveAccount().withdraw(amount);
-							sendMessage("successful operation : \n new total balance:" +
+                            try {
+                                currentClient.getActiveAccount().withdraw(amount);
+                            } catch (NotEnoughFundsException e) {
+                                e.printStackTrace();
+                            }
+                            sendMessage("successful operation : \n new total balance:" +
 									Float.toString(currentClient.getBalance()) + "\n please, select command ");
 
 							try {

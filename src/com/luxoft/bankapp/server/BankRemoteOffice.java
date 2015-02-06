@@ -307,9 +307,13 @@ public class BankRemoteOffice {
 							return;
 						}
 
-						currentBank.addClient(client);
+                        try {
+                            currentBank.addClient(client);
+                        } catch (ClientExistsException e) {
+                            e.printStackTrace();
+                        }
 
-						sendMessage("enter what Account TYPE you want to create to client  's' / 'c' " +
+                        sendMessage("enter what Account TYPE you want to create to client  's' / 'c' " +
 								client.getGender().getGenderPrefix() + client.getName());
 
 						try {
@@ -324,12 +328,21 @@ public class BankRemoteOffice {
 						if(message.equals("s")){
 
 
-							client.setActiveAccount(client.createAccountWithOnlyType("s"));
-							client.getActiveAccount().setBalance(balance);
+                            try {
+                                client.setActiveAccount(client.createAccountWithOnlyType("s"));
+                            } catch (FeedException e) {
+                                e.printStackTrace();
+                            }
+                            client.getActiveAccount().setBalance(balance);
 						} else if (message.equals("c")) {
 
-							CheckingAccount checkingAccount = (CheckingAccount) client.createAccountWithOnlyType("c");
-							checkingAccount.setOverdraft(overdraft);
+                            CheckingAccount checkingAccount = null;
+                            try {
+                                checkingAccount = (CheckingAccount) client.createAccountWithOnlyType("c");
+                            } catch (FeedException e) {
+                                e.printStackTrace();
+                            }
+                            checkingAccount.setOverdraft(overdraft);
 							client.setActiveAccount(checkingAccount);
 						} else {
 							message = "bye";

@@ -34,7 +34,11 @@ public class AccountImpl implements  AccountService{
     public void addAccount(Client client, Account account) throws  SQLException {
         AccountDAO accountDAO = DAOFactory.getAccountDAO();
 
-        accountDAO.save(account, client);
+        try {
+            accountDAO.save(account, client);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -62,7 +66,7 @@ public class AccountImpl implements  AccountService{
 
         if(account instanceof SavingAccount) {
         if (x > account.getBalance()) {
-            throw new NotEnoughFundsException();
+            throw new NotEnoughFundsException(x);
         } else {
             float b = account.getBalance() - x;
             account.setBalance(b);
@@ -73,7 +77,7 @@ public class AccountImpl implements  AccountService{
 
                 ((CheckingAccount) account).setOverdraft(((CheckingAccount) account).getOverdraft()- (x - account.getBalance()));
                 if(((CheckingAccount) account).getOverdraft() < 0 ){
-                    throw new OverDraftLimitExceededException(x);
+                    throw new OverDraftLimitExceededException(x, (CheckingAccount) account);
                 }
 
             } else if ((account.getBalance() + ((CheckingAccount) account).getOverdraft()) >= x) {
