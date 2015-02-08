@@ -10,9 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * Created by SCJP on 27.01.2015.
@@ -31,12 +32,15 @@ public class BankDAOImpl implements BankDAO {
         return instance;
     }
 
-    Bank bank1;
+  private   Bank bank1;
+
 
     @Override
-    public Bank getBankByName(String name)  {
+    public synchronized Bank getBankByName(String name)  {
+
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
+        synchronized (baseDAO) {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
@@ -49,9 +53,13 @@ public class BankDAOImpl implements BankDAO {
                 " FROM BANK b" +
                 " WHERE b.NAME = ?";
 
+
+
         PreparedStatement preparedStatement = null;
         try {
+
             preparedStatement = conn.prepareStatement(sql);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,24 +78,27 @@ public class BankDAOImpl implements BankDAO {
         }
         bank1 = new Bank();
 
-        try {
-            while (resultSet.next()) {
-                Integer id = resultSet.getInt(1);
-                bank1.setId(id);
-                String bankName = resultSet.getString(2);
 
-                bank1.setName(bankName);
+            try {
+                while (resultSet.next()) {
+                    Integer id = resultSet.getInt(1);
+                    bank1.setId(id);
+                    String bankName = resultSet.getString(2);
+
+                    bank1.setName(bankName);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        baseDAO.closeConnection();
+            baseDAO.closeConnection();
+        }
         return bank1;
+
     }
 
     @Override
-    public BankInfo getBankInfo(Bank bank)  {
+    public synchronized BankInfo getBankInfo(Bank bank)  {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -158,7 +169,7 @@ public class BankDAOImpl implements BankDAO {
     }
 
     @Override
-    public void save(Bank bank)  {
+    public synchronized void save(Bank bank)  {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -282,7 +293,7 @@ public class BankDAOImpl implements BankDAO {
         }
 
     @Override
-    public Bank load(String bankName) {
+    public synchronized Bank load(String bankName) {
 
 
 

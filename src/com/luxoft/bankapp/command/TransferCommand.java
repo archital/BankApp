@@ -39,7 +39,7 @@ public class TransferCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public synchronized void execute() {
 
 
         ClientService clientService = ServiceFactory.getClientImpl();

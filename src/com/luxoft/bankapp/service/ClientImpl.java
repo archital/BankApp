@@ -37,7 +37,7 @@ public class ClientImpl implements ClientService{
 
 
     @Override
-    public void addClient(Bank bank, Client client) throws SQLException, ClientExistsException {
+    public synchronized void addClient(Bank bank, Client client) throws SQLException, ClientExistsException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
 
         try {
@@ -60,21 +60,21 @@ public class ClientImpl implements ClientService{
     }
 
     @Override
-    public void removeClient(Client client, Bank bank) throws SQLException {
+    public synchronized void removeClient(Client client, Bank bank) throws SQLException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
         clientDAO.remove(client);
             bank.removeClient(client);
     }
 
     @Override
-    public Client findClientInDB(Bank bank, String name) throws SQLException, ClientNotFoundException {
+    public synchronized Client findClientInDB(Bank bank, String name) throws SQLException, ClientNotFoundException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
         Client   client =  clientDAO.findClientByName(bank, name);
         return client;
     }
 
     @Override
-    public Client findClient(Bank bank, String name) throws SQLException, ClientNotFoundException {
+    public synchronized Client findClient(Bank bank, String name) throws SQLException, ClientNotFoundException {
         Client findClient = null;
 
 
@@ -94,7 +94,7 @@ public class ClientImpl implements ClientService{
     }
 
     @Override
-    public void saveClientToFile(Client client) throws IOException {
+    public synchronized void saveClientToFile(Client client) throws IOException {
 
 
             String FilePath = "C:\\Users\\SCJP\\IdeaProjects\\Feed\\FeedObject";
@@ -109,7 +109,7 @@ public class ClientImpl implements ClientService{
     }
 
     @Override
-    public float getBalance(Client client) {
+    public synchronized float getBalance(Client client) {
         float balance = 0;
 
 
@@ -120,7 +120,7 @@ public class ClientImpl implements ClientService{
     }
 
     @Override
-    public void loadClientFromFile(Client client) throws IOException, ClassNotFoundException {
+    public synchronized  void loadClientFromFile(Client client) throws IOException, ClassNotFoundException {
 
             String FilePath = "C:\\Users\\SCJP\\IdeaProjects\\Feed\\FeedObject";
             File fileObj = new File(FilePath);
@@ -134,7 +134,7 @@ public class ClientImpl implements ClientService{
 
 
     @Override
-    public Client getClient(Bank bank, String clientName) throws ClientExistsException {
+    public synchronized Client getClient(Bank bank, String clientName) throws ClientExistsException {
 
         Iterator iterator = bank.getClientMap().entrySet().iterator();
         while (iterator.hasNext()) {
@@ -148,7 +148,7 @@ public class ClientImpl implements ClientService{
     }
 
     @Override
-    public Set<Client> getAllClients (Bank bank) throws SQLException, ClientNotFoundException {
+    public synchronized Set<Client> getAllClients (Bank bank) throws SQLException, ClientNotFoundException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
        Set<Client> clients = clientDAO.getAllClients(bank);
         return clients;

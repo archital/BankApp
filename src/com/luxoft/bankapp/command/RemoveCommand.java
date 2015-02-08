@@ -1,14 +1,12 @@
 package com.luxoft.bankapp.command;
 
-import com.luxoft.bankapp.dao.ClientDAO;
-import com.luxoft.bankapp.dao.ClientDAOImpl;
-import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.server.CommanderServer;
+import com.luxoft.bankapp.server.BankServer;
+import com.luxoft.bankapp.server.Current;
 import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
@@ -24,6 +22,7 @@ public class RemoveCommand implements Command {
 	private Bank currentBank;
     private  Account currentAccount;
     private Integer accId;
+    private Current current;
 
 
 
@@ -39,9 +38,10 @@ public class RemoveCommand implements Command {
     }
 
 	@Override
-	public void execute () {
+	public synchronized void execute () {
 
         BankCommander.currentBank = currentBank;
+           current.setCurrentBank(currentBank);
 
 		if (currentBank == null) {
 			inOut.println("Error!!! Current bank is undefined");
@@ -107,7 +107,8 @@ public class RemoveCommand implements Command {
                 newCurrentClient.setActiveAccount(currentAccount);
 
                 BankCommander.currentClient = newCurrentClient; // set currentClient to BankCommander
-                CommanderServer.currentClient = newCurrentClient;
+                BankServer.currentClient = newCurrentClient;
+                current.setCurrentClient(newCurrentClient);
 
             }
         } catch (SQLException e) {

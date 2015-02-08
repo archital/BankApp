@@ -90,7 +90,24 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+       CheckingAccount checkingAccount = (CheckingAccount) o;
+        if (Float.compare(checkingAccount.balance, balance) != 0) return false;
+        if (Float.compare(checkingAccount.overdraft, overdraft) != 0) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
+        result = 31 * result + (overdraft != +0.0f ? Float.floatToIntBits(overdraft) : 0);
+        return result;
+    }
 
 
 }

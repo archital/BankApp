@@ -16,9 +16,9 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * Created by SCJP on 05.02.2015.
@@ -26,51 +26,42 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServerThread  implements Runnable{
 
 
-	public static Bank currentBank = null;
-	public static Client currentClient = null;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	Socket connection = null;
+    private Socket connection = null;
 	String message = null;
 	static String bankName = "My Bank";
 	static  String clientName = "";
 	static Map<String, Command> commandMap = new HashMap<String, Command>();
-	private AtomicInteger  count = null;
 
 	public ServerThread (Socket accept) {
 
-		System.out.println("Waiting for connection");
 		this.connection = accept;
 	}
 	
 	@Override
 	public void run () {
 
+		BankServerThreaded.atomicInteger.decrementAndGet();
 		BankService bankService = ServiceFactory.getBankImpl();
+        Current current = new CurrentImpl();
 
 
 		try {
-			currentBank = bankService.getBankByName(bankName);
+synchronized (current) {
+	Bank currentBank = bankService.getBankByName(bankName);
+
+			current.setCurrentBank(currentBank);
+}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		try {
 
-//			System.out.println("Waiting for connection");
-//			try {
-//				connection = serverSocket.accept();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
 			System.out.println("Connection received from "
 					+ connection.getInetAddress().getHostName());
 
-			count = new AtomicInteger(0);
-			if (!(this.connection.getInetAddress().getHostName().equals(connection.getInetAddress().getHostName()))){
-				count.incrementAndGet();
-			}
-			System.out.println("Amount of clients that want to connect is " + count.intValue());
 			// 3. get Input and Output streams
 			try {
 				out = new ObjectOutputStream(connection.getOutputStream());
@@ -91,13 +82,13 @@ public class ServerThread  implements Runnable{
 			final InputOutput inputOutput = new InputOutput(in, out);
 
 
-			commandMap.put("0", new FindClientCommand(inputOutput, currentBank));
-			commandMap.put("1", new GetAccountsCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("2", new WithdrawCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("3", new DepositCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("4", new TransferCommand(inputOutput, currentBank, currentClient));
-			commandMap.put("5", new AddClientCommand(inputOutput,currentBank));
-			commandMap.put("6", new RemoveCommand(inputOutput, currentBank));
+			commandMap.put("0", new FindClientCommand(inputOutput, current.getCurrentBank()));
+			commandMap.put("1", new GetAccountsCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()));
+			commandMap.put("2", new WithdrawCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()));
+			commandMap.put("3", new DepositCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()));
+			commandMap.put("4", new TransferCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()));
+			commandMap.put("5", new AddClientCommand(inputOutput,current.getCurrentBank()));
+			commandMap.put("6", new RemoveCommand(inputOutput, current.getCurrentBank()));
 			commandMap.put("7", new Command() { // 7 - Exit Command
 				public void execute() {
 					sendMessage("bye");
@@ -113,30 +104,31 @@ public class ServerThread  implements Runnable{
 			ClientService clientService = ServiceFactory.getClientImpl();
 
 			sendMessage("Input current client name: ");
-			clientName =  (String) in.readObject();
+
+				clientName =  (String) in.readObject();
+
+
 
 
 			try {
-				currentClient = clientService.findClientInDB(currentBank, clientName);
+			Client	currentClient = clientService.findClientInDB(current.getCurrentBank(), clientName);
+				if(currentClient == null){
+
+					sendMessage("bye");
+					message = "bye";
+				}
+
+				current.setCurrentClient(currentClient);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ClientNotFoundException e) {
 				e.printStackTrace();
 			}
 
-
-			if(currentClient == null){
-
-				sendMessage("bye");
-				message = "bye";
-			}
-
-
-
 			do {
 
 				sendMessage("You select "+
-						currentClient.toString()+ "Chose command you need: \n" + " to find client press => '0'\n " +
+						current.getCurrentClient().toString()+ "Chose command you need: \n" + " to find client press => '0'\n " +
 						" to get Accounts and balances press => '1'\n " +
 						" to make Withdraw press => '2'\n " +
 						" to make Deposit press => '3'\n " +
@@ -147,31 +139,31 @@ public class ServerThread  implements Runnable{
 
 				message = (String) in.readObject();
 				if (message.equals("0")) {
-					new FindClientCommand(inputOutput, currentBank).execute();
+					new FindClientCommand(inputOutput, current.getCurrentBank()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("5")) {
-					new AddClientCommand(inputOutput, currentBank).execute();
+					new AddClientCommand(inputOutput, current.getCurrentBank()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("3")) {
-					new DepositCommand(inputOutput, currentBank, currentClient).execute();
+					new DepositCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("2")) {
-					new WithdrawCommand(inputOutput, currentBank, currentClient).execute();
+					new WithdrawCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("4")) {
-					new TransferCommand(inputOutput, currentBank, currentClient).execute();
+					new TransferCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("1")) {
-					new GetAccountsCommand(inputOutput, currentBank, currentClient).execute();
+					new GetAccountsCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("6")) {
-					new RemoveCommand(inputOutput, currentBank).execute();
+					new RemoveCommand(inputOutput, current.getCurrentBank()).execute();
 					message = (String) in.readObject();
 
 				} else if (message.equals("7")) {
@@ -205,11 +197,11 @@ public class ServerThread  implements Runnable{
 		}
 	}
 
-	void sendMessage (final String msg) {
+	public synchronized void sendMessage (final String msg) {
 		try {
 			out.writeObject(msg);
 			out.flush();
-			System.out.println("server>" + msg);
+//			System.out.println("server>" + msg);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}

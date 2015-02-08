@@ -4,6 +4,7 @@ import com.luxoft.bankapp.dao.DAOFactory;
 import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.server.Current;
 import com.luxoft.bankapp.service.BankImpl;
 import com.luxoft.bankapp.service.BankService;
 import com.luxoft.bankapp.service.ServiceFactory;
@@ -20,16 +21,6 @@ public class AbstractCommand implements Command {
 
 
 
-
-
-    public AbstractCommand(InputOutput io) {
-        this.ioStreams = io;
-    }
-
-
-	public AbstractCommand() {
-        ioStreams = new InputOutput();
-	}
 
 
 

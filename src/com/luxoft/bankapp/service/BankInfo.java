@@ -21,28 +21,28 @@ public class BankInfo {
     Map<String, List<Client>> clientsByCity;
     private Set<Client> clientsSorted;
 
-    public Set<Client> getClientsSorted () {
+    public synchronized Set<Client> getClientsSorted () {
         return clientsSorted;
     }
 
 
-    public int getNumberOfClients() {
+    public synchronized int getNumberOfClients() {
         return numberOfClients;
     }
 
-    public void setNumberOfClients(int numberOfClients) {
+    public synchronized void setNumberOfClients(int numberOfClients) {
         this.numberOfClients = numberOfClients;
     }
 
-    public double getTotalAccountSum() {
+    public synchronized double getTotalAccountSum() {
         return totalAccountSum;
     }
 
-    public void setTotalAccountSum(double totalAccountSum) {
+    public synchronized void setTotalAccountSum(double totalAccountSum) {
         this.totalAccountSum = totalAccountSum;
     }
 
-    public Map<String, List<Client>> getClientsByCity() {
+    public synchronized Map<String, List<Client>> getClientsByCity() {
         return clientsByCity;
     }
 

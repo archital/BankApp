@@ -32,137 +32,142 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public Client findClientByName(Bank bank, String name)  {
+    public synchronized Client findClientByName(Bank bank, String name)  {
 
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
-        Connection conn = null;
-        try {
-            conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        String sql = "SELECT ID, GENDER , TELEPHONE, EMAIL,  INITIAL_OVERDRAFT,  CITY " +
-                "              FROM CLIENT  " +
-                "              WHERE CLIENT_NAME = ?  AND BANK_ID = ?";
+         Connection conn = null;
+         try {
+             conn = baseDAO.openConnection();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
 
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            preparedStatement.setString(1, name);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            preparedStatement.setInt(2, bank.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+         String sql = "SELECT ID, GENDER , TELEPHONE, EMAIL,  INITIAL_OVERDRAFT,  CITY " +
+                 "              FROM CLIENT  " +
+                 "              WHERE CLIENT_NAME = ?  AND BANK_ID = ?";
 
-        ResultSet resultSet = null;
-        try {
-            resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+         PreparedStatement preparedStatement = null;
 
-        Client client = null;
-        try {
-            while (resultSet.next()) {
-
-               client = new Client(name);
-
-                Integer id = resultSet.getInt(1);
-                client.setId(id);
-                String gender = resultSet.getString(2);
-                if (gender.equals("m") || gender.equals("M")){
-
-                    client.setGender(Gender.MALE);
-                }
-                if (gender.equals("f") || gender.equals("F")) {
-                    client.setGender(Gender.FEMALE);
-                }
-
-                String telephone = resultSet.getString(3);
-                client.setTelephoneNumber(telephone);
-
-                String email = resultSet.getString(4);
-                client.setEmail(email);
-
-                float initialOverdraft = resultSet.getFloat(5);
-                client.setInitialOverdraft(initialOverdraft);
-
-                String city = resultSet.getString(6);
-                client.setCity(city);
-
-
-                String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE , acc.ID " +
-                        "                 FROM  ACCOUNT acc" +
-                        "              WHERE acc.client_id= ?";
-
-                PreparedStatement preparedStatement2 = null;
-                try {
-                    preparedStatement2 = conn.prepareStatement(sql2);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    preparedStatement2.setInt(1, client.getId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                ResultSet resultSet2 = null;
-                try {
-                    resultSet2 = preparedStatement2.executeQuery();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                Account account;
-                try {
-                    while (resultSet2.next()) {
-
-                        float balance = resultSet2.getFloat(2);
-                        float overdraft = resultSet2.getFloat(1);
-                        Integer accId = resultSet2.getInt(3);
-
-
-                        if (overdraft == 0){
-
-                            account = new SavingAccount(balance, accId);
-
-                            client.addAccount(account);
-                            client.setActiveAccount(account);
-                        } else if (overdraft != 0 ) {
-                            account = new CheckingAccount(overdraft, balance, accId);
-                            client.addAccount(account);
-                            client.setActiveAccount(account);
-                        }
-
-
-                }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+            try {
+                preparedStatement = conn.prepareStatement(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        baseDAO.closeConnection();
+            try {
+                preparedStatement.setString(1, name);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+         try {
+             preparedStatement.setInt(2, bank.getId());
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+
+         ResultSet resultSet = null;
+         try {
+             resultSet = preparedStatement.executeQuery();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+
+         Client client = null;
+         try {
+             while (resultSet.next()) {
+
+                 client = new Client(name);
+
+                 Integer id = resultSet.getInt(1);
+                 client.setId(id);
+                 String gender = resultSet.getString(2);
+                 if (gender.equals("m") || gender.equals("M")) {
+
+                     client.setGender(Gender.MALE);
+                 }
+                 if (gender.equals("f") || gender.equals("F")) {
+                     client.setGender(Gender.FEMALE);
+                 }
+
+                 String telephone = resultSet.getString(3);
+                 client.setTelephoneNumber(telephone);
+
+                 String email = resultSet.getString(4);
+                 client.setEmail(email);
+
+                 float initialOverdraft = resultSet.getFloat(5);
+                 client.setInitialOverdraft(initialOverdraft);
+
+                 String city = resultSet.getString(6);
+                 client.setCity(city);
+
+
+                 String sql2 = "SELECT acc.OVERDRAFT , acc.BALANCE , acc.ID " +
+                         "                 FROM  ACCOUNT acc" +
+                         "              WHERE acc.client_id= ?";
+
+                 PreparedStatement preparedStatement2 = null;
+                 try {
+                     preparedStatement2 = conn.prepareStatement(sql2);
+                 } catch (SQLException e) {
+                     e.printStackTrace();
+                 }
+
+                 try {
+                     preparedStatement2.setInt(1, client.getId());
+                 } catch (SQLException e) {
+                     e.printStackTrace();
+                 }
+
+                 ResultSet resultSet2 = null;
+                 try {
+                     resultSet2 = preparedStatement2.executeQuery();
+                 } catch (SQLException e) {
+                     e.printStackTrace();
+                 }
+
+                 Account account;
+                 try {
+                     while (resultSet2.next()) {
+
+                         float balance = resultSet2.getFloat(2);
+                         float overdraft = resultSet2.getFloat(1);
+                         Integer accId = resultSet2.getInt(3);
+
+
+                         if (overdraft == 0) {
+
+                             account = new SavingAccount(balance, accId);
+
+                             client.addAccount(account);
+                             client.setActiveAccount(account);
+                         } else if (overdraft != 0) {
+                             account = new CheckingAccount(overdraft, balance, accId);
+                             client.addAccount(account);
+                                 client.setActiveAccount(account);
+                         }
+
+
+                     }
+                 } catch (SQLException e) {
+                     e.printStackTrace();
+                 }
+
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+
+         baseDAO.closeConnection();
+
         return client;
         }
 
 
     @Override
-    public Client findClientById(Integer clientId) throws ClientNotFoundException, ClientExistsException {
+    public synchronized Client findClientById(Integer clientId) throws ClientNotFoundException, ClientExistsException {
 
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
@@ -272,7 +277,7 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public Set<Client> getAllClients(Bank bank)  {
+    public synchronized Set<Client> getAllClients(Bank bank)  {
 
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
@@ -383,7 +388,7 @@ public class ClientDAOImpl implements ClientDAO {
             e.printStackTrace();
         }
 
-//        bank.setClients(clients);
+
 
         baseDAO.closeConnection();
          return clients;
@@ -391,7 +396,7 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public void save(Client client, Integer bankId){
+    public synchronized void save(Client client, Integer bankId){
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -607,7 +612,7 @@ public class ClientDAOImpl implements ClientDAO {
 
 
     @Override
-    public void remove(Client client)  {
+    public synchronized void remove(Client client)  {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;

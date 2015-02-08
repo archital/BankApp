@@ -1,6 +1,8 @@
 package com.luxoft.bankapp.command;
 
 import java.io.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by acer on 24.01.2015.
@@ -12,6 +14,7 @@ public class InputOutput {
 	PrintStream standardOut;
 	BufferedReader standardIn;
 	boolean isStandard;
+	private Lock lock = new ReentrantLock();
 
 
 	public  InputOutput(InputStream is, OutputStream os) {
@@ -28,7 +31,7 @@ public class InputOutput {
 
 
 
-	public void println(Object object) {
+	public synchronized void println(Object object) {
 		if (isStandard) {
 			standardOut.println(object);
 		} else {
@@ -41,11 +44,14 @@ public class InputOutput {
 	}
 
 
-	public String readln() {
+	public synchronized String readln() {
+
 		String result = "";
 		if (isStandard) {
 			try {
+				lock.lock();
 				result = standardIn.readLine();
+				lock.unlock();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

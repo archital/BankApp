@@ -1,53 +1,70 @@
 package com.luxoft.bankapp.server;
 
-import com.luxoft.bankapp.main.BankApplication;
-import com.luxoft.bankapp.exception.ClientExistsException;
-import com.luxoft.bankapp.exception.NotEnoughFundsException;
-import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.model.Client;
+/**
+ * Created by acer on 24.01.2015.
+ */
+
+
+import com.luxoft.bankapp.command.*;
+import com.luxoft.bankapp.exception.ClientNotFoundException;
+import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.*;
+
 
 public class BankServer {
-	ServerSocket providerSocket;
-	Socket connection = null;
-	ObjectOutputStream out;
-	ObjectInputStream in;
-	String message;
+
 
 	public static Bank currentBank = null;
 	public static Client currentClient = null;
-	public static BankApplication bankApplication = new BankApplication();
-	public static float amount;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	ServerSocket serverSocket;
+	Socket connection = null;
+	String message = null;
     static String bankName = "My Bank";
+    static  String clientName = "";
 
 
 
 
 
-	void run () {
+	static Map<String, Command> commandMap = new HashMap<String, Command>();
+
+
+	void sendMessage (final String msg) {
+		try {
+			out.writeObject(msg);
+			out.flush();
+			System.out.println("server>" + msg);
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		}
+	}
+
+
+	public void run() {
 
 		try {
 			// 1. creating a server socket
 			try {
-				providerSocket = new ServerSocket(2004, 10);
+                serverSocket = new ServerSocket(2004, 10);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			// 2. Wait for connection
 			System.out.println("Waiting for connection");
 			try {
-				connection = providerSocket.accept();
+				connection = serverSocket.accept();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			System.out.println("Connection received from "
 					+ connection.getInetAddress().getHostName());
 			// 3. get Input and Output streams
@@ -66,184 +83,128 @@ public class BankServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			sendMessage("Connection successful, enter your name");
-			// 4. The two parts communicate via the input and output streams
-			do {
-				try {
-					message = (String) in.readObject();
+
+			final InputOutput inputOutput = new InputOutput(in, out);
 
 
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				System.out.println("client> " + message);
-				if (message.equals("bye")) {
+			commandMap.put("0", new FindClientCommand(inputOutput, currentBank));
+			commandMap.put("1", new GetAccountsCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("2", new WithdrawCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("3", new DepositCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("4", new TransferCommand(inputOutput, currentBank, currentClient));
+			commandMap.put("5", new AddClientCommand(inputOutput,currentBank));
+			commandMap.put("6", new RemoveCommand(inputOutput, currentBank));
+			commandMap.put("7", new Command() { // 7 - Exit Command
+				public void execute() {
 					sendMessage("bye");
-				}
-				currentClient = null;
-
-                ClientService clientService = ServiceFactory.getClientImpl();
-
-
-				try {
-					currentClient = clientService.getClient(currentBank, message);
-				} catch (ClientExistsException e) {
-					e.printStackTrace();
+					System.exit(0);
 				}
 
-
-				if (currentClient == null) {
-					System.out.println("Error!!! Client with such name was not found.");
-
-					sendMessage("bye");
-					return;
+				public void printCommandInfo() {
+					inputOutput.println("Exit");
 				}
+			});
 
 
-				System.out.println("Client is selected: " + currentClient.toString() + "\n" +
-						"select command ");
+            ClientService clientService = ServiceFactory.getClientImpl();
+
+            sendMessage("Input current client name: ");
+            clientName =  (String) in.readObject();
 
 
-				sendMessage(" please, enter command: ");
+            try {
+                currentClient = clientService.findClientInDB(currentBank, clientName);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClientNotFoundException e) {
+                e.printStackTrace();
+            }
 
 
-				try {
-					message = (String) in.readObject();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				System.out.println("client>" + message);
+            if(currentClient == null){
 
-				while (!message.equals("bye")) {
-
-					while (message.equals("balance")) {
-
-						if (currentClient.getAccounts().isEmpty()) {
-							sendMessage("Client: " + currentClient.getGender().getGenderPrefix() +
-									currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
-							return;
-						} else {
-							sendMessage(currentClient.getAccounts().toString() + "Total balance: " + Float.toString(currentClient.getBalance())
-									+ "\n select command ");
-
-							try {
-								message = (String) in.readObject();
-							} catch (IOException e) {
-								e.printStackTrace();
-							} catch (ClassNotFoundException e) {
-								e.printStackTrace();
-							}
-							System.out.println("client>" + message);
+                sendMessage("bye");
+                message = "bye";
+            }
 
 
-							if (message.equals("balance")) {
-								break;
-							} else if (message.equals("bye")) {
-								break;
-							} else if (message.equals("withdraw")) {
-								continue;
-							}
 
-						}
-					}
+            do {
 
-					while (message.equals("withdraw")) {
+	            sendMessage("You select "+
+			            currentClient.toString()+ "Chose command you need: \n" + " to find client press => '0'\n " +
+			            " to get Accounts and balances press => '1'\n " +
+			            " to make Withdraw press => '2'\n " +
+			            " to make Deposit press => '3'\n " +
+			            " to make Transfer press => '4'\n " +
+			            " to add Client press => '5'\n " +
+			            " to remove Client press => '6'\n " +
+			            "to exit  press => '7' or 'bye'");
 
-						if (currentClient.getAccounts().isEmpty()) {
-							sendMessage("Client: " + currentClient.getGender().getGenderPrefix() +
-									currentClient.getName() + "haven't any accounts in Bank number " + currentBank.getId());
-							return;
-						} else {
-							sendMessage("Enter amount that you want to get: ");
+	            message = (String) in.readObject();
+                if (message.equals("0")) {
+                    new FindClientCommand(inputOutput, currentBank).execute();
+                    message = (String) in.readObject();
 
-							try {
-								message = (String) in.readObject();
-							} catch (IOException e) {
-								e.printStackTrace();
-							} catch (ClassNotFoundException e) {
-								e.printStackTrace();
-							}
-							System.out.println("client>" + message);
+                } else if (message.equals("5")) {
+                    new AddClientCommand(inputOutput, currentBank).execute();
+                    message = (String) in.readObject();
 
-							amount = Float.parseFloat(message);
+                } else if (message.equals("3")) {
+                    new DepositCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
 
+                } else if (message.equals("2")) {
+                    new WithdrawCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
 
-							if (amount > (currentClient.getBalance()+ currentClient.getInitialOverdraft())) {
-								System.out.println("Error!! amount more than can get ");
-								sendMessage("bye");
-								return;
-							}
-                            try {
-                                currentClient.getActiveAccount().withdraw(amount);
-                            } catch (NotEnoughFundsException e) {
-                                e.printStackTrace();
-                            }
-                            sendMessage("successful operation : \n new total balance:" +
-									Float.toString(currentClient.getBalance()) + "\n please, select command ");
+                } else if (message.equals("4")) {
+                    new TransferCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
 
-							try {
-								message = (String) in.readObject();
-							} catch (IOException e) {
-								e.printStackTrace();
-							} catch (ClassNotFoundException e) {
-								e.printStackTrace();
-							}
-							System.out.println("client>" + message);
+                } else if (message.equals("1")) {
+                    new GetAccountsCommand(inputOutput, currentBank, currentClient).execute();
+                    message = (String) in.readObject();
 
-							if (message.equals("balance")) {
-								break;
-							} else if (message.equals("bye")) {
-								break;
-							} else if (message.equals("withdraw")) {
-								continue;
-							}
+                } else if (message.equals("6")) {
+                    new RemoveCommand(inputOutput, currentBank).execute();
+                    message = (String) in.readObject();
+
+                } else if (message.equals("7")) {
+                    sendMessage("bye");
+	                message = "bye";
+
+                } else {
+                    sendMessage("Error! wrong command: ");
+                    message = (String) in.readObject();
+
+                }
+
+	             if (message.equals("bye")) {
+					sendMessage("bye"); }
+
+        } while (!message.equals("bye"));
 
 
-						}
-					}
-
-				}
-
-				if (message.equals("bye")) {
-					sendMessage("bye");
-
-				}
-			}
-
-			while (!message.equals("bye"));
-
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}  catch (IOException e) {
+			e.printStackTrace();
 		} finally {
-			// 4: Closing connection
 			try {
 				in.close();
 				out.close();
-				providerSocket.close();
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
+				serverSocket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
-	void sendMessage (final String msg) {
-		try {
-			out.writeObject(msg);
-			out.flush();
-			System.out.println("server>" + msg);
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-		}
-	}
-
-	public static void main (final String args[]) {
-
-	//	AbstractServer abstractServer = new AbstractServer();
-	//	abstractServer.initialize();           //initialized server with data
 
 
+
+	public static void main (String args[]) {
 
         BankService bankService = ServiceFactory.getBankImpl();
 
@@ -254,12 +215,12 @@ public class BankServer {
             e.printStackTrace();
         }
 
+
 		BankServer server = new BankServer();
-
-
 		while (true) {
 
 			server.run();
 		}
 	}
 }
+

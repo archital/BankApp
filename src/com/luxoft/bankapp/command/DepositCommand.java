@@ -9,6 +9,7 @@ import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.server.Current;
 import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
@@ -27,7 +28,6 @@ public class DepositCommand implements Command {
     private float amount = 0;
     private  Integer accId = null;
 
-
     public DepositCommand(InputOutput inputOutput, Bank currentBank, Client currentClient) {
 
         this.inOut = inputOutput;
@@ -41,7 +41,7 @@ public class DepositCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public synchronized void execute() {
 
         AccountService accountService = ServiceFactory.getAccountImpl();
 

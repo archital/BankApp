@@ -42,7 +42,7 @@ public class WithdrawCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public synchronized void execute() {
 
 
         AccountService accountService = ServiceFactory.getAccountImpl();

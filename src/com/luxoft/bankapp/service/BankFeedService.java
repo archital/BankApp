@@ -33,16 +33,16 @@ public class BankFeedService {
 
     private Bank activeBank;
 
-    public Bank getCurrentBank() {
+    public synchronized Bank getCurrentBank() {
         return activeBank;
     }
 
-    public void setActiveBank(Bank activeBank) {
+    public synchronized void setActiveBank(Bank activeBank) {
         this.activeBank = activeBank;
     }
 
 
-    public void parseFeed(String feed) throws FeedException {
+    public synchronized void parseFeed(String feed) throws FeedException {
 
         Map<String, String> result = new HashMap();
         String[] lines = feed.split(";");
@@ -57,7 +57,7 @@ public class BankFeedService {
 
 
 
-    public void loadFeeds(String folder) throws FeedException, IOException {
+    public synchronized void loadFeeds(String folder) throws FeedException, IOException {
         File dir = new File(folder);
 
         if (dir.exists()) {

@@ -17,10 +17,13 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class BankImpl implements BankService {
 
     private static BankImpl instance;
+
 
     private BankImpl() {
     }
@@ -34,7 +37,8 @@ public class BankImpl implements BankService {
 
 
     @Override
-    public Bank getBankByName(String name) throws SQLException {
+    public synchronized Bank getBankByName(String name) throws SQLException {
+
 
         BankDAO bankDAO = DAOFactory.getBankDAO();
       return   bankDAO.getBankByName(name);
@@ -42,7 +46,7 @@ public class BankImpl implements BankService {
     }
 
     @Override
-    public BankInfo getBankInfo(Bank bank) throws SQLException {
+    public synchronized BankInfo getBankInfo(Bank bank) throws SQLException {
         BankDAO bankDAO = DAOFactory.getBankDAO();
 
             BankInfo bankInfo =  bankDAO.getBankInfo(bank);
@@ -50,7 +54,7 @@ public class BankImpl implements BankService {
     }
 
     @Override
-    public void save(Bank bank) throws SQLException, DAOException {
+    public synchronized void save(Bank bank) throws SQLException, DAOException {
         BankDAO bankDAO = DAOFactory.getBankDAO();
 
           bankDAO.save(bank);

@@ -27,7 +27,7 @@ public class AccountDAOImpl implements AccountDAO {
 
 
     @Override
-    public void save(Account account, Client client) {
+    public synchronized void save(Account account, Client client) {
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
@@ -210,7 +210,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void removeByClientId(Integer id)  {
+    public synchronized void removeByClientId(Integer id)  {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -247,7 +247,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void removeByClientName (String name)  {
+    public synchronized void removeByClientName (String name)  {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -284,7 +284,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public List<Account> getClientAccounts(Integer id) {
+    public synchronized List<Account> getClientAccounts(Integer id) {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -347,7 +347,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public Account getAccountById (Integer id)  {
+    public synchronized Account getAccountById (Integer id)  {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -410,7 +410,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount)  {
+    public synchronized void transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount)  {
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
