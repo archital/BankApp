@@ -15,7 +15,7 @@ public class BaseDAOImpl implements BaseDAO {
     private BaseDAOImpl() {
     }
 
-    public static  BaseDAOImpl getInstance() {
+    public static  BaseDAO getInstance() {
         if (instance == null) {
             instance = new  BaseDAOImpl();
         }
@@ -28,7 +28,7 @@ public class BaseDAOImpl implements BaseDAO {
 
 
     @Override
-    public Connection openConnection()  {
+    public synchronized Connection openConnection()  {
 
         String db_name = "BankApplication";
         try {
@@ -48,7 +48,7 @@ public class BaseDAOImpl implements BaseDAO {
     }
 
     @Override
-    public void closeConnection() {
+    public synchronized void closeConnection() {
         try {
             conn.close();
         } catch (SQLException e) {

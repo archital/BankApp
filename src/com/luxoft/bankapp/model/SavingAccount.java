@@ -57,5 +57,21 @@ public class SavingAccount extends AbstractAccount implements Serializable {
 
         return res;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+       SavingAccount savingAccount = (SavingAccount) o;
+        if (Float.compare(savingAccount.balance, balance) != 0) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
+        return result;
+    }
 }
 

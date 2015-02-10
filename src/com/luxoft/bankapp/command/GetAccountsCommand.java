@@ -65,8 +65,8 @@ public class GetAccountsCommand implements Command {
                 stringBuilder.append(account.toString());
                 }
 
-                inOut.println(stringBuilder.toString()+ "\n you can select new command +\n" +
-                        "press 'Enter' for CommanderServer ");
+                inOut.println(stringBuilder.toString()+ "\n you can select new command \n" +
+                        "press 'Enter' ");
             }
         } catch (SQLException e) {
             e.printStackTrace();

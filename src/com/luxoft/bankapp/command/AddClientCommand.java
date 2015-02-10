@@ -11,8 +11,9 @@ import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.model.Gender;
-import com.luxoft.bankapp.server.CommanderServer;
-import com.luxoft.bankapp.service.ClientImpl;
+import com.luxoft.bankapp.server.BankServer;
+import com.luxoft.bankapp.server.Current;
+import com.luxoft.bankapp.server.CurrentImpl;
 import com.luxoft.bankapp.service.ClientService;
 import com.luxoft.bankapp.service.ServiceFactory;
 
@@ -28,6 +29,7 @@ public class AddClientCommand implements Command {
     private InputOutput inOut;
     private Bank currentBank;
      private Gender gender;
+    private Current current;
 
     public AddClientCommand(InputOutput inOut, Bank currentBank) {
         this.inOut = inOut;
@@ -35,11 +37,9 @@ public class AddClientCommand implements Command {
 
     }
 
-    public AddClientCommand() {
-    }
 
     @Override
-    public void execute()  {
+    public  void execute()  {
 
 
 
@@ -147,10 +147,12 @@ public class AddClientCommand implements Command {
             }
 
             BankCommander.currentClient  = client;
-            CommanderServer.currentClient = client;
+            BankServer.currentClient = client;
+            current = new CurrentImpl();
+            current.setCurrentClient(client);
 
             inOut.println("Client is added and selected as 'current client': " + client.toString()+"\n you can select new command\n" +
-                    "press 'Enter' for CommanderServer ");
+                    "press 'Enter'  ");
         } catch (SQLException e) {
             e.printStackTrace();
         }

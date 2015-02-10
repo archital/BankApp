@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script>
+ function checkForm() {
+        var form = $("#form"); // find form by id
+        var checkResult = true;
+        var name=$("#name").val();
+        if (name.length<2) {
+            $("#nameError").html("пожалуйста, укажите имя");
+            return false;
+        }
+        if (checkResult) {
+            alert("Имя клиента введено корректно!");
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+    <title>Вход в систему</title>
+</head>
+<body>
+Вход в систему
+
+<style>
+    .error {
+    color:red;
+    font-style: italic;
+    }
+</style>
+
+<form action="menu.html" onsubmit="Войти">
+
+    <table>
+    </tr><tr>
+    <td>Name:</td>
+    <td><input type="text" name="user" id="name"/></td>
+    <td id="nameError" class="error"></td>
+</tr><tr>
+    </table>
+
+    <input type="submit" onclick="return checkForm();" value="Войти">
+</form>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ public class AccountImpl implements  AccountService{
     private AccountImpl() {
     }
 
-    public static  AccountImpl getInstance() {
+    public static  AccountService getInstance() {
         if (instance == null) {
             instance = new AccountImpl();
         }
@@ -31,7 +31,7 @@ public class AccountImpl implements  AccountService{
     }
 
     @Override
-    public void addAccount(Client client, Account account) throws  SQLException {
+    public synchronized void addAccount(Client client, Account account) throws  SQLException {
         AccountDAO accountDAO = DAOFactory.getAccountDAO();
 
         try {
@@ -43,7 +43,7 @@ public class AccountImpl implements  AccountService{
     }
 
     @Override
-    public List<Account> getClientAccounts(Integer id) throws SQLException {
+    public synchronized List<Account> getClientAccounts(Integer id) throws SQLException {
         AccountDAO accountDAO = DAOFactory.getAccountDAO();
 
         List<Account> accounts = accountDAO.getClientAccounts(id);
@@ -52,17 +52,17 @@ public class AccountImpl implements  AccountService{
     }
 
     @Override
-    public void setActiveAccount(Client client, Account account) {
+    public synchronized void setActiveAccount(Client client, Account account) {
         client.setActiveAccount(account);
     }
 
     @Override
-    public void deposit(float x, Account account) {
+    public  synchronized  void   deposit  (float x, Account account) {
         account.setBalance(account.getBalance()+ x);
     }
 
     @Override
-    public void withdraw(float x , Account account) throws NotEnoughFundsException,  OverDraftLimitExceededException{
+    public  synchronized void withdraw(float x , Account account) throws NotEnoughFundsException,  OverDraftLimitExceededException{
 
         if(account instanceof SavingAccount) {
         if (x > account.getBalance()) {
@@ -89,14 +89,14 @@ public class AccountImpl implements  AccountService{
     }
 
     @Override
-    public float decimalValue(Account account) {
+    public synchronized float decimalValue(Account account) {
         float res = (float) (Math.rint(100.0 * account.getBalance()) / 100.0);
 
         return res;
     }
 
     @Override
-    public Account getAccountById (Integer id) {
+    public synchronized Account getAccountById (Integer id) {
 
 AccountDAO accountDAO = DAOFactory.getAccountDAO();
         Account account = null;
@@ -110,7 +110,7 @@ AccountDAO accountDAO = DAOFactory.getAccountDAO();
     }
 
     @Override
-    public void Transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount) {
+    public synchronized void Transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount) {
 
 
        AccountDAO accountDAO = DAOFactory.getAccountDAO();

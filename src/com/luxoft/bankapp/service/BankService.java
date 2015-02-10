@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 public interface BankService {
 
-    Bank getBankByName(String name) throws SQLException;
-    BankInfo getBankInfo(Bank bank) throws SQLException;
+   public Bank getBankByName(String name) throws SQLException;
+   public BankInfo getBankInfo(Bank bank) throws SQLException;
     public void  save(Bank bank) throws SQLException, ClientExistsException, DAOException, DAOException;
 }

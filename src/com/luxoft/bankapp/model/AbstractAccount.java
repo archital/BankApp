@@ -47,22 +47,4 @@ public abstract class AbstractAccount implements Account, Serializable {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AbstractAccount abstractAccount = (AbstractAccount) o;
-        if (Float.compare(abstractAccount.balance, balance) != 0) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
-        return result;
-    }
-
-
 }
