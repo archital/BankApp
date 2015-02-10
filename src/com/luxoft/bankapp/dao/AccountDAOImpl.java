@@ -4,9 +4,12 @@ import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.model.*;
 
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by SCJP on 27.01.2015.
@@ -14,11 +17,12 @@ import java.util.List;
 public class AccountDAOImpl implements AccountDAO {
 
     private static AccountDAOImpl instance;
+    private static final Logger logger = Logger.getLogger(AccountDAOImpl.class.getName());
 
     private AccountDAOImpl() {
     }
 
-    public static  AccountDAOImpl getInstance() {
+    public static  AccountDAO getInstance() {
         if (instance == null) {
             instance = new  AccountDAOImpl();
         }
@@ -32,58 +36,36 @@ public class AccountDAOImpl implements AccountDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         if (((AbstractAccount) account).getId() != null) {
             String sql = "UPDATE ACCOUNT SET  BALANCE = ?, 	OVERDRAFT = ?, CLIENT_ID = ?" +
                     "where ACCOUNT.id = ?";
 
             PreparedStatement preparedStatement2 = null;
-            try {
+
                 preparedStatement2 = conn.prepareStatement(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.setFloat(1, account.getBalance());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
 
             if (account instanceof CheckingAccount) {
-                try {
+
                     preparedStatement2.setFloat(2, ((CheckingAccount) account).getOverdraft());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
 
             }
 
             if (account instanceof  SavingAccount){
-                try {
+
                     preparedStatement2.setNull(2, (Types.FLOAT));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                preparedStatement2.setInt(3, client.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement2.setInt(4, ((AbstractAccount) account).getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement2.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
 
+                preparedStatement2.setInt(3, client.getId());
+
+                preparedStatement2.setInt(4, ((AbstractAccount) account).getId());
+
+                preparedStatement2.executeUpdate();
 
         } else  if (account instanceof CheckingAccount && ((CheckingAccount) account).getId() == null) {
 
@@ -91,56 +73,29 @@ public class AccountDAOImpl implements AccountDAO {
                     "BALANCE, \tOVERDRAFT,  \tCLIENT_ID )" +
                     "VALUES (?, ?, ?)";
             PreparedStatement preparedStatement3 = null;
-            try {
-                preparedStatement3 = conn.prepareStatement(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement3.setFloat(1, account.getBalance());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement3.setFloat(2, ((CheckingAccount) account).getOverdraft());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement3.setInt(3, client.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement3.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
+                preparedStatement3 = conn.prepareStatement(sql);
+                preparedStatement3.setFloat(1, account.getBalance());
+                preparedStatement3.setFloat(2, ((CheckingAccount) account).getOverdraft());
+                preparedStatement3.setInt(3, client.getId());
+                preparedStatement3.executeUpdate();
 
             ResultSet resultSet = null;
-            try {
+
                 resultSet = preparedStatement3.getGeneratedKeys();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
 
-            try {
+
+
                 if ( resultSet == null || ! resultSet.next()) {
+                    logger.log(Level.SEVERE,"DAO Exception : Impossible to save in DB. Can't get account ID.");
                     throw new DAOException("Impossible to save in DB. Can't get account ID.");
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
+
             Integer accountId = null;
-            try {
+
                 accountId = resultSet.getInt(1);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
             ((CheckingAccount) account).setId(accountId);
 
 
@@ -152,61 +107,46 @@ public class AccountDAOImpl implements AccountDAO {
                     "VALUES (?, ?, ?)";
 
             PreparedStatement preparedStatement2 = null;
-            try {
+
                 preparedStatement2 = conn.prepareStatement(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.setFloat(1, account.getBalance());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.setNull(2, Types.FLOAT);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.setInt(3, client.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
+                ResultSet resultSet = null;
 
-            ResultSet resultSet = null;
-            try {
                 resultSet = preparedStatement2.getGeneratedKeys();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
-
-            try {
                 if ( resultSet == null || ! resultSet.next()) {
+                    logger.log(Level.SEVERE,"DAO Exception : Impossible to save in DB. Can't get account ID.");
                     throw new DAOException("Impossible to save in DB. Can't get account ID.");
+
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
+
             Integer accountId = null;
-            try {
+
                 accountId = resultSet.getInt(1);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+
             ((SavingAccount) account).setId(accountId);
 
+
+        }
+            logger.log(Level.INFO, "Account  "+ ((AbstractAccount) account).getId()+" saved ");
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+            } catch (DAOException e) {
+            logger.log(Level.SEVERE, e.getMessage() + "DAO Exception  ", e);
+            } finally {
+            baseDAO.closeConnection();
         }
 
-        baseDAO.closeConnection();
+
     }
 
     @Override
@@ -216,72 +156,58 @@ public class AccountDAOImpl implements AccountDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 
         String sql = "DELETE FROM ACCOUNT WHERE CLIENT_ID = ?";
 
         PreparedStatement preparedStatement3 = null;
-        try {
+
             preparedStatement3 = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
             preparedStatement3.setInt(1, id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             preparedStatement3.executeUpdate();
+
+            logger.log(Level.INFO, "Client 's " +id +" accounts  were removed");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         }
-
-
-        baseDAO.closeConnection();
+ finally {
+            baseDAO.closeConnection();
+        }
 
     }
 
     @Override
-    public synchronized void removeByClientName (String name)  {
+    public synchronized void removeByClientName (String name) {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        String sql = "DELETE\n" +
-                " FROM ACCOUNT \n" +
-                "WHERE CLIENT_ID = (SELECT ID FROM CLIENT WHERE  CLIENT_NAME = ? )";
+            String sql = "DELETE\n" +
+                    " FROM ACCOUNT \n" +
+                    "WHERE CLIENT_ID = (SELECT ID FROM CLIENT WHERE  CLIENT_NAME = ? )";
 
-        PreparedStatement preparedStatement3 = null;
-        try {
+            PreparedStatement preparedStatement3 = null;
+
             preparedStatement3 = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        try {
             preparedStatement3.setString(1, name);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             preparedStatement3.executeUpdate();
+
+
+            logger.log(Level.INFO, "Client 's " +name +" accounts  were removed");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+        }
+        finally {
+            baseDAO.closeConnection();
+        }
         }
 
-
-        baseDAO.closeConnection();
-    }
 
     @Override
     public synchronized List<Account> getClientAccounts(Integer id) {
@@ -290,36 +216,27 @@ public class AccountDAOImpl implements AccountDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         String sql = "SELECT BALANCE,  \tOVERDRAFT,  \tID  " +
                 " FROM ACCOUNT " +
                 " WHERE CLIENT_ID = ?";
 
         PreparedStatement preparedStatement = null;
-        try {
+
             preparedStatement = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             preparedStatement.setInt(1, id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         ResultSet resultSet = null;
-        try {
+
             resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         List<Account> accounts = new ArrayList<Account>();
 
-        try {
+
             while (resultSet.next()) {
 
             float balance = resultSet.getFloat(1);
@@ -338,11 +255,17 @@ public class AccountDAOImpl implements AccountDAO {
                 }
 
             }
+
+            logger.log(Level.INFO, "Client 's " +id +" accounts  got from DB");
+            return  accounts;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         }
-        baseDAO.closeConnection();
-        return  accounts;
+        finally {
+            baseDAO.closeConnection();
+        }
+
+        return  null;
 
     }
 
@@ -353,10 +276,6 @@ public class AccountDAOImpl implements AccountDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         AbstractAccount account = null;
 
 
@@ -366,26 +285,11 @@ public class AccountDAOImpl implements AccountDAO {
                 " WHERE ID = ?";
 
         PreparedStatement preparedStatement = null;
-        try {
+
             preparedStatement = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
             preparedStatement.setInt(1, id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         ResultSet resultSet = null;
-        try {
             resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
             while (resultSet.next()) {
 
                 float balance = resultSet.getFloat(1);
@@ -402,11 +306,15 @@ public class AccountDAOImpl implements AccountDAO {
                 }
 
             }
+            logger.log(Level.INFO, "Account " +id +" got from DB");
+            return account;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+        } finally {
+            baseDAO.closeConnection();
         }
-        baseDAO.closeConnection();
-        return  account;
+
+        return  null;
     }
 
     @Override
@@ -415,89 +323,51 @@ public class AccountDAOImpl implements AccountDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         String sql = "UPDATE ACCOUNT SET BALANCE = BALANCE - ?\n" +
                 "WHERE ACCOUNT.ID = ? AND ACCOUNT.CLIENT_ID = ?";
 
         PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            preparedStatement.setFloat(1, amount);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        try {
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setFloat(1, amount);
             preparedStatement.setInt(2, accIdWithdraw);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             preparedStatement.setInt(3, clIdWithdraw);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             conn.setAutoCommit(false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         String sql2 = "UPDATE ACCOUNT SET BALANCE = BALANCE + ?\n" +
                 "WHERE ACCOUNT.ID = ? AND ACCOUNT.CLIENT_ID = ?";
 
         PreparedStatement preparedStatement2 = null;
-        try {
+
             preparedStatement2 = conn.prepareStatement(sql2);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             preparedStatement2.setFloat(1, amount);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             preparedStatement2.setInt(2, accIdDeposit);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
             preparedStatement2.setInt(3, clIdDeposit);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             preparedStatement2.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-
-        try {
             conn.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        baseDAO.closeConnection();
+
+            conn.setAutoCommit(true);
+            logger.log(Level.INFO, " Transfer successful ");
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+        } finally {
+            baseDAO.closeConnection();
+        }
     }
 
 }

@@ -22,19 +22,14 @@ public class BankCommander {
 
    public void registerCommand(String name, Command command) {
 
-        Iterator iterator = commandMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Command> printMap = (Map.Entry<String, Command>) iterator.next();
+  for (String s: commandMap.keySet()) {
 
-            if (!(printMap.getValue().equals(command)) && !(printMap.getKey().equals(name))) {
+      if (!(commandMap.containsValue(command)) && !(commandMap.containsKey(name))) {
+        commandMap.put(name, command);
+      }
+  }
+   }
 
-                commandMap.put(name, command);
-            }
-
-
-        }
-
-    }
     public void removeCommand(String name) {
 
         Iterator iterator = commandMap.entrySet().iterator();

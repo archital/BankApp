@@ -16,6 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.*;
 
 
 public class BankServer {
@@ -31,8 +32,7 @@ public class BankServer {
     static String bankName = "My Bank";
     static  String clientName = "";
 
-
-
+    private static final Logger logger = Logger.getLogger(BankServer.class.getName());
 
 
 	static Map<String, Command> commandMap = new HashMap<String, Command>();
@@ -63,7 +63,7 @@ public class BankServer {
 			try {
 				connection = serverSocket.accept();
 			} catch (IOException e) {
-				e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage() + "Can't to connect  ", e);
 			}
 			System.out.println("Connection received from "
 					+ connection.getInetAddress().getHostName());
@@ -71,17 +71,17 @@ public class BankServer {
 			try {
 				out = new ObjectOutputStream(connection.getOutputStream());
 			} catch (IOException e) {
-				e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage() + "Output exception  ", e);
 			}
 			try {
 				out.flush();
 			} catch (IOException e) {
-				e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage() + "Exception in flush output  ", e);
 			}
 			try {
 				in = new ObjectInputStream(connection.getInputStream());
 			} catch (IOException e) {
-				e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage() + "Exception in query to DB  ", e);
 			}
 
 			final InputOutput inputOutput = new InputOutput(in, out);
@@ -115,9 +115,9 @@ public class BankServer {
             try {
                 currentClient = clientService.findClientInDB(currentBank, clientName);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage() + "Exception in query to DB  ", e);
             } catch (ClientNotFoundException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage() + "Current Client wasn't found in DB ", e);
             }
 
 
@@ -187,16 +187,16 @@ public class BankServer {
 
 
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "Current Client wasn't found in DB ", e);
 		}  catch (IOException e) {
-			e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "Input/ Output Exception ", e);
 		} finally {
 			try {
 				in.close();
 				out.close();
 				serverSocket.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.log(Level.SEVERE, e.getMessage() + "Input/ Output Exception ", e);
 			}
 		}
 	}
@@ -207,7 +207,7 @@ public class BankServer {
 	public static void main (String args[]) {
 
         BankService bankService = ServiceFactory.getBankImpl();
-
+logger.setLevel(Level.SEVERE);
 
         try {
             currentBank = bankService.getBankByName(bankName);

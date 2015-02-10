@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by SCJP on 27.01.2015.
@@ -19,12 +21,13 @@ import java.util.*;
 public class ClientDAOImpl implements ClientDAO {
 
 
+    private static final Logger logger = Logger.getLogger(ClientDAOImpl.class.getName());
     private static ClientDAOImpl instance;
 
     private ClientDAOImpl() {
     }
 
-    public static  ClientDAOImpl getInstance() {
+    public static  ClientDAO getInstance() {
         if (instance == null) {
             instance = new  ClientDAOImpl();
         }
@@ -40,9 +43,6 @@ public class ClientDAOImpl implements ClientDAO {
          Connection conn = null;
          try {
              conn = baseDAO.openConnection();
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
 
          String sql = "SELECT ID, GENDER , TELEPHONE, EMAIL,  INITIAL_OVERDRAFT,  CITY " +
                  "              FROM CLIENT  " +
@@ -50,32 +50,20 @@ public class ClientDAOImpl implements ClientDAO {
 
          PreparedStatement preparedStatement = null;
 
-            try {
                 preparedStatement = conn.prepareStatement(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement.setString(1, name);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
-         try {
+                preparedStatement.setString(1, name);
+
              preparedStatement.setInt(2, bank.getId());
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
+
 
          ResultSet resultSet = null;
-         try {
+
              resultSet = preparedStatement.executeQuery();
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
+
 
          Client client = null;
-         try {
+
              while (resultSet.next()) {
 
                  client = new Client(name);
@@ -109,27 +97,17 @@ public class ClientDAOImpl implements ClientDAO {
                          "              WHERE acc.client_id= ?";
 
                  PreparedStatement preparedStatement2 = null;
-                 try {
-                     preparedStatement2 = conn.prepareStatement(sql2);
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
 
-                 try {
+                     preparedStatement2 = conn.prepareStatement(sql2);
+
+
                      preparedStatement2.setInt(1, client.getId());
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
 
                  ResultSet resultSet2 = null;
-                 try {
+
                      resultSet2 = preparedStatement2.executeQuery();
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
 
                  Account account;
-                 try {
                      while (resultSet2.next()) {
 
                          float balance = resultSet2.getFloat(2);
@@ -151,18 +129,17 @@ public class ClientDAOImpl implements ClientDAO {
 
 
                      }
-                 } catch (SQLException e) {
-                     e.printStackTrace();
                  }
+             logger.log(Level.INFO, "Client found successful  " + client.toString());
+             return client;
+             } catch (SQLException e) {
+             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+    } finally {
+        baseDAO.closeConnection();
+    }
 
-             }
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
 
-         baseDAO.closeConnection();
-
-        return client;
+        return null;
         }
 
 
@@ -174,38 +151,25 @@ public class ClientDAOImpl implements ClientDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
         String sql = "SELECT c.CLIENT_NAME, c.GENDER , c.TELEPHONE, " +
                 "c.EMAIL,  c.INITIAL_OVERDRAFT,  c.CITY " +
                 " FROM CLIENT c " +
                 " WHERE c.ID = ?";
 
         PreparedStatement preparedStatement = null;
-        try {
+
             preparedStatement = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             preparedStatement.setInt(1, clientId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         ResultSet resultSet = null;
-        try {
+
             resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         Client client = new Client();
         client.setId(clientId);
 
-        try {
             while (resultSet.next()) {
                 String name = resultSet.getString(1);
                 client.setName(name);
@@ -220,9 +184,6 @@ public class ClientDAOImpl implements ClientDAO {
 
                 String telephone = resultSet.getString(3);
                 client.setTelephoneNumber(telephone);
-
-
-
 
                 String email = resultSet.getString(4);
                 client.setEmail(email);
@@ -267,13 +228,15 @@ public class ClientDAOImpl implements ClientDAO {
 
 
             }
+            logger.log(Level.INFO, "Client found successful  " + client.toString());
+            return client;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+        } finally {
+            baseDAO.closeConnection();
         }
 
-
-        baseDAO.closeConnection();
-        return client;
+        return null;
     }
 
     @Override
@@ -284,38 +247,22 @@ public class ClientDAOImpl implements ClientDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
         String sql = "SELECT  c.ID, c.CLIENT_NAME, c.GENDER , c.TELEPHONE, " +
                 "c.EMAIL,  c.INITIAL_OVERDRAFT,  c.CITY  " +
                 " FROM CLIENT c " +
                 " WHERE c.BANK_ID = ?";
 
         PreparedStatement preparedStatement = null;
-        try {
             preparedStatement = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             preparedStatement.setInt(1, bank.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         ResultSet resultSet = null;
-        try {
             resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         Set<Client> clients = new HashSet<Client>();
 
-        try {
             while (resultSet.next()) {
 
                 Client client = new Client();
@@ -328,8 +275,6 @@ public class ClientDAOImpl implements ClientDAO {
                 String email = resultSet.getString(5);
                 float initialOverdraft = resultSet.getFloat(6);
                 String city = resultSet.getString(7);
-
-
 
 
                 client.setId(clientId);
@@ -347,9 +292,6 @@ public class ClientDAOImpl implements ClientDAO {
                 client.setEmail(email);
                 client.setInitialOverdraft(initialOverdraft);
                 client.setCity(city);
-
-
-
 
                 String sql4 = "SELECT OVERDRAFT , BALANCE, ID " +
                         "FROM ACCOUNT " +
@@ -384,14 +326,17 @@ public class ClientDAOImpl implements ClientDAO {
                 clients.add(client);
 
             }
+            logger.log(Level.INFO, "Clients found successful  " + clients.toString());
+            return  clients;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
+        } finally {
+
+
+            baseDAO.closeConnection();
         }
 
-
-
-        baseDAO.closeConnection();
-         return clients;
+         return null;
 
     }
 
@@ -402,11 +347,6 @@ public class ClientDAOImpl implements ClientDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
         if (client.getId() != null ) {
                 String sql = "UPDATE CLIENT SET   BANK_ID = ? ,\n" +
                         " \tCLIENT_NAME= ?,\n" +
@@ -418,67 +358,35 @@ public class ClientDAOImpl implements ClientDAO {
                         "where client.id = ?";
 
             PreparedStatement preparedStatement2 = null;
-            try {
                 preparedStatement2 = conn.prepareStatement(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.setInt(1, bankId);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
+
                 preparedStatement2.setString(2, client.getName());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
 
             if (client.getGender() == Gender.MALE) {
-                try {
+
                     preparedStatement2.setString(3, "M");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
             } else if (client.getGender() == Gender.FEMALE) {
-                try {
+
                     preparedStatement2.setString(3, "F");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
             }
 
-            try {
+
                 preparedStatement2.setString(4, client.getTelephoneNumber());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement2.setString(5, client.getEmail());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement2.setFloat(6, client.getInitialOverdraft());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement2.setString(7, client.getCity());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement2.setInt(8, client.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
-            try {
+                preparedStatement2.setString(5, client.getEmail());
+
+                preparedStatement2.setFloat(6, client.getInitialOverdraft());
+
+                preparedStatement2.setString(7, client.getCity());
+
+                preparedStatement2.setInt(8, client.getId());
+
                 preparedStatement2.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
 
 
             AccountDAO accountDAO = DAOFactory.getAccountDAO();
@@ -486,13 +394,8 @@ public class ClientDAOImpl implements ClientDAO {
 
                 if(!(client.getAccounts().isEmpty())) {
                     for (Account acc : client.getAccounts()) {
-                        try {
                             accountDAO.save(acc, client);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } catch (DAOException e) {
-                            e.printStackTrace();
-                        }
+
                     }
                 }
 
@@ -507,108 +410,61 @@ public class ClientDAOImpl implements ClientDAO {
                         "  \tINITIAL_OVERDRAFT,  \tCITY )" +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement preparedStatement2 = null;
-                try {
-                    preparedStatement2 = conn.prepareStatement(sql4);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
 
-                try {
+                    preparedStatement2 = conn.prepareStatement(sql4);
+
                     preparedStatement2.setInt(1, bankId);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                try {
+
                     preparedStatement2.setString(2, client.getName());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
 
 
                 if (client.getGender() == Gender.MALE) {
-                    try {
+
                         preparedStatement2.setString(3, "M");
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 } else if (client.getGender() == Gender.FEMALE) {
-                    try {
+
                         preparedStatement2.setString(3, "F");
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
                 }
-
-                try {
                     preparedStatement2.setString(4, client.getTelephoneNumber());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                try {
                     preparedStatement2.setNString(5, client.getEmail());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                try {
                     preparedStatement2.setFloat(6, client.getInitialOverdraft());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                try {
                     preparedStatement2.setNString(7, client.getCity());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                try {
                     preparedStatement2.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                ResultSet resultSet = null;
-                try {
-                    resultSet = preparedStatement2.getGeneratedKeys();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
 
 
-                try {
+                ResultSet resultSet = preparedStatement2.getGeneratedKeys();
+
                     if ( resultSet == null || ! resultSet.next()) {
+                        logger.log(Level.SEVERE,"DAO Exception : Impossible to save in DB. Can't get client ID.");
                         throw new DAOException("Impossible to save in DB. Can't get clientID.");
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (DAOException e) {
-                    e.printStackTrace();
-                }
+
                 Integer clientId = null;
-                try {
+
                     clientId = resultSet.getInt(1);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
                 client.setId(clientId);
 
                 AccountDAO accountDAO = DAOFactory.getAccountDAO();
                 if(!(client.getAccounts().isEmpty())) {
                     for (Account acc : client.getAccounts()) {
-                        try {
+
                             accountDAO.save(acc, client);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } catch (DAOException e) {
-                            e.printStackTrace();
-                        }
+
                     }
                 }
             }
-
-        baseDAO.closeConnection();
+            logger.log(Level.INFO,  " Client saved successful ");
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage() + " SQL Exception  ", e);
+        } catch (DAOException e) {
+            logger.log(Level.SEVERE, e.getMessage() + " DAO Exception  ", e);
+        } finally {
+            baseDAO.closeConnection();
         }
 
-
+        }
 
 
     @Override
@@ -618,37 +474,28 @@ public class ClientDAOImpl implements ClientDAO {
         Connection conn = null;
         try {
             conn = baseDAO.openConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         AccountDAO accountDAO = DAOFactory.getAccountDAO();
-        try {
+
             accountDAO.removeByClientId(client.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         String sql = "DELETE FROM CLIENT WHERE CLIENT.ID = ?";
 
         PreparedStatement preparedStatement3 = null;
-        try {
+
             preparedStatement3 = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             preparedStatement3.setInt(1, client.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
+
             preparedStatement3.executeUpdate();
+            logger.log(Level.INFO,  " Client removed successful ");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + " SQL Exception  ", e);
         }
 
+finally {
+            baseDAO.closeConnection();
+        }
 
-        baseDAO.closeConnection();
     }
 }

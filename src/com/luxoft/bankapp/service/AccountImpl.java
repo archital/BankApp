@@ -23,7 +23,7 @@ public class AccountImpl implements  AccountService{
     private AccountImpl() {
     }
 
-    public static  AccountImpl getInstance() {
+    public static  AccountService getInstance() {
         if (instance == null) {
             instance = new AccountImpl();
         }

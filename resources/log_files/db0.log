@@ -1,0 +1,73 @@
+фев 10, 2015 8:14:32 AM com.luxoft.bankapp.test.LoggerTest testCreateLogToFile
+INFO: File log 
+фев 10, 2015 8:17:02 AM com.luxoft.bankapp.test.LoggerTest testCreateLogToFile
+INFO: File log 
+фев 10, 2015 8:18:37 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 8:19:29 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 8:23:25 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 8:23:27 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 8:23:36 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 8:23:40 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 9:06:45 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 9:06:51 AM com.luxoft.bankapp.server.BankServerThreaded serve
+INFO: Waiting for connection
+фев 10, 2015 9:06:52 AM com.luxoft.bankapp.dao.BankDAOImpl getBankByName
+INFO: Bank  was foundBank{id=1, name='My Bank'}
+фев 10, 2015 9:06:52 AM com.luxoft.bankapp.server.ServerThread run
+INFO: Connection received from 127.0.0.1
+фев 10, 2015 9:06:52 AM com.luxoft.bankapp.server.ServerThread sendMessage
+FINEST: server>Input current client name: 
+фев 10, 2015 9:06:52 AM com.luxoft.bankapp.server.ServerThread run
+FINEST: Input current client name: 
+фев 10, 2015 9:06:59 AM com.luxoft.bankapp.server.ServerThread run
+FINEST: client name: Nana
+фев 10, 2015 9:06:59 AM com.luxoft.bankapp.dao.ClientDAOImpl findClientByName
+INFO: Client found successful  ID 2 name: Ms.Nana email address :aasdas@dsf.com telephone : 31221334 City: Forh Total balance: 236993.0 initial overdraft: 1500000.0 Accounts: Checking Account{  ID 2 overdraft = 31055.0 Checking account Balance 236993.0}
+
+фев 10, 2015 9:06:59 AM com.luxoft.bankapp.server.ServerThread sendMessage
+FINEST: server>You select ID 2 name: Ms.Nana email address :aasdas@dsf.com telephone : 31221334 City: Forh Total balance: 236993.0 initial overdraft: 1500000.0 Accounts: Checking Account{  ID 2 overdraft = 31055.0 Checking account Balance 236993.0}
+Chose command you need: 
+ to find client press => '0'
+  to get Accounts and balances press => '1'
+  to make Withdraw press => '2'
+  to make Deposit press => '3'
+  to make Transfer press => '4'
+  to add Client press => '5'
+  to remove Client press => '6'
+ to exit  press => '7' or 'bye'
+фев 10, 2015 9:07:11 AM com.luxoft.bankapp.dao.AccountDAOImpl getClientAccounts
+INFO: Client 's 2 accounts  got from DB
+фев 10, 2015 9:07:11 AM com.luxoft.bankapp.dao.AccountDAOImpl getClientAccounts
+INFO: Client 's 2 accounts  got from DB
+фев 10, 2015 9:07:16 AM com.luxoft.bankapp.dao.AccountDAOImpl getAccountById
+INFO: Account 2 got from DB
+фев 10, 2015 9:07:26 AM com.luxoft.bankapp.dao.AccountDAOImpl save
+INFO: Account  2 saved 
+фев 10, 2015 9:07:29 AM com.luxoft.bankapp.server.ServerThread run
+FINEST: 
+фев 10, 2015 9:07:29 AM com.luxoft.bankapp.server.ServerThread sendMessage
+FINEST: server>You select ID 2 name: Ms.Nana email address :aasdas@dsf.com telephone : 31221334 City: Forh Total balance: 236993.0 initial overdraft: 1500000.0 Accounts: Checking Account{  ID 2 overdraft = 31055.0 Checking account Balance 236993.0}
+Chose command you need: 
+ to find client press => '0'
+  to get Accounts and balances press => '1'
+  to make Withdraw press => '2'
+  to make Deposit press => '3'
+  to make Transfer press => '4'
+  to add Client press => '5'
+  to remove Client press => '6'
+ to exit  press => '7' or 'bye'
+фев 10, 2015 9:07:35 AM com.luxoft.bankapp.server.ServerThread sendMessage
+FINEST: server>bye
+фев 10, 2015 9:07:35 AM com.luxoft.bankapp.server.ServerThread run
+FINEST: 7
+фев 10, 2015 9:07:35 AM com.luxoft.bankapp.server.ServerThread run
+FINEST: Bye: 
+фев 10, 2015 9:07:35 AM com.luxoft.bankapp.server.ServerThread sendMessage
+FINEST: server>bye

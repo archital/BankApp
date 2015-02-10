@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Arthur Popichenko on 20.01.2015.
@@ -16,14 +18,15 @@ public class BankClient {
 	ObjectInputStream in;
 	String message;
 	static final String SERVER = "localhost";
-
+    private static final Logger logger = Logger.getLogger(BankClient.class.getName());
 
 
 	void run() {
 		try {
 			// 1. creating a socket to connect to the server
 			requestSocket = new Socket(SERVER, 2004);
-			System.out.println("Connected to localhost in port 2004");
+//			System.out.println("Connected to localhost in port 2004");
+			logger.log(Level.FINEST, "Connected to localhost in port 2004");
 			// 2. get Input and Output streams
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			out.flush();
@@ -33,10 +36,10 @@ public class BankClient {
 				try {
 					message = (String) in.readObject();
 				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
+                    logger.log(Level.SEVERE, e.getMessage() + "Current Client wasn't found in DB ", e);
 				}
-				System.out.println("server>" + message);
-
+			//	System.out.println("server>" + message);
+                logger.log(Level.FINEST, "server>" + message);
 				if (!message.equals("bye")) {
 
 					Scanner scanner = new Scanner(System.in);
@@ -53,17 +56,19 @@ public class BankClient {
 				}
 			} while (!message.equals("bye"));
 		} catch (UnknownHostException unknownHost) {
+			logger.log(Level.SEVERE, unknownHost.getMessage() + "You are trying to connect to an unknown host! ");
 			System.err.println("You are trying to connect to an unknown host!");
 		} catch (IOException ioException) {
-			ioException.printStackTrace();
+			logger.log(Level.SEVERE,  ioException.getMessage() + " read/write information exception ");
 		} finally {
 			// 4: Closing connection
 			try {
+				logger.setLevel(Level.INFO);
 				in.close();
 				out.close();
 				requestSocket.close();
 			} catch (IOException ioException) {
-				ioException.printStackTrace();
+				logger.log(Level.SEVERE, ioException.getMessage() + " read/write information exception ");
 			}
 		}
 	}
@@ -76,7 +81,8 @@ public class BankClient {
 		try {
 			out.writeObject(msg);
 			out.flush();
-			System.out.println("client>" + msg);
+			logger.log(Level.FINEST, "client>" + msg);
+		//	System.out.println("client>" + msg);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
@@ -84,7 +90,7 @@ public class BankClient {
 
 	public static void main (final String args[]) {
 		BankClient client = new BankClient();
-
+		logger.setLevel(Level.FINEST);
 
 		client.run();
 	}

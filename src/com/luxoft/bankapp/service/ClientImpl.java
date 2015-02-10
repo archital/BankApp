@@ -27,7 +27,7 @@ public class ClientImpl implements ClientService{
     private ClientImpl() {
     }
 
-    public static  ClientImpl getInstance() {
+    public static  ClientService getInstance() {
         if (instance == null) {
             instance = new  ClientImpl();
         }

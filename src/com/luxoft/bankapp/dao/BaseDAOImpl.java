@@ -15,7 +15,7 @@ public class BaseDAOImpl implements BaseDAO {
     private BaseDAOImpl() {
     }
 
-    public static  BaseDAOImpl getInstance() {
+    public static  BaseDAO getInstance() {
         if (instance == null) {
             instance = new  BaseDAOImpl();
         }

@@ -28,7 +28,7 @@ public class BankImpl implements BankService {
     private BankImpl() {
     }
 
-    public static  BankImpl getInstance() {
+    public static  BankService getInstance() {
         if (instance == null) {
             instance = new  BankImpl();
         }

@@ -29,7 +29,7 @@ public class BankServerThreadedTest {
 		Bank bank = ServiceFactory.getBankImpl().getBankByName(bankName);
 		Client client = ServiceFactory.getClientImpl().findClientInDB(bank, clientName);
 
-		ExecutorService executor = Executors.newFixedThreadPool(10);
+		ExecutorService executor = Executors.newFixedThreadPool(100);
 
 		double amount = client.getBalance();
 		long  clientsTime = 0;
@@ -37,7 +37,7 @@ public class BankServerThreadedTest {
 			for (int i = 0; i < 1000; i++) {
 				Future<Long> time =  executor.submit(new BankClientMock());
 				System.out.println("Client "+(i+1)+ " work time "+ time.get());
-				Thread.sleep(120);
+			Thread.sleep(5);
 				clientsTime = clientsTime + time.get();
 			}
 			executor.shutdown();

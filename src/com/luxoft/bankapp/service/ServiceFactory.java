@@ -9,15 +9,15 @@ import com.luxoft.bankapp.model.Client;
 public class ServiceFactory {
 
 
-    public static BankImpl getBankImpl() {
+    public static BankService getBankImpl() {
         return BankImpl.getInstance();
     }
 
-    public static ClientImpl getClientImpl() {
+    public static ClientService getClientImpl() {
         return ClientImpl.getInstance();
     }
 
-    public static AccountImpl getAccountImpl() {
+    public static AccountService getAccountImpl() {
         return AccountImpl.getInstance();
     }
 

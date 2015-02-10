@@ -11,6 +11,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -22,6 +24,7 @@ public class BankServerThreaded {
     private final ExecutorService pool;
     volatile boolean running;
     public static AtomicInteger atomicInteger = new AtomicInteger(0);
+    private static final Logger logger = Logger.getLogger(BankServerThreaded.class.getName());
 
     public BankServerThreaded(int port, int poolSize) throws IOException{
 
@@ -46,11 +49,12 @@ public void serve () {
 
   running = true;
     while (running) {
-        try {   System.out.println("Waiting for connection");
+        try {
+            logger.log(Level.INFO, "Waiting for connection");
             pool.execute(new ServerThread(serverSocket.accept()));
             atomicInteger.incrementAndGet();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage() + "I/O Exception  ", e);
         }
     }
 }
