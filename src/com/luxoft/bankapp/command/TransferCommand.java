@@ -114,7 +114,7 @@ public class TransferCommand implements Command {
 
                     inOut.println("Current account is selected:\n "+ currentAccountDeposit.toString()+ "\n"+
                    "Successful transfer, you can select new command" +
-                            "\npress 'Enter' for CommanderServer ");
+                            "\npress 'Enter'  ");
                 }
             }
         } catch (SQLException e) {

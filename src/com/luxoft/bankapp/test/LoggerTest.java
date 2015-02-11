@@ -14,7 +14,7 @@ public class LoggerTest {
 
 	@Test
 	public void testCreateLogConsole() throws Exception {
-		FileInputStream configFile = new FileInputStream("C:\\Users\\acer\\IdeaProjects\\BankApplication\\resources\\logger_clients");
+		FileInputStream configFile = new FileInputStream("C:\\Users\\acer\\IdeaProjects\\BankApplication\\src\\com\\luxoft\\bankapp\\resources\\logger_clients");
 
 			Logger logger = Logger.getLogger(LoggerTest.class.getName());
 
@@ -27,7 +27,7 @@ public class LoggerTest {
 
 	@Test
 	public void testCreateLogToFile() throws Exception {
-		FileInputStream configFile = new FileInputStream("C:\\Users\\acer\\IdeaProjects\\BankApplication\\resources\\logger_all");
+		FileInputStream configFile = new FileInputStream("C:\\Users\\acer\\IdeaProjects\\BankApplication\\src\\com\\luxoft\\bankapp\\resources\\logger_all");
 
 		Logger logger = Logger.getLogger(LoggerTest.class.getName());
 

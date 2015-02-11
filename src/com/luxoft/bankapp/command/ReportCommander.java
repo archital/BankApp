@@ -54,7 +54,7 @@ public class ReportCommander implements Command {
 		    sb.append("Clients sorted by balance: " + bankInfo.getClientsSorted() + '\n');
 
 			ioStreams.println(sb.toString()+"\n"+ " you can select new command" +
-					"\npress 'Enter' for CommanderServer ");
+					"\npress 'Enter' ");
 
 		}
 

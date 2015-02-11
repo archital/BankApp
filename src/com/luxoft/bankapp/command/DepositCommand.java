@@ -83,7 +83,7 @@ public class DepositCommand implements Command {
 
 
                 inOut.println("Deposit successful! you can select new command" +
-                        "\npress 'Enter' for CommanderServer ");
+                        "\npress 'Enter' ");
                 }
         } catch (SQLException e) {
             e.printStackTrace();

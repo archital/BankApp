@@ -25,6 +25,9 @@ public class BankServerThreaded {
     volatile boolean running;
     public static AtomicInteger atomicInteger = new AtomicInteger(0);
     private static final Logger logger = Logger.getLogger(BankServerThreaded.class.getName());
+    private static int port = 2004;
+    private static  int poolSize = 1000;
+
 
     public BankServerThreaded(int port, int poolSize) throws IOException{
 
@@ -40,12 +43,14 @@ public class BankServerThreaded {
         Thread thread = new Thread(new BankServerMonitor());
         thread.setDaemon(true);
         thread.start();
-        BankServerThreaded bankServerThreaded = new BankServerThreaded(2004, 1000);
+
+
+        BankServerThreaded bankServerThreaded = new BankServerThreaded(port, poolSize);
         bankServerThreaded.serve();
     }
 
 
-public void serve () {
+    public void serve () {
 
   running = true;
     while (running) {

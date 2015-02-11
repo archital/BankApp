@@ -120,7 +120,7 @@ public class RemoveCommand implements Command {
                 "Your new current client is : "+
                 newCurrentName.toString()+
                 " You can select new command " +
-                "\npress 'Enter' for CommanderServer ");
+                "\npress 'Enter'  ");
         try {
             clientService.removeClient(currentClient, currentBank);
         } catch (SQLException e) {

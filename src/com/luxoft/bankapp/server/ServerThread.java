@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
@@ -44,6 +45,8 @@ public class ServerThread  implements Runnable{
 	
 	@Override
 	public void run () {
+
+        Long startClient = System.currentTimeMillis();
 		logger.setLevel(Level.FINEST);
 
 		BankServerThreaded.atomicInteger.decrementAndGet();
@@ -66,7 +69,7 @@ synchronized (current) {
 			System.out.println("Connection received from "
 					+ connection.getInetAddress().getHostName());
 
-            logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName());
+            logger.log(Level.INFO, "Connection received from Client " + connection.getInetAddress().getHostName());
 			// 3. get Input and Output streams
 			try {
 				out = new ObjectOutputStream(connection.getOutputStream());
@@ -97,7 +100,6 @@ synchronized (current) {
 			commandMap.put("7", new Command() { // 7 - Exit Command
 				public void execute() {
 					sendMessage("bye");
-                    logger.log(Level.FINEST, "Send message 'bye' ");
 					System.exit(0);
 				}
 
@@ -146,41 +148,43 @@ synchronized (current) {
 
 				message = (String) in.readObject();
 				if (message.equals("0")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new FindClientCommand(inputOutput, current.getCurrentBank()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
+
 
 				} else if (message.equals("5")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new AddClientCommand(inputOutput, current.getCurrentBank()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
 
 				} else if (message.equals("3")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new DepositCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
 
 				} else if (message.equals("2")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new WithdrawCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
 
 				} else if (message.equals("4")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new TransferCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
 
 				} else if (message.equals("1")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new GetAccountsCommand(inputOutput, current.getCurrentBank(), current.getCurrentClient()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
 
 				} else if (message.equals("6")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					new RemoveCommand(inputOutput, current.getCurrentBank()).execute();
 					message = (String) in.readObject();
-                    logger.log(Level.FINEST, message);
 
 				} else if (message.equals("7")) {
+                    logger.log(Level.FINEST," client> "+ message);
 					sendMessage("bye");
 					message = "bye";
 
@@ -195,18 +199,20 @@ synchronized (current) {
 
 			} while (!message.equals("bye"));
 
-
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}  catch (IOException e) {
 			logger.log(Level.SEVERE, e.getMessage() + "I/O Exception  ", e);
 		} finally {
+            Long finishClient = System.currentTimeMillis();
+            logger.log(Level.INFO, " Client working time : " + (finishClient-startClient));
 			try {
 				in.close();
 				out.close();
+                logger.log(Level.INFO, " Client disconnect. ");
 			connection.close();
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, e.getMessage() + "I/O Exception  ", e);
+				logger.log(Level.SEVERE, e.getMessage() + " I/O Exception  ", e);
 			}
 		}
 	}
@@ -215,7 +221,7 @@ synchronized (current) {
 		try {
 			out.writeObject(msg);
 			out.flush();
-			logger.log(Level.FINEST, "server>" + msg);
+			logger.log(Level.FINEST, " server>" + msg);
 		} catch (IOException ioException) {
 			logger.log(Level.SEVERE, ioException.getMessage() + "I/O Exception  ", ioException);
 		}

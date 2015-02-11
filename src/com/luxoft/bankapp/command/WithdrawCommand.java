@@ -89,7 +89,7 @@ public class WithdrawCommand implements Command {
 
 
                     inOut.println("Withdraw successful! you can select new command" +
-                            "\npress 'Enter' for CommanderServer ");
+                            "\npress 'Enter'  ");
 
                     try {
                         accountService.addAccount(currentClient, currentClient.getActiveAccount()); //write update to DB

@@ -19,13 +19,12 @@ public class BankClient {
 	String message;
 	static final String SERVER = "localhost";
     private static final Logger logger = Logger.getLogger(BankClient.class.getName());
-
+    private static int port = 2004;
 
 	void run() {
 		try {
 			// 1. creating a socket to connect to the server
-			requestSocket = new Socket(SERVER, 2004);
-//			System.out.println("Connected to localhost in port 2004");
+			requestSocket = new Socket(SERVER, port);
 			logger.log(Level.FINEST, "Connected to localhost in port 2004");
 			// 2. get Input and Output streams
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
@@ -38,8 +37,7 @@ public class BankClient {
 				} catch (ClassNotFoundException e) {
                     logger.log(Level.SEVERE, e.getMessage() + "Current Client wasn't found in DB ", e);
 				}
-			//	System.out.println("server>" + message);
-                logger.log(Level.FINEST, "server>" + message);
+               System.out.println("server>" + message);
 				if (!message.equals("bye")) {
 
 					Scanner scanner = new Scanner(System.in);
@@ -62,6 +60,7 @@ public class BankClient {
 			logger.log(Level.SEVERE,  ioException.getMessage() + " read/write information exception ");
 		} finally {
 			// 4: Closing connection
+            logger.log(Level.FINEST, " Client Disconnect ");
 			try {
 				logger.setLevel(Level.INFO);
 				in.close();
@@ -81,8 +80,7 @@ public class BankClient {
 		try {
 			out.writeObject(msg);
 			out.flush();
-			logger.log(Level.FINEST, "client>" + msg);
-		//	System.out.println("client>" + msg);
+		System.out.println("client>" + msg);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}

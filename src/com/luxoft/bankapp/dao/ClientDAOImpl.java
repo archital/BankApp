@@ -37,7 +37,7 @@ public class ClientDAOImpl implements ClientDAO {
     @Override
     public synchronized Client findClientByName(Bank bank, String name)  {
 
-
+        Client client = null;
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
 
          Connection conn = null;
@@ -57,12 +57,9 @@ public class ClientDAOImpl implements ClientDAO {
              preparedStatement.setInt(2, bank.getId());
 
 
-         ResultSet resultSet = null;
-
-             resultSet = preparedStatement.executeQuery();
+         ResultSet resultSet = preparedStatement.executeQuery();
 
 
-         Client client = null;
 
              while (resultSet.next()) {
 
@@ -135,18 +132,18 @@ public class ClientDAOImpl implements ClientDAO {
              } catch (SQLException e) {
              logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
     } finally {
+
         baseDAO.closeConnection();
+             return client;
     }
 
-
-        return null;
         }
 
 
     @Override
     public synchronized Client findClientById(Integer clientId) throws ClientNotFoundException, ClientExistsException {
 
-
+        Client client = new Client();
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
@@ -156,18 +153,14 @@ public class ClientDAOImpl implements ClientDAO {
                 " FROM CLIENT c " +
                 " WHERE c.ID = ?";
 
-        PreparedStatement preparedStatement = null;
-
-            preparedStatement = conn.prepareStatement(sql);
-
-
-            preparedStatement.setInt(1, clientId);
+        PreparedStatement preparedStatement  = conn.prepareStatement(sql);
+         preparedStatement.setInt(1, clientId);
 
         ResultSet resultSet = null;
 
             resultSet = preparedStatement.executeQuery();
 
-        Client client = new Client();
+
         client.setId(clientId);
 
             while (resultSet.next()) {
@@ -233,15 +226,16 @@ public class ClientDAOImpl implements ClientDAO {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
-            baseDAO.closeConnection();
-        }
 
-        return null;
+            baseDAO.closeConnection();
+            return client;
+        }
     }
 
     @Override
     public synchronized Set<Client> getAllClients(Bank bank)  {
 
+        Set<Client> clients = new HashSet<Client>();
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
@@ -260,8 +254,6 @@ public class ClientDAOImpl implements ClientDAO {
 
         ResultSet resultSet = null;
             resultSet = preparedStatement.executeQuery();
-
-        Set<Client> clients = new HashSet<Client>();
 
             while (resultSet.next()) {
 
@@ -334,11 +326,9 @@ public class ClientDAOImpl implements ClientDAO {
 
 
             baseDAO.closeConnection();
+            return  clients;
         }
-
-         return null;
-
-    }
+ }
 
     @Override
     public synchronized void save(Client client, Integer bankId){

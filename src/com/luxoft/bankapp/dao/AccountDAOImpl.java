@@ -48,13 +48,10 @@ public class AccountDAOImpl implements AccountDAO {
 
                 preparedStatement2.setFloat(1, account.getBalance());
 
-
             if (account instanceof CheckingAccount) {
 
                     preparedStatement2.setFloat(2, ((CheckingAccount) account).getOverdraft());
-
-
-            }
+                  }
 
             if (account instanceof  SavingAccount){
 
@@ -80,12 +77,7 @@ public class AccountDAOImpl implements AccountDAO {
                 preparedStatement3.setInt(3, client.getId());
                 preparedStatement3.executeUpdate();
 
-            ResultSet resultSet = null;
-
-                resultSet = preparedStatement3.getGeneratedKeys();
-
-
-
+            ResultSet resultSet = preparedStatement3.getGeneratedKeys();
 
                 if ( resultSet == null || ! resultSet.next()) {
                     logger.log(Level.SEVERE,"DAO Exception : Impossible to save in DB. Can't get account ID.");
@@ -128,21 +120,15 @@ public class AccountDAOImpl implements AccountDAO {
 
                 }
 
-            Integer accountId = null;
-
-                accountId = resultSet.getInt(1);
-
-
+            Integer accountId = resultSet.getInt(1);
             ((SavingAccount) account).setId(accountId);
-
-
         }
-            logger.log(Level.INFO, "Account  "+ ((AbstractAccount) account).getId()+" saved ");
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
             } catch (DAOException e) {
             logger.log(Level.SEVERE, e.getMessage() + "DAO Exception  ", e);
             } finally {
+            logger.log(Level.INFO, "Account  "+ ((AbstractAccount) account).getId()+" saved ");
             baseDAO.closeConnection();
         }
 
@@ -168,11 +154,11 @@ public class AccountDAOImpl implements AccountDAO {
 
             preparedStatement3.executeUpdate();
 
-            logger.log(Level.INFO, "Client 's " +id +" accounts  were removed");
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         }
  finally {
+            logger.log(Level.INFO, "Client with ID " +id +" accounts  were removed");
             baseDAO.closeConnection();
         }
 
@@ -198,12 +184,12 @@ public class AccountDAOImpl implements AccountDAO {
 
             preparedStatement3.executeUpdate();
 
-
-            logger.log(Level.INFO, "Client 's " +name +" accounts  were removed");
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         }
         finally {
+
+            logger.log(Level.INFO, "Client with name " +name +" accounts  were removed");
             baseDAO.closeConnection();
         }
         }
@@ -212,6 +198,8 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public synchronized List<Account> getClientAccounts(Integer id) {
 
+
+        List<Account> accounts = new ArrayList<Account>();
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
@@ -224,18 +212,11 @@ public class AccountDAOImpl implements AccountDAO {
         PreparedStatement preparedStatement = null;
 
             preparedStatement = conn.prepareStatement(sql);
-
-
             preparedStatement.setInt(1, id);
-
 
         ResultSet resultSet = null;
 
             resultSet = preparedStatement.executeQuery();
-
-
-        List<Account> accounts = new ArrayList<Account>();
-
 
             while (resultSet.next()) {
 
@@ -255,17 +236,15 @@ public class AccountDAOImpl implements AccountDAO {
                 }
 
             }
-
-            logger.log(Level.INFO, "Client 's " +id +" accounts  got from DB");
-            return  accounts;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         }
         finally {
-            baseDAO.closeConnection();
-        }
+            logger.log(Level.INFO, "Client with ID " +id +" accounts  got from DB");
 
-        return  null;
+            baseDAO.closeConnection();
+            return  accounts;
+        }
 
     }
 
@@ -274,22 +253,16 @@ public class AccountDAOImpl implements AccountDAO {
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
+        AbstractAccount account = null;
         try {
             conn = baseDAO.openConnection();
-        AbstractAccount account = null;
-
-
-
-        String sql = "SELECT BALANCE,  \tOVERDRAFT, ID " +
+                String sql = "SELECT BALANCE,  \tOVERDRAFT, ID " +
                 " FROM ACCOUNT " +
                 " WHERE ID = ?";
 
-        PreparedStatement preparedStatement = null;
-
-            preparedStatement = conn.prepareStatement(sql);
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-        ResultSet resultSet = null;
-            resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
 
                 float balance = resultSet.getFloat(1);
@@ -306,15 +279,13 @@ public class AccountDAOImpl implements AccountDAO {
                 }
 
             }
-            logger.log(Level.INFO, "Account " +id +" got from DB");
-            return account;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
+            logger.log(Level.INFO, "Account with ID " +id +" got from DB");
             baseDAO.closeConnection();
+            return account;
         }
-
-        return  null;
     }
 
     @Override
@@ -345,14 +316,9 @@ public class AccountDAOImpl implements AccountDAO {
         String sql2 = "UPDATE ACCOUNT SET BALANCE = BALANCE + ?\n" +
                 "WHERE ACCOUNT.ID = ? AND ACCOUNT.CLIENT_ID = ?";
 
-        PreparedStatement preparedStatement2 = null;
-
-            preparedStatement2 = conn.prepareStatement(sql2);
-
+        PreparedStatement preparedStatement2 =conn.prepareStatement(sql2);
 
             preparedStatement2.setFloat(1, amount);
-
-
             preparedStatement2.setInt(2, accIdDeposit);
             preparedStatement2.setInt(3, clIdDeposit);
 
@@ -362,10 +328,10 @@ public class AccountDAOImpl implements AccountDAO {
 
 
             conn.setAutoCommit(true);
-            logger.log(Level.INFO, " Transfer successful ");
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
+            logger.log(Level.INFO, " Transfer successful ");
             baseDAO.closeConnection();
         }
     }

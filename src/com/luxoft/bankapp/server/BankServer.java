@@ -176,6 +176,7 @@ public class BankServer {
 
                 } else {
                     sendMessage("Error! wrong command: ");
+                    logger.log(Level.SEVERE, "Error! wrong command: ");
                     message = (String) in.readObject();
 
                 }

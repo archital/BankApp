@@ -36,12 +36,13 @@ public class BankDAOImpl implements BankDAO {
         return instance;
     }
 
-  private   Bank bank1;
+
 
 
     @Override
     public synchronized Bank getBankByName(String name)  {
 
+        Bank bank1 = new Bank();
 
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         synchronized (baseDAO) {
@@ -63,11 +64,8 @@ public class BankDAOImpl implements BankDAO {
 
 
 
-        ResultSet resultSet = null;
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            resultSet = preparedStatement.executeQuery();
-
-        bank1 = new Bank();
 
                 while (resultSet.next()) {
                     Integer id = resultSet.getInt(1);
@@ -76,10 +74,10 @@ public class BankDAOImpl implements BankDAO {
 
                     bank1.setName(bankName);
                 }
-            logger.log(Level.INFO, "Bank  was found"+ bank1.toString());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
+            logger.log(Level.INFO, "Bank  was found"+ bank1.toString());
             baseDAO.closeConnection();
         }
         }
@@ -90,6 +88,7 @@ public class BankDAOImpl implements BankDAO {
     @Override
     public synchronized BankInfo getBankInfo(Bank bank)  {
 
+        BankInfo bankInfo  = new BankInfo(bank);
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
@@ -127,20 +126,16 @@ public class BankDAOImpl implements BankDAO {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
 
             bank.setClients(clientDAO.getAllClients(bank));
-
-        BankInfo bankInfo = new BankInfo(bank);
         bankInfo.setNumberOfClients(numberOfClients);
         bankInfo.setTotalAccountSum(totalAccountSum);
-            logger.log(Level.INFO, "Shows bankInfo successful");
-            return bankInfo;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
+            logger.log(Level.INFO, "Shows bankInfo successful");
             baseDAO.closeConnection();
+      return  bankInfo;
         }
-        return null;
-
-    }
+ }
 
     @Override
     public synchronized void save(Bank bank)  {
@@ -229,10 +224,10 @@ public class BankDAOImpl implements BankDAO {
             }
 
         }
-            logger.log(Level.INFO, "Bank saved successful "+ bank.toString());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
+            logger.log(Level.INFO, "Bank saved successful "+ bank.toString());
             baseDAO.closeConnection();
         }
     }
@@ -240,8 +235,7 @@ public class BankDAOImpl implements BankDAO {
     @Override
     public synchronized Bank load(String bankName) {
 
-
-
+        Bank bank = new Bank();
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {
@@ -255,11 +249,9 @@ public class BankDAOImpl implements BankDAO {
             preparedStatement.setString(1, bankName);
 
 
-        ResultSet resultSet = null;
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            resultSet = preparedStatement.executeQuery();
 
-        Bank bank = new Bank();
 
             while (resultSet.next()) {
                 bank.setId(resultSet.getInt(1));
@@ -267,19 +259,16 @@ public class BankDAOImpl implements BankDAO {
             }
 
         ClientDAO clientDAO = DAOFactory.getClientDAO();
-        Set<Client> clients = null;
-
-            clients = clientDAO.getAllClients(bank);
+        Set<Client> clients = clientDAO.getAllClients(bank);
 
         bank.setClients(clients);
             logger.log(Level.INFO, "Bank loaded successful "+ bank.toString());
-return bank;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage() + "SQL Exception  ", e);
         } finally {
             baseDAO.closeConnection();
+            return bank;
         }
-        return null;
 
     }
 }

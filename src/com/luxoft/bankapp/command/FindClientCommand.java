@@ -7,6 +7,7 @@ import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.server.BankServer;
 import com.luxoft.bankapp.server.Current;
+import com.luxoft.bankapp.server.CurrentImpl;
 import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
@@ -85,12 +86,14 @@ public class FindClientCommand implements Command {
 
         BankCommander.currentClient = client; // set currentClient to BankCommander
         BankServer.currentClient = client;
+
+        current = new CurrentImpl();
        current.setCurrentClient(client);
 
         ioStreams.println("Current client "+client.toString() + "\n you can select new command " +
                 "Current account is selected:\n " +
                 currentAccount.toString() +
-                "\npress 'Enter' for CommanderServer ");
+                "\npress 'Enter' ");
     }
 
     @Override
