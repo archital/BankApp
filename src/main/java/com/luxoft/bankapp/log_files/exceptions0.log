@@ -1,0 +1,9 @@
+фев 10, 2015 12:56:26 PM com.luxoft.bankapp.dao.BankDAOImpl getBankByName
+INFO: Bank  was foundBank{id=1, name='My Bank'}
+фев 10, 2015 12:56:59 PM com.luxoft.bankapp.dao.ClientDAOImpl findClientByName
+INFO: Client found successful  ID 2 name: Ms.Nana email address :aasdas@dsf.com telephone : 31221334 City: Forh Total balance: 150123.0 initial overdraft: 1500000.0 Accounts: Checking Account{  ID 2 overdraft = 50023.0 Checking account Balance 150123.0}
+
+фев 10, 2015 12:57:03 PM com.luxoft.bankapp.server.BankServer run
+SEVERE: Error! wrong command: 
+фев 10, 2015 12:57:06 PM com.luxoft.bankapp.server.BankServer run
+SEVERE: Error! wrong command: 

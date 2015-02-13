@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1b09100-3986-479f-a35d-440cf9f8bceb" name="Default" comment="13.02.2015">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="e1b09100-3986-479f-a35d-440cf9f8bceb" name="Default" comment="" />
     <ignored path="BankApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -828,20 +826,24 @@
       <created>1421229688504</created>
       <updated>1421229688504</updated>
       <workItem from="1421229692357" duration="235000" />
-      <workItem from="1423821548081" duration="21119000" />
+      <workItem from="1423821548081" duration="21270000" />
     </task>
     <task id="LOCAL-00001" summary="13.02.2015">
       <created>1423842965150</created>
       <updated>1423842965150</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="13.02.2015">
+      <created>1423843141405</created>
+      <updated>1423843141405</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21354000" />
+    <option name="totallyTimeSpent" value="21505000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
