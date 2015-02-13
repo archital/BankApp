@@ -1,98 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1b09100-3986-479f-a35d-440cf9f8bceb" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\balance.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\bank.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\deposit.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\login.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\logout.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\menu.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\validation.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\HTML\withdraw.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\Listeners\ClientRegistrationListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\annotation\annotation.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\AbstractCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\AddClientCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\Command.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\DepositCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\FindClientCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\GetAccountsCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\InputOutput.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\RemoveCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\ReportCommander.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\TransferCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\command\WithdrawCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\AccountDAO.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\AccountDAOImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\BankDAO.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\BankDAOImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\BaseDAO.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\BaseDAOImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\ClientDAO.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\ClientDAOImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\dao\DAOFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\BankException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\ClientExistsException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\ClientNotFoundException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\DAOException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\FeedException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\NotEnoughFundsException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\exception\OverDraftLimitExceededException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\main\BankApplication.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\main\BankCommander.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\AbstractAccount.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\Account.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\Bank.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\CheckingAccount.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\Client.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\Gender.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\Report.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\model\SavingAccount.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\log_files\db0.log" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\log_files\db0.log.1" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\log_files\db0.log.lck" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\log_files\exceptions0.log" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\log_files\exceptions0.log.lck" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\logger_all" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\logger_clients" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\resources\logger_exceptions" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\BankClient.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\BankClientMock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\BankServer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\BankServerMonitor.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\BankServerThreaded.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\Current.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\CurrentImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\server\ServerThread.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\AccountImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\AccountService.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\BankFeedService.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\BankImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\BankInfo.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\BankReport.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\BankService.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\ClientImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\ClientService.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\service\ServiceFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\AccountServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\BankDAOImplTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\BankServerThreadedTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\BankServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\BankTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\CheckingAccountTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\ClientServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\ClientTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\LoggerTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\SavingAccountTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\TestService.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\SCJP\IdeaProjects\BankApplication\src\com\luxoft\bankapp\test\TestServiceTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BankApplication.iml" afterPath="$PROJECT_DIR$/BankApplication.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="e1b09100-3986-479f-a35d-440cf9f8bceb" name="Default" comment="13.02.2015">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BankApplication.iws" />
@@ -370,6 +279,58 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="BankApplication" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BankApplication" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -867,16 +828,21 @@
       <created>1421229688504</created>
       <updated>1421229688504</updated>
       <workItem from="1421229692357" duration="235000" />
-      <workItem from="1423821548081" duration="20934000" />
+      <workItem from="1423821548081" duration="21119000" />
     </task>
+    <task id="LOCAL-00001" summary="13.02.2015">
+      <created>1423842965150</created>
+      <updated>1423842965150</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21169000" />
+    <option name="totallyTimeSpent" value="21354000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -900,7 +866,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24524158" sideWeight="0.5503876" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24524158" sideWeight="0.5503876" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.352459" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24963397" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -928,6 +894,8 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="13.02.2015" />
+    <option name="LAST_COMMIT_MESSAGE" value="13.02.2015" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
