@@ -5,10 +5,7 @@ import com.luxoft.bankapp.dao.AccountDAOImpl;
 import com.luxoft.bankapp.dao.DAOFactory;
 import com.luxoft.bankapp.exception.*;
 
-import com.luxoft.bankapp.model.Account;
-import com.luxoft.bankapp.model.CheckingAccount;
-import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.model.SavingAccount;
+import com.luxoft.bankapp.model.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -57,12 +54,19 @@ public class AccountImpl implements  AccountService{
     }
 
     @Override
-    public  synchronized  void   deposit  (float x, Account account) {
+    public  synchronized  void   deposit  (float x, Account account, Client client) throws SQLException, DAOException {
         account.setBalance(account.getBalance()+ x);
+        AccountDAO accountDAO = DAOFactory.getAccountDAO();
+        accountDAO.save(account, client);
+
     }
 
     @Override
-    public  synchronized void withdraw(float x , Account account) throws NotEnoughFundsException,  OverDraftLimitExceededException{
+    public  synchronized void withdraw(float x , Account account, Client client) throws NotEnoughFundsException, OverDraftLimitExceededException, SQLException {
+
+        AccountDAO accountDAO = DAOFactory.getAccountDAO();
+
+
 
         if(account instanceof SavingAccount) {
         if (x > account.getBalance()) {
@@ -70,19 +74,46 @@ public class AccountImpl implements  AccountService{
         } else {
             float b = account.getBalance() - x;
             account.setBalance(b);
+
+            try {
+                accountDAO.save(account, client);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
         }
     }
         else if (account instanceof CheckingAccount) {
             if (x > account.getBalance()) {
+                float overdraft = ((CheckingAccount) account).getOverdraft();
+                float newOverdraft = overdraft - (x - account.getBalance());
 
-                ((CheckingAccount) account).setOverdraft(((CheckingAccount) account).getOverdraft()- (x - account.getBalance()));
-                if(((CheckingAccount) account).getOverdraft() < 0 ){
+
+                if(newOverdraft < 0 ){
                     throw new OverDraftLimitExceededException(x, (CheckingAccount) account);
+                } else {
+
+
+                   float newBalance = account.getBalance() - x;
+                    account.setBalance(newBalance);
+                    ((CheckingAccount) account).setOverdraft(newOverdraft);
+
+                    try {
+                        accountDAO.save(account, client);
+                    } catch (DAOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
-            } else if ((account.getBalance() + ((CheckingAccount) account).getOverdraft()) >= x) {
-                float newBalance = account.getBalance()  - x;
+            } else if ((account.getBalance())  >= x) {
+
+                float oldBalance = account.getBalance();
+                float newBalance = oldBalance- x;
                 account.setBalance(newBalance);
+                try {
+                    accountDAO.save(account, client);
+                } catch (DAOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

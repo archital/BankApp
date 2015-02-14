@@ -11,10 +11,10 @@ import java.util.List;
  * Created by SCJP on 27.01.2015.
  */
 public interface AccountDAO {
-    public void save(Account account,Client client) throws SQLException, DAOException;
+    public void save(Account account, Client client) throws SQLException, DAOException;
     public void removeByClientId(Integer id) throws SQLException;
     public void removeByClientName(String name) throws SQLException;
     public List<Account> getClientAccounts(Integer id) throws SQLException;
     public Account getAccountById(Integer id) throws SQLException;
-    public void transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount ) throws SQLException;
+    public void transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount) throws SQLException;
 }

@@ -52,14 +52,19 @@ public class CheckingAccount extends AbstractAccount implements Serializable {
 
     @Override
     public void withdraw(float x) throws OverDraftLimitExceededException {
-        if (x > getBalance()) {
+        if (x > balance) {
 
-            overdraft = overdraft - (x - getBalance());
-            if(overdraft < 0 ){
+           float newOverdraft = overdraft - (x - balance);
+
+            if(newOverdraft < 0 ){
                 throw new OverDraftLimitExceededException(x, this);
+             } else {
+              overdraft  = overdraft - (x - balance);
+                balance = (balance - x);
             }
 
-        } else if ((getBalance() + getOverdraft()) >= x) {
+
+        } else if (balance  >= x) {
             float newBalance = getBalance()  - x;
             setBalance(newBalance);
         }

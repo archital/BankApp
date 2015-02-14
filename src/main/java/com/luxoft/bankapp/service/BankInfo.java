@@ -4,7 +4,6 @@ import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.BankImpl;
-import com.sun.deploy.util.SessionState;
 
 import java.util.List;
 import java.util.Map;

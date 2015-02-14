@@ -56,7 +56,7 @@ Set<Client> clientSet = new HashSet<Client>();
 
     @Test
     public void testDeposit() throws Exception {
-        ServiceFactory.getAccountImpl().deposit(amount, account);
+        ServiceFactory.getAccountImpl().deposit(amount, account, client);
 
         System.out.println("Deposit ");
         assertEquals(500, client.getBalance(), 0.0);
@@ -65,7 +65,7 @@ Set<Client> clientSet = new HashSet<Client>();
 
     @Test
     public void testWithdraw() throws Exception {
-        ServiceFactory.getAccountImpl().withdraw(amount, account);
+        ServiceFactory.getAccountImpl().withdraw(amount, account, client);
 
         System.out.println("Withdraw ");
         assertEquals(300, client.getBalance(), 0.0);
@@ -76,7 +76,7 @@ Set<Client> clientSet = new HashSet<Client>();
     public void testWithdrawNotEnoughFunds() throws Exception {
 
         System.out.println("test Withdraw throw NotEnoughFundsException ");
-        ServiceFactory.getAccountImpl().withdraw(500, account2);
+        ServiceFactory.getAccountImpl().withdraw(500, account2, client);
 
 
 
@@ -86,7 +86,7 @@ Set<Client> clientSet = new HashSet<Client>();
     public void testWithdrawOverdraft() throws Exception {
 
         System.out.println("test Withdraw throw OverDraftLimitExceededException ");
-        ServiceFactory.getAccountImpl().withdraw(500, account);
+        ServiceFactory.getAccountImpl().withdraw(500, account, client);
     }
 
 

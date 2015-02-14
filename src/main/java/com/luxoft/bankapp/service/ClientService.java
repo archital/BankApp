@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public interface ClientService {
     public void addClient(Bank bank, Client client) throws SQLException, ClientExistsException, ClientExistsException;
-    public void removeClient(Client client,Bank bank) throws SQLException;
+    public void removeClient(Client client, Bank bank) throws SQLException;
     public Client findClientInDB(Bank bank, String name) throws SQLException, ClientNotFoundException;
     public void loadClientFromFile(Client client) throws IOException, ClassNotFoundException;
     public Client findClient(Bank bank, String name) throws SQLException, ClientNotFoundException;

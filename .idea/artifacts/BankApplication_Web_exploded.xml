@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="BankApplication:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/BankApplication_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="BankApplication/javaeeApplication/javaEEApplication" />
+      <element id="javaee-facet-resources" facet="BankApplication/javaeeApplication/javaEEApplication" />
+    </root>
+  </artifact>
+</component>

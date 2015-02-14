@@ -32,6 +32,7 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public synchronized void save(Account account, Client client) {
+
         BaseDAO baseDAO = DAOFactory.getBaseDAO();
         Connection conn = null;
         try {

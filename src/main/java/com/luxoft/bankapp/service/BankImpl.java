@@ -13,12 +13,7 @@ import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
-import java.io.*;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class BankImpl implements BankService {
 

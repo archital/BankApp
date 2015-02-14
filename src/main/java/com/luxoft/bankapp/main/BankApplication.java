@@ -7,10 +7,7 @@ import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Created by SCJP on 14.01.2015.

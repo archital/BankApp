@@ -1,5 +1,6 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.exception.OverDraftLimitExceededException;
 
@@ -15,12 +16,12 @@ import java.util.List;
 public interface AccountService {
 
     public void addAccount(Client client, Account account) throws SQLException;
-    public List<Account> getClientAccounts (Integer id) throws SQLException;
+    public List<Account> getClientAccounts(Integer id) throws SQLException;
      public void setActiveAccount(Client client, Account account);
-    public void deposit(float x, Account account);
-    public void withdraw(float x, Account account) throws NotEnoughFundsException, OverDraftLimitExceededException, NotEnoughFundsException;
+    public void deposit(float x, Account account, Client client) throws SQLException, DAOException;
+    public void withdraw(float x, Account account, Client client) throws NotEnoughFundsException, OverDraftLimitExceededException, SQLException, DAOException;
     public float decimalValue(Account account);
     public Account getAccountById(Integer id);
-    public void Transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount ) throws NotEnoughFundsException, OverDraftLimitExceededException;;
+    public void Transfer(Integer accIdWithdraw, Integer accIdDeposit, Integer clIdWithdraw, Integer clIdDeposit, float amount) throws NotEnoughFundsException, OverDraftLimitExceededException;;
 
 }

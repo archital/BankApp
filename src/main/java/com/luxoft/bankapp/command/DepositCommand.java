@@ -5,6 +5,7 @@ import com.luxoft.bankapp.dao.AccountDAOImpl;
 import com.luxoft.bankapp.dao.ClientDAO;
 import com.luxoft.bankapp.dao.ClientDAOImpl;
 import com.luxoft.bankapp.exception.ClientExistsException;
+import com.luxoft.bankapp.exception.DAOException;
 import com.luxoft.bankapp.main.BankCommander;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
@@ -79,13 +80,15 @@ public class DepositCommand implements Command {
                 amount = Float.parseFloat(inOut.readln());
 
 
-                accountService.deposit(amount, currentClient.getActiveAccount());
+                accountService.deposit(amount, currentClient.getActiveAccount(), currentClient);
 
 
                 inOut.println("Deposit successful! you can select new command" +
                         "\npress 'Enter' ");
                 }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DAOException e) {
             e.printStackTrace();
         }
         try {

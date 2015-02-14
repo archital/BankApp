@@ -7,7 +7,6 @@ import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Set;
 
 /**

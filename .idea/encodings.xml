@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
-    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/bankapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/Listeners" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/annotation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/command" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/exception" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/log_files" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/main" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/servlets" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/test/AccountServiceTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/test/BankDAOImplTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/test/BankServerThreadedTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/test/BankServiceTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/addClient.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/bankInf.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/deposit.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/foundClient.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/login.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/logout.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/menu.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/showBalance.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/style/bank.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/style/validation.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/style/validation1.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/style/validation2.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/withdraw.html" charset="UTF-8" />
   </component>
 </project>
 

@@ -13,5 +13,5 @@ public interface BankDAO {
   Bank getBankByName(String name) throws SQLException;
     BankInfo getBankInfo(Bank bank) throws SQLException;
     void save(Bank bank) throws SQLException, DAOException;
-    Bank load (String bankName) throws SQLException;
+    Bank load(String bankName) throws SQLException;
 }
