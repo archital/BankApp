@@ -1,6 +1,0 @@
-.level = INFO
-handlers = java.util.logging.FileHandler
-java.util.logging.FileHandler.pattern = C:/Users/acer/IdeaProjects/BankApplication/src/com/luxoft/bankapp/resources/log_files/db%g.log
-java.util.logging.FileHandler.append = true
-java.util.logging.FileHandler.limit = 50000
-java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter
