@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.service;
+package com.luxoft.bankapp.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
