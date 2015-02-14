@@ -1,5 +1,3 @@
-package com.luxoft.bankapp.test;
-
 import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.CheckingAccount;

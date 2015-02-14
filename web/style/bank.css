@@ -1,36 +1,31 @@
      body {
-      background: #45d59e;
+      background: green;
          }
 
 
 #loginTable{
-    table-align:center;
-    border: 0;
-    top: 25%;
-    left: 25%;
+   width: 300px
+   table-align:center;
+     margin: auto;
 }
 #name{
 width: 295px
 }
 
 .menu {
-    table-align:center;
-    border: 0;
-    top: 25%;
-    left: 25%;
+   width: 300px
+   table-align:center;
+     position : absolute;
+     top: 25%;
+     left: 25%;
 }
 
 .tableClient{
-    table-align:center;
-    border: 0;
-    cell-padding: 1;
-    cell-spacing: 1;
-    width: 1050px;
-    height: 100px;
-    position : absolute;
-    top: 25%;
-    left: 25%;
-    background: #45d59e;
+   width: 300px
+   table-align:center;
+     position : absolute;
+     top: 25%;
+     left: 25%;
 }
 
 .menuBankStatistics{
@@ -44,7 +39,7 @@ table-align:center;
   position : absolute;
     top: 25%;
     left: 25%;
-     background: #45d59e;
+     background: green;
 }
 
 
@@ -54,7 +49,7 @@ table-align:center;
   cell-spacing: 1;
 height: 100px;
  width: 1000px;
-  background: #45d59e;
+  background: green;
 }
 
 .line{
@@ -63,31 +58,27 @@ height: 100px;
 .TextBankStatistics{
 text-align:center;
 font-face: Tahoma, Geneva;
- background: #45d59e;
+ background: green;
  font-size: 30px;
 
 }
 
 .results {
-    table-align:center;
-    border: 0;
-    cell-padding: 1;
-    cell-spacing: 1;
-    width: 1050px;
-    height: 100px;
-    position : absolute;
-    top: 25%;
-    left: 25%;
-    background: #45d59e;
+       width: 300px
+       table-align:center;
+        border: 1 solid black;
+         position : absolute;
+         top: 25%;
+         left: 25%;
      }
 
      .results td{
-
+              border: 1px solid #AAA;
               font-weight:bold;
               padding: 1px;
           }
              .results th{
-
+                        border: 1px solid #AAA;
                         font-weight:bold;
                         padding: 2px;
                          background-color: #00FA9A
@@ -111,7 +102,7 @@ float-right: 1000;
 
      #continueText{
                       text-align:center;
-                       color: #0a0a0a;
+                       color: red;
                        text-decoration: underline;
                        text-transform: uppercase;
                         font-family: Georgia;
