@@ -61,7 +61,7 @@
 
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>com.luxoft.bankapp.service.LogoutServlet</servlet-class>
+        <servlet-class>com.luxoft.bankapp.servlets.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
