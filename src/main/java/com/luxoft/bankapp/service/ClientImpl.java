@@ -74,6 +74,13 @@ public class ClientImpl implements ClientService{
     }
 
     @Override
+    public synchronized Client findClientById(Integer id) throws SQLException, ClientNotFoundException, ClientExistsException {
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
+        Client   client =  clientDAO.findClientById(id);
+        return client;
+    }
+
+    @Override
     public synchronized Client findClient(Bank bank, String name) throws SQLException, ClientNotFoundException {
         Client findClient = null;
 

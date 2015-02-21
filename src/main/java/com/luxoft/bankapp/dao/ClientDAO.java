@@ -18,4 +18,5 @@ public interface ClientDAO {
     Set<Client> getAllClients(Bank bank) throws SQLException;
     void save(Client client, Integer bankId) throws SQLException, DAOException;
     void remove(Client client) throws SQLException;
+
 }

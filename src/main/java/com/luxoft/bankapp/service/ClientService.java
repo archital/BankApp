@@ -18,6 +18,7 @@ public interface ClientService {
     public void addClient(Bank bank, Client client) throws SQLException, ClientExistsException, ClientExistsException;
     public void removeClient(Client client, Bank bank) throws SQLException;
     public Client findClientInDB(Bank bank, String name) throws SQLException, ClientNotFoundException;
+    public Client findClientById(Integer id) throws SQLException, ClientNotFoundException, ClientExistsException;
     public void loadClientFromFile(Client client) throws IOException, ClassNotFoundException;
     public Client findClient(Bank bank, String name) throws SQLException, ClientNotFoundException;
     public void saveClientToFile(Client client) throws IOException;

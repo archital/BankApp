@@ -1,0 +1,12 @@
+ClientTest.class
+ClientServiceTest.class
+BankServerThreadedTest.class
+CheckingAccountTest.class
+BankServiceTest.class
+LoggerTest.class
+BankDAOImplTest.class
+AccountServiceTest.class
+TestService.class
+SavingAccountTest.class
+TestServiceTest.class
+BankTest.class

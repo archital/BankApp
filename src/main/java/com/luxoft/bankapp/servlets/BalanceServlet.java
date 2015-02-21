@@ -32,15 +32,10 @@ public class BalanceServlet extends HttpServlet {
             Bank bank = ServiceFactory.getBankImpl().getBankByName("My Bank");
 
             Client client = ServiceFactory.getClientImpl().findClientInDB(bank, clientName);
+            float balance = client.getBalance();
 
-
-            response.setContentType("text/html");
-            ServletOutputStream out = response.getOutputStream();
-            out.println("<style type=\"text/css\">\n" +
-                   " body {" +
-                   "background: #45d59e;} > </style>" +
-                    "Client: " + client.getGender().getGenderPrefix() + client.getName() +
-                    "<br> Client's total balance : " + client.getBalance());
+            request.setAttribute("balance", balance);
+            request.getRequestDispatcher("/balance.jsp").forward(request, response);
 
 
         } catch (ClientNotFoundException e) {

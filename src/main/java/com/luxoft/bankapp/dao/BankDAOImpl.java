@@ -54,9 +54,7 @@ public class BankDAOImpl implements BankDAO {
 
 
 
-        PreparedStatement preparedStatement = null;
-
-            preparedStatement = conn.prepareStatement(sql);
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
             preparedStatement.setString(1, name);
 
