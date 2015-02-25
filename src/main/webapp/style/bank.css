@@ -1,0 +1,181 @@
+     body {
+      background: #45d59e;
+         }
+
+
+.loginTable{
+   width: 300px;
+   table-align:center;
+     margin: auto;
+}
+#name{
+width: 295px
+}
+
+.menu {
+   width: 300px;
+   table-align:center;
+     position : absolute;
+     top: 25%;
+     left: 25%;
+}
+
+.tableClient{
+    table-align:center;
+    border: 0;
+    cell-padding: 1;
+    cell-spacing: 1;
+    position : absolute;
+    top: 25%;
+    left: 25%;
+}
+
+.menuBankStatistics{
+
+table-align:center;
+ border: 0;
+ cell-padding: 1;
+ cell-spacing: 1;
+ width: 1050px;
+  height: 100px;
+  position : absolute;
+    top: 25%;
+    left: 25%;
+     background: #45d59e;
+}
+
+
+.tableBankCommander{
+table-align:center;
+ cell-padding: 1;
+  cell-spacing: 1;
+height: 100px;
+ width: 1000px;
+  background: #45d59e;
+}
+
+.line{
+      border-bottom: 1px solid #EEE;
+}
+.TextBankStatistics{
+text-align:center;
+font-face: Tahoma, Geneva;
+ background: #45d59e;
+ font-size: 30px;
+
+}
+
+.results {
+       width: 300px;
+       table-align:center;
+         position : absolute;
+         top: 25%;
+         left: 25%;
+     }
+
+
+             .results th{
+                         background-color: #00FA9A
+                    }
+
+.TextBankStatisticsName{
+
+float-right: 1000;
+}
+  .menu td {
+  padding:50px;
+  font-weight:bold;
+  text-align:center;
+  cursor:hand;
+   font-size: 50px;
+                    }
+
+    #continue {
+     text-align:center;
+     }
+
+ .explainText{
+                      text-align:center;
+                       text-transform: uppercase;
+                        font-family: Georgia;
+                        font-size: 15px;
+                        form-weight: bold;
+                        text-shadow: 1px 2px 3px #3ea97a;
+                               }
+
+     .buttons{text-decoration:none; text-align:center;
+         padding:7px 45px;
+         border:solid 2px #004F72;
+         -webkit-border-radius:7px;
+         -moz-border-radius:7px;
+         border-radius: 7px;
+         font:16px Arial, Helvetica, sans-serif;
+         font-weight:bold;
+         color:#f2f5f5;
+         background-color:#3BA4C7;
+         background-image: -moz-linear-gradient(top, #3BA4C7 0%, #1982a5 100%);
+         background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #1982a5 100%);
+         background-image: -o-linear-gradient(top, #3BA4C7 0%, #1982a5 100%);
+         background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#1982a5 100%);
+         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1982a5', endColorstr='#1982a5',GradientType=0 );
+         background-image: linear-gradient(top, #3BA4C7 0% ,#1982a5 100%);
+         -webkit-box-shadow:0px 0px 2px #bababa, inset 0px -2px 1px #ffffff;
+         -moz-box-shadow: 0px 0px 2px #bababa,  inset 0px -2px 1px #ffffff;
+         box-shadow:0px 0px 2px #bababa, inset 0px -2px 1px #ffffff;
+
+         -webkit-transition: color 0.12s ease-in;
+         -moz-transition:  color 0.12s ease-in;
+         -o-transition:  color 0.12s ease-in;
+         transition:  color 0.12s ease-in;}.buttons:hover{
+                                               padding:7px 45px;
+                                               border:solid 2px #004F72;
+                                               -webkit-border-radius:7px;
+                                               -moz-border-radius:7px;
+                                               border-radius: 7px;
+                                               font:16px Arial, Helvetica, sans-serif;
+                                               font-weight:bold;
+                                               color:#ffffff;
+                                               background-color:#3BA4C7;
+                                               background-image: -moz-linear-gradient(top, #3BA4C7 0%, #10b2e8 100%);
+                                               background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #10b2e8 100%);
+                                               background-image: -o-linear-gradient(top, #3BA4C7 0%, #10b2e8 100%);
+                                               background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#10b2e8 100%);
+                                               filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#10b2e8', endColorstr='#10b2e8',GradientType=0 );
+                                               background-image: linear-gradient(top, #3BA4C7 0% ,#10b2e8 100%);
+                                               -webkit-box-shadow:0px 0px 2px #ede6e6, inset 0px -2px 1px #ffffff;
+                                               -moz-box-shadow: 0px 0px 2px #ede6e6,  inset 0px -2px 1px #ffffff;
+                                               box-shadow:0px 0px 2px #ede6e6, inset 0px -2px 1px #ffffff;
+
+                                           }.buttons:active{
+                                                padding:7px 45px;
+                                                border:solid 2px #004F72;
+                                                -webkit-border-radius:7px;
+                                                -moz-border-radius:7px;
+                                                border-radius: 7px;
+                                                font:15px Arial, Helvetica, sans-serif;
+                                                font-weight:bold;
+                                                color:#f2f5f5;
+                                                background-color:#3BA4C7;
+                                                background-image: -moz-linear-gradient(top, #3BA4C7 0%, #1982a5 100%);
+                                                background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #1982a5 100%);
+                                                background-image: -o-linear-gradient(top, #3BA4C7 0%, #1982a5 100%);
+                                                background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#1982a5 100%);
+                                                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1982a5', endColorstr='#1982a5',GradientType=0 );
+                                                background-image: linear-gradient(top, #3BA4C7 0% ,#1982a5 100%);
+                                                -webkit-box-shadow:0px 0px 2px #bababa, inset 0px -2px 1px #ffffff;
+                                                -moz-box-shadow: 0px 0px 2px #bababa,  inset 0px -2px 1px #ffffff;
+                                                box-shadow:0px 0px 2px #bababa, inset 0px -2px 1px #ffffff;
+
+                                            }
+
+
+.inputClient{
+width: 100%;
+}
+
+
+        .error {
+    color:red;
+    font-style: italic;
+    }
+

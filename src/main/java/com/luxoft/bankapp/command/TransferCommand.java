@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by acer on 15.01.2015.
  */
-public class TransferCommand implements Command {
+public class TransferCommand  extends AbstractCommand implements Command {
 
     private InputOutput inOut;
     private Bank currentBank;
@@ -36,6 +36,9 @@ public class TransferCommand implements Command {
     public TransferCommand(InputOutput inOut) {
 
         this.inOut = inOut;
+    }
+
+    public TransferCommand() {
     }
 
     @Override

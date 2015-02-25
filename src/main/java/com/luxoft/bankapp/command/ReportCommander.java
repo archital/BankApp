@@ -14,7 +14,7 @@ import java.sql.SQLException;
 /**
  * Created by ${ArthurPopichenko} on 28.01.2015.
  */
-public class ReportCommander implements Command {
+public class ReportCommander extends AbstractCommand implements Command {
 
 	private InputOutput ioStreams;
 	private Bank currentBank;

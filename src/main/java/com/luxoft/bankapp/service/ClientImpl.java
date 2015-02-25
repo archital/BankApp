@@ -23,6 +23,7 @@ public class ClientImpl implements ClientService{
 
 
     private static ClientImpl instance;
+    private ClientDAOImpl client;
 
     private ClientImpl() {
     }
@@ -162,4 +163,11 @@ public class ClientImpl implements ClientService{
     }
 
 
+    public void setClient(ClientDAOImpl client) {
+        this.client = client;
+    }
+
+    public ClientDAOImpl getClient() {
+        return client;
+    }
 }

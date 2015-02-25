@@ -24,17 +24,35 @@ import java.util.regex.Pattern;
 /**
  * Created by acer on 15.01.2015.
  */
-public class AddClientCommand implements Command {
+public class AddClientCommand extends AbstractCommand implements Command {
 
     private InputOutput inOut;
     private Bank currentBank;
      private Gender gender;
     private Current current;
+    private Client currentClient;
+
+    protected AddClientCommand(Client currentClient, Bank currentBank, InputOutput ioStreams) {
+        super(currentClient, currentBank, ioStreams);
+    }
+
+    public Client getCurrentClient() {
+        return currentClient;
+    }
+
+    public void setCurrentClient(Client currentClient) {
+        this.currentClient = currentClient;
+    }
+
 
     public AddClientCommand(InputOutput inOut, Bank currentBank) {
+        super();
         this.inOut = inOut;
         this.currentBank = currentBank;
 
+    }
+
+    public AddClientCommand() {
     }
 
 
@@ -146,7 +164,7 @@ public class AddClientCommand implements Command {
                 inOut.println("Client with such name already exists");
             }
 
-            BankCommander.currentClient  = client;
+            setCurrentClient(client);
             BankServer.currentClient = client;
             current = new CurrentImpl();
             current.setCurrentClient(client);

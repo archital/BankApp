@@ -5,6 +5,9 @@ import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientService;
 import com.luxoft.bankapp.service.ServiceFactory;
 import com.sun.net.httpserver.HttpServer;
 
@@ -28,8 +31,12 @@ public class GetClientServlet extends HttpServlet {
 
         Integer id = Integer.parseInt(request.getParameter("id"));
 
+        BankService bankService = (BankService) getServletContext().getAttribute("bankService");
+        ClientService clientService = (ClientService) getServletContext().getAttribute("clientService");
+
+
         try {
-            Client client = ServiceFactory.getClientImpl().findClientById(id);
+            Client client = clientService.findClientById(id);
             request.setAttribute("client", client);
             request.getRequestDispatcher("/client.jsp").forward(request, response);
 

@@ -6,6 +6,9 @@ import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientService;
 import com.luxoft.bankapp.service.ServiceFactory;
 
 import javax.servlet.ServletException;
@@ -32,11 +35,13 @@ public class FindClientsServlet extends HttpServlet {
         String name = (String) request.getParameter("name");
         String city= (String) request.getParameter("city");
 
-
+        BankService bankService = (BankService) getServletContext().getAttribute("bankService");
+        ClientService clientService = (ClientService) getServletContext().getAttribute("clientService");
 
         try {
-            Bank bank = ServiceFactory.getBankImpl().getBankByName("My Bank");
-            Set <Client> clients = ServiceFactory.getClientImpl().getAllClients(bank);
+            Bank bank = bankService.getBankByName("My Bank");
+
+            Set <Client> clients = clientService.getAllClients(bank);
             List<Client> result = new ArrayList<Client>();
 
 

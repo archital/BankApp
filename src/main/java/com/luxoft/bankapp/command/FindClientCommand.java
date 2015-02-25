@@ -16,13 +16,22 @@ import java.util.List;
 /**
  * Created by acer on 15.01.2015.
  */
-public class FindClientCommand implements Command {
+public class FindClientCommand  extends AbstractCommand implements Command {
 
     private InputOutput ioStreams;
     private Bank currentBank;
     private Integer accId;
     private Account currentAccount;
     private Current current;
+    private Client currentClient;
+
+    public Client getCurrentClient() {
+        return currentClient;
+    }
+
+    public void setCurrentClient(Client currentClient) {
+        this.currentClient = currentClient;
+    }
 
     public FindClientCommand(InputOutput inputOutput, Bank currentBank) {
     this.ioStreams = inputOutput;
@@ -34,10 +43,14 @@ public class FindClientCommand implements Command {
       this.ioStreams = io;
     }
 
+    public FindClientCommand() {
+    }
+
 
     @Override
     public void execute() {
 
+        currentBank = getCurrentBank();
         if (currentBank == null) {
             ioStreams.println("Error!!! Current bank is undefined.");
             return;
@@ -84,7 +97,7 @@ public class FindClientCommand implements Command {
             e.printStackTrace();
         }
 
-        BankCommander.currentClient = client; // set currentClient to BankCommander
+        setCurrentClient(client);
         BankServer.currentClient = client;
 
         current = new CurrentImpl();

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by acer on 15.01.2015.
  */
-public class GetAccountsCommand implements Command {
+public class GetAccountsCommand extends AbstractCommand implements Command {
     private InputOutput inOut;
     private Bank currentBank;
     private Client currentClient;
@@ -34,15 +34,20 @@ public class GetAccountsCommand implements Command {
         this.inOut = inOut;
     }
 
+    public GetAccountsCommand() {
+    }
+
     @Override
     public void execute() {
 
+        currentBank = getCurrentBank();
 
         if (currentBank == null) {
            inOut.println("Error!!! Current bank is undefined.");
             return;
         }
 
+        currentClient = getCurrentClient();
            if (currentClient == null) {
                 inOut.println("Error! Client with such name was not found.\n");
                 return;

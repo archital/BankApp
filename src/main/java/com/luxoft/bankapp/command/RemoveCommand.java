@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by acer on 24.01.2015.
  */
-public class RemoveCommand implements Command {
+public class RemoveCommand extends AbstractCommand implements Command {
 
 
 	private InputOutput inOut;
@@ -37,10 +37,12 @@ public class RemoveCommand implements Command {
         this.inOut = inOut;
     }
 
-	@Override
+    public RemoveCommand() {
+    }
+
+    @Override
 	public synchronized void execute () {
 
-        BankCommander.currentBank = currentBank;
            current.setCurrentBank(currentBank);
 
 		if (currentBank == null) {
@@ -106,7 +108,7 @@ public class RemoveCommand implements Command {
 
                 newCurrentClient.setActiveAccount(currentAccount);
 
-                BankCommander.currentClient = newCurrentClient; // set currentClient to BankCommander
+
                 BankServer.currentClient = newCurrentClient;
                 current.setCurrentClient(newCurrentClient);
 

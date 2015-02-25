@@ -6,6 +6,8 @@ import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.model.*;
 import com.luxoft.bankapp.service.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -14,55 +16,27 @@ import java.util.*;
  * Created by acer on 15.01.2015.
  */
 public class BankCommander {
-    public static Bank currentBank;
-    public static Client currentClient = null;
-    public static BankService service = ServiceFactory.getBankImpl();
-    static String bankName = "My Bank";
-    static  String clientName = "";
 
-   public void registerCommand(String name, Command command) {
-
-  for (String s: commandMap.keySet()) {
-
-      if (!(commandMap.containsValue(command)) && !(commandMap.containsKey(name))) {
-        commandMap.put(name, command);
-      }
-  }
-   }
-
-    public void removeCommand(String name) {
-
-        Iterator iterator = commandMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Command> printMap = (Map.Entry<String, Command>) iterator.next();
-
-            if (printMap.getKey().equals(name)) {
-
-                commandMap.remove(name);
-            }
-
-
-        }
-
-    }
-
-    static Map<String, Command> commandMap = new HashMap<String, Command>();
-
+    private Map <String, Command> commandsMap;
 
     public static void main(String args[]) {
-        InputOutput io = new InputOutput();
-
-      BankService bankService = ServiceFactory.getBankImpl();
-        ClientService clientService = ServiceFactory.getClientImpl();
 
 
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("application-context..xml");
+
+        BankCommander bankCommander = (BankCommander) context.getBean("bankCommander");
+        BankService bankService = (BankService) context.getBean("bankService");
+        ClientService clientService = (ClientService) context.getBean("clientService");
+        Map<String, AbstractCommand> commandMap = bankCommander.getCommandsMap();
+
+        Bank currentBank = null;
         try {
-            currentBank = bankService.getBankByName(bankName);
+            currentBank = bankService.getBankByName("My Bank");
         } catch (SQLException e) {
-            e.printStackTrace();
+           System.out.println("Bank was not found");
         }
-
-        System.out.println(currentBank.toString());
+        System.out.println("Current bank: " + currentBank.toString());
 
 
         Scanner scanner = new Scanner(System.in);
@@ -72,43 +46,19 @@ public class BankCommander {
         sb.append(scanner.nextLine().trim());
 
 
-        clientName = sb.toString();
+    String clientName = sb.toString();
         try {
-            currentClient = clientService.findClientInDB(currentBank, clientName);
+      Client currentClient = clientService.findClientInDB(currentBank, clientName);
             if(currentClient == null) {
                 System.out.println("There is no client with such name");
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClientNotFoundException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Current client: " + currentClient.toString());
 
-
-        System.out.println(currentClient.toString());
-
-        commandMap.put("0", new FindClientCommand(io, currentBank));
-        commandMap.put("1", new GetAccountsCommand(io, currentBank, currentClient));
-        commandMap.put("2", new WithdrawCommand(io, currentBank, currentClient));
-        commandMap.put("3", new DepositCommand(io, currentBank, currentClient));
-        commandMap.put("4", new TransferCommand(io, currentBank, currentClient));
-        commandMap.put("5", new AddClientCommand(io, currentBank));
-        commandMap.put("6", new ReportCommander(io, currentBank));
-        commandMap.put("7", new RemoveCommand(io, currentBank));
-        commandMap.put("8", new Command() { // 8 - Exit Command
-            public void execute() {
-                System.exit(0);
+            for (AbstractCommand command : commandMap.values()) {
+                command.setCurrentClient(currentClient);
+                command.setCurrentBank(currentBank);
             }
-
-            public void printCommandInfo() {
-                System.out.print("Exit");
-            }
-        });
-
-
-
-
 
         Iterator iterator = commandMap.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -117,11 +67,7 @@ public class BankCommander {
             System.out.print(" press => ");
             System.out.print("'"+ printMap.getKey()+"'");
             System.out.println("");
-
-
-
         }
-
         String command;
 
         while (true) {
@@ -154,5 +100,19 @@ public class BankCommander {
 
             }
         }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClientNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setCommandsMap(Map commandsMap) {
+        this.commandsMap = commandsMap;
+    }
+
+    public Map getCommandsMap() {
+        return commandsMap;
     }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by acer on 15.01.2015.
  */
-public class WithdrawCommand implements Command {
+public class WithdrawCommand extends AbstractCommand implements Command {
 
     private InputOutput inOut;
     private Bank currentBank;
@@ -42,17 +42,23 @@ public class WithdrawCommand implements Command {
         this.inOut = inOut;
     }
 
+    public WithdrawCommand() {
+    }
+
     @Override
     public synchronized void execute() {
 
 
         AccountService accountService = ServiceFactory.getAccountImpl();
 
+        currentBank = getCurrentBank();
+
         if (currentBank == null) {
             inOut.println("Error!!! Current bank is undefined.");
             return;
         }
 
+        currentClient = getCurrentClient();
             if (currentClient == null) {
                 inOut.println("Error! Client with such name was not found.");
                 return;

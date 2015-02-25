@@ -20,11 +20,10 @@ public class AbstractCommand implements Command {
 	protected InputOutput ioStreams;
 
 
+    public AbstractCommand() {
+    }
 
-
-
-
-	protected AbstractCommand(Client currentClient, Bank currentBank, InputOutput ioStreams) {
+    protected AbstractCommand(Client currentClient, Bank currentBank, InputOutput ioStreams) {
 		this.currentClient = currentClient;
 		this.currentBank = currentBank;
 		this.ioStreams = ioStreams;
@@ -52,7 +51,24 @@ public class AbstractCommand implements Command {
 
 	}
 
-	@Override
+
+    public Client getCurrentClient() {
+        return currentClient;
+    }
+
+    public void setCurrentClient(Client currentClient) {
+        this.currentClient = currentClient;
+    }
+
+    public Bank getCurrentBank() {
+        return currentBank;
+    }
+
+    public void setCurrentBank(Bank currentBank) {
+        this.currentBank = currentBank;
+    }
+
+    @Override
 	public void printCommandInfo () {
 
 	}

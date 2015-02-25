@@ -4,12 +4,14 @@ com\luxoft\bankapp\model\Bank$1.class
 com\luxoft\bankapp\dao\ClientDAO.class
 com\luxoft\bankapp\model\Bank$EmailNotificationListener.class
 com\luxoft\bankapp\dao\BaseDAO.class
+com\luxoft\bankapp\servlets\GetClientServlet.class
 com\luxoft\bankapp\servlets\CheckLoggedFilter.class
 com\luxoft\bankapp\exception\FeedException.class
 com\luxoft\bankapp\exception\DAOException.class
 com\luxoft\bankapp\service\BankImpl.class
 com\luxoft\bankapp\command\AddClientCommand.class
 com\luxoft\bankapp\command\RemoveCommand.class
+com\luxoft\bankapp\command\ExitCommand.class
 com\luxoft\bankapp\server\Current.class
 com\luxoft\bankapp\service\ClientImpl.class
 com\luxoft\bankapp\servlets\LogoutServlet.class
@@ -18,7 +20,6 @@ com\luxoft\bankapp\exception\ClientExistsException.class
 com\luxoft\bankapp\servlets\WelcomeServlet.class
 com\luxoft\bankapp\servlets\BalanceServlet.class
 com\luxoft\bankapp\server\BankServerThreaded.class
-com\luxoft\bankapp\main\BankCommander$1.class
 com\luxoft\bankapp\command\GetAccountsCommand.class
 com\luxoft\bankapp\server\CurrentImpl.class
 com\luxoft\bankapp\server\BankServer$1.class
@@ -28,6 +29,7 @@ com\luxoft\bankapp\command\FindClientCommand.class
 com\luxoft\bankapp\main\BankCommander.class
 com\luxoft\bankapp\Listeners\ClientRegistrationListener.class
 com\luxoft\bankapp\dao\AccountDAOImpl.class
+com\luxoft\bankapp\servlets\SaveClientServlet.class
 com\luxoft\bankapp\main\BankApplication.class
 com\luxoft\bankapp\service\BankReport.class
 com\luxoft\bankapp\dao\AccountDAO.class
@@ -54,6 +56,7 @@ com\luxoft\bankapp\service\ServiceFactory.class
 com\luxoft\bankapp\servlets\SessionAmountServlet.class
 com\luxoft\bankapp\servlets\LoginServlet.class
 com\luxoft\bankapp\server\ServerThread.class
+com\luxoft\bankapp\servlets\WebListener.class
 com\luxoft\bankapp\exception\ClientNotFoundException.class
 com\luxoft\bankapp\model\Report.class
 com\luxoft\bankapp\servlets\SessionListener.class

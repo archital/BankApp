@@ -16,6 +16,7 @@ import java.util.List;
 public class AccountImpl implements  AccountService{
 
     private static AccountImpl instance;
+    private AccountDAOImpl account;
 
     private AccountImpl() {
     }
@@ -152,4 +153,11 @@ AccountDAO accountDAO = DAOFactory.getAccountDAO();
         }
     }
 
+    public void setAccount(AccountDAOImpl account) {
+        this.account = account;
+    }
+
+    public AccountDAOImpl getAccount() {
+        return account;
+    }
 }

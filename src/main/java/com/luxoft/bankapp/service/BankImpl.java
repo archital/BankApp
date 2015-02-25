@@ -18,6 +18,7 @@ import java.sql.SQLException;
 public class BankImpl implements BankService {
 
     private static BankImpl instance;
+    private BankDAOImpl bank;
 
 
     private BankImpl() {
@@ -56,4 +57,11 @@ public class BankImpl implements BankService {
 
     }
 
+    public void setBank(BankDAOImpl bank) {
+        this.bank = bank;
+    }
+
+    public BankDAOImpl getBank() {
+        return bank;
+    }
 }

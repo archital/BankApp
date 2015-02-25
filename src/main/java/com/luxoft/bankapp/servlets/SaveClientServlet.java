@@ -4,6 +4,9 @@ import com.luxoft.bankapp.exception.ClientExistsException;
 import com.luxoft.bankapp.exception.ClientNotFoundException;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientService;
 import com.luxoft.bankapp.service.ServiceFactory;
 
 import javax.servlet.ServletException;
@@ -21,20 +24,25 @@ public class SaveClientServlet  extends HttpServlet{
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        BankService bankService = (BankService) getServletContext().getAttribute("bankService");
+        ClientService clientService = (ClientService) getServletContext().getAttribute("clientService");
+
+
         Client client;
         Integer id = Integer.parseInt(request.getParameter("id"));
         try {
-        Bank bank = ServiceFactory.getBankImpl().getBankByName("My Bank");
+        Bank bank = bankService.getBankByName("My Bank");
 
         if(id.equals(null)) {
            client = new Client();
         } else {
-            client = ServiceFactory.getClientImpl().findClientById(id);
+            client = clientService.findClientById(id);
         }
         client.setName(request.getParameter("name"));
         client.setCity(request.getParameter("city"));
         client.setEmail(request.getParameter("email"));
-        ServiceFactory.getClientImpl().addClient(bank, client);
+        clientService.addClient(bank, client);
         request.setAttribute("client", client);
         request.getRequestDispatcher("/client.jsp").forward(request, response);
 

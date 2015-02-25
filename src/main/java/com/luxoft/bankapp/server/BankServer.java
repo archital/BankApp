@@ -36,9 +36,10 @@ public class BankServer {
 
 
 	static Map<String, Command> commandMap = new HashMap<String, Command>();
+    private Map commandsMap;
 
 
-	void sendMessage (final String msg) {
+    void sendMessage (final String msg) {
 		try {
 			out.writeObject(msg);
 			out.flush();
@@ -223,5 +224,13 @@ logger.setLevel(Level.SEVERE);
 			server.run();
 		}
 	}
+
+    public void setCommandsMap(Map commandsMap) {
+        this.commandsMap = commandsMap;
+    }
+
+    public Map getCommandsMap() {
+        return commandsMap;
+    }
 }
 

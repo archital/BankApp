@@ -29,7 +29,9 @@ C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\serv
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\command\FindClientCommand.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\dao\BankDAOImpl.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\annotation\annotation.java
+C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\servlets\WebListener.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\dao\BaseDAO.java
+C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\servlets\GetClientServlet.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\exception\ClientExistsException.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\model\SavingAccount.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\model\Gender.java
@@ -47,6 +49,7 @@ C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\serv
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\dao\ClientDAOImpl.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\servlets\LogoutServlet.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\dao\AccountDAOImpl.java
+C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\command\ExitCommand.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\service\BankFeedService.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\server\CurrentImpl.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\command\TransferCommand.java
@@ -64,3 +67,4 @@ C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\main
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\command\ReportCommander.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\servlets\CheckLoggedFilter.java
 C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\servlets\LoginServlet.java
+C:\Users\acer\IdeaProjects\BankApplication\src\main\java\com\luxoft\bankapp\servlets\SaveClientServlet.java

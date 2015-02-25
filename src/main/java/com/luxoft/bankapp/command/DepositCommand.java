@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by acer on 15.01.2015.
  */
-public class DepositCommand implements Command {
+public class DepositCommand extends AbstractCommand implements Command {
 
 
     private InputOutput inOut;
@@ -41,16 +41,21 @@ public class DepositCommand implements Command {
         this.inOut = inOut;
     }
 
+    public DepositCommand() {
+    }
+
     @Override
     public synchronized void execute() {
 
         AccountService accountService = ServiceFactory.getAccountImpl();
 
+        currentBank = getCurrentBank();
             if (currentBank == null) {
                 inOut.println("Error!!! Current bank is undefined.");
                 return;
             }
 
+        currentClient = getCurrentClient();
         if (currentClient == null) {
             inOut.println("Error! Client with such name was not found.");
             return;

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+
+    <bean id="bankDao" class="com.luxoft.bankapp.dao.BankDAOImpl">
+    </bean>
+    <bean id="clientDao" class="com.luxoft.bankapp.dao.ClientDAOImpl">
+    </bean>
+    <bean id="accountDao" class="com.luxoft.bankapp.dao.AccountDAOImpl">
+    </bean>
+
+    <bean id="bankService" class="com.luxoft.bankapp.service.BankImpl" autowire="byType">
+    </bean>
+
+    <bean id="clientService" class="com.luxoft.bankapp.service.ClientImpl" autowire="byType">
+    </bean>
+
+    <bean id="accountService" class="com.luxoft.bankapp.service.AccountImpl" autowire="byType">
+    </bean>
+
+
+    <bean id="io" class="com.luxoft.bankapp.command.InputOutput">
+    </bean>
+
+
+    <bean id="bankCommander" class="com.luxoft.bankapp.main.BankCommander">
+        <property name="commandsMap">
+            <map>
+
+                <entry key="0">
+                    <bean class="com.luxoft.bankapp.command.FindClientCommand" autowire="byType">
+
+                        <constructor-arg name="currentBank"><null/></constructor-arg>
+                        <constructor-arg name="inputOutput" ref="io"/>
+                    </bean>
+                </entry>
+
+                <entry key="1">
+                    <bean class="com.luxoft.bankapp.command.GetAccountsCommand" autowire="byType" >
+
+                        <constructor-arg name="currentBank"><null/></constructor-arg>
+                        <constructor-arg name="currentClient"><null/></constructor-arg>
+                        <constructor-arg name="inputOutput" ref="io"/>
+                    </bean>
+                </entry>
+
+                <entry key="2">
+                    <bean class="com.luxoft.bankapp.command.WithdrawCommand"  autowire="byType" >
+
+                        <constructor-arg name="currentBank"><null/></constructor-arg>
+                        <constructor-arg name="currentClient"><null/></constructor-arg>
+                        <constructor-arg name="inputOutput" ref="io"/>
+                    </bean>
+                </entry>
+
+                <entry key="3">
+                    <bean class="com.luxoft.bankapp.command.DepositCommand" autowire="byType" >
+
+                        <constructor-arg name="currentBank"><null/></constructor-arg>
+                        <constructor-arg name="currentClient"><null/></constructor-arg>
+                        <constructor-arg name="inputOutput" ref="io"/>
+                    </bean>
+
+                </entry>
+                <entry key="6">
+                    <bean class="com.luxoft.bankapp.command.RemoveCommand" autowire="byType" >
+
+                        <constructor-arg name="currentBank"><null/></constructor-arg>
+                        <constructor-arg name="inputOutput" ref="io"/>
+                    </bean>
+                </entry>
+
+                <entry key="7">
+                    <bean class="com.luxoft.bankapp.command.ExitCommand" autowire="byType" >
+                        <constructor-arg name="inputOutput" ref="io"/>
+                    </bean>
+                </entry>
+
+                <!-- and so on -->
+            </map>
+        </property>
+    </bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</beans>

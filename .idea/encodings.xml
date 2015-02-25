@@ -13,18 +13,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/luxoft/bankapp/servlets" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/addClient.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/bankInf.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/deposit.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/login.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/logout.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/menu.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/showBalance.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/style/bank.css" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/style/validation.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/style/validation1.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/style/validation2.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/web/withdraw.html" charset="UTF-8" />
   </component>
 </project>
 

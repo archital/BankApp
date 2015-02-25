@@ -6,6 +6,9 @@ import com.luxoft.bankapp.exception.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.service.AccountService;
+import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.ClientService;
 import com.luxoft.bankapp.service.ServiceFactory;
 
 import javax.servlet.ServletException;
@@ -25,17 +28,20 @@ import java.util.List;
 public class WithdrawServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        BankService bankService = (BankService) getServletContext().getAttribute("bankService");
+        ClientService clientService = (ClientService) getServletContext().getAttribute("clientService");
+        AccountService accountService = (AccountService) getServletContext().getAttribute("accountService");
 
         String clientName = (String) request.getSession().getAttribute("clientName");
         Float amount = Float.parseFloat(request.getParameter("amount"));
 
         try {
-            Bank bank = ServiceFactory.getBankImpl().getBankByName("My Bank");
+            Bank bank = bankService.getBankByName("My Bank");
 
-            Client client = ServiceFactory.getClientImpl().findClientInDB(bank, clientName);
-            List<Account> accounts = ServiceFactory.getAccountImpl().getClientAccounts(client.getId());
+            Client client = clientService.findClientInDB(bank, clientName);
+            List<Account> accounts =  accountService.getClientAccounts(client.getId());
                client.setActiveAccount(accounts.get(accounts.size() - 1));
-            ServiceFactory.getAccountImpl().withdraw(amount, client.getActiveAccount(), client);
+            accountService.withdraw(amount, client.getActiveAccount(), client);
 
             response.sendRedirect("/balance");
 
